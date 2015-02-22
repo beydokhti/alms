@@ -13,37 +13,28 @@
     <link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
     <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 
-    %{--Remove Grails CSS--}%
-    %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">--}%
-    %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">--}%
-
-    %{--bootstrap--}%
     %{--<link href="/alms/bootstrap/css/bootstrap.css" rel="stylesheet">--}%
     <link href="/alms/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/alms/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/alms/datatables-bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 
     %{--<link href="/alms/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">--}%
 
     %{--Datatables--}%
     <link href="/alms/DataTables/media/css/jquery.dataTables.css" rel="stylesheet">
+    <link href="/alms/DataTables/media/css/jquery.dataTables.css" rel="stylesheet">
     <link href="/alms/DataTables/extensions/TableTools/css/dataTables.tableTools.css" rel="stylesheet">
 
     <g:layoutHead/>
-    <g:javascript library="jquery"></g:javascript>
+
+    <script type="text/javascript" src="${resource(plugin: "jquery", dir: "js/jquery", file: "jquery-1.11.1.js")}"></script>
+    <script type="text/javascript" src="/alms/DataTables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/alms/DataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
+
     <r:layoutResources/>
-
-    %{--Bootstarp--}%
-    <script src="/alms/bootstrap/js/bootstrap.js"></script>
-    <script src="/alms/bootstrap/js/bootstrap.min.js"></script>
-
-    %{--Datatables--}%
-    <script src="/alms/DataTables/media/js/jquery.js"></script>
-    <script src="/alms/DataTables/media/js/jquery.dataTables.js"></script>
-    <script src="/alms/DataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
-
 </head>
 
-<body dir="rtl">
+<body>
 
 <div class="row" style="padding-top:30px;width: 100%">
     %{--<div class="col-md-3">--}%
@@ -52,7 +43,6 @@
 
     <div class="col-md-9">
         <div class="btn-group pull-right">
-
             <a class="btn btn-primary active" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
             <button type="button" class="btn btn-primary active">About Us</button>
             <button type="button" class="btn btn-primary active">Contact Us</button>
@@ -65,8 +55,9 @@
 <div class="footer" role="contentinfo"></div>
 
 <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-<g:javascript library="application"/>
-%{--<g:javascript library="jquery"></g:javascript>--}%
+
 <r:layoutResources/>
+<script type="text/javascript" src="/alms/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/alms/datatables-bootstrap/dataTables.bootstrap.js"></script>
 </body>
 </html>
