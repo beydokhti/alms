@@ -50,6 +50,8 @@ class Broker {
                       brokerMembers         : BrokerMember, institutions: Institution, brokerTradingStations: BrokerTradingStation,
                       brokerSoftware        : BrokerSoftware]
 
+    static searchable = true
+
     static constraints = {
         brokerPersianName(nullable: false)
         brokerLatinName(nullable: false)

@@ -1,63 +1,60 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title><g:layoutTitle default="Grails"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
-    <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
 
-    %{--<link href="/alms/bootstrap/css/bootstrap.css" rel="stylesheet">--}%
-    <link href="/alms/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/alms/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
-    <link href="/alms/datatables-bootstrap/dataTables.bootstrap.css" rel="stylesheet">
+    <g:layoutTitle default="Grails-Bootstrap"/>
 
-    %{--<link href="/alms/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">--}%
+    <link href="${resource(dir: "bootstrap/css", file: "bootstrap.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "datatables-bootstrap", file: "dataTables.bootstrap.css")}" rel="stylesheet">
 
-    %{--Datatables--}%
-    <link href="/alms/DataTables/media/css/jquery.dataTables.css" rel="stylesheet">
-    <link href="/alms/DataTables/media/css/jquery.dataTables.css" rel="stylesheet">
-    <link href="/alms/DataTables/extensions/TableTools/css/dataTables.tableTools.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
+    <script type="text/javascript" src="${resource(plugin: "jquery", dir: "js/jquery", file: "jquery-1.11.1.min.js")}"></script>
+    <script type="text/javascript" src="${resource(dir: "DataTables/media/js", file: "jquery.dataTables.min.js")}"></script>
     <g:layoutHead/>
-
-    <script type="text/javascript" src="${resource(plugin: "jquery", dir: "js/jquery", file: "jquery-1.11.1.js")}"></script>
-    <script type="text/javascript" src="/alms/DataTables/media/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="/alms/DataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
-
     <r:layoutResources/>
 </head>
 
 <body>
 
-<div class="row" style="padding-top:30px;width: 100%">
-    %{--<div class="col-md-3">--}%
-    %{--<h1><img src="images/alms-small.png"style="margin:10px 10px 10px 10px"/></h1>--}%
-    %{--</div>--}%
-
-    <div class="col-md-9">
-        <div class="btn-group pull-right">
-            <a class="btn btn-primary active" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a>
-            <button type="button" class="btn btn-primary active">About Us</button>
-            <button type="button" class="btn btn-primary active">Contact Us</button>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
         </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
     </div>
-</div>
+</nav>
 
-<g:layoutBody/>
+<div class="container">
+    <br><br>
+    <g:layoutBody/>
+</div><!-- /.container -->
 
-<div class="footer" role="contentinfo"></div>
-
-<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-
+<script type="text/javascript" src="${resource(dir: "bootstrap/js", file: "bootstrap.min.js")}"></script>
+<script type="text/javascript" src="${resource(dir: "datatables-bootstrap", file: "dataTables.bootstrap.js")}"></script>
 <r:layoutResources/>
-<script type="text/javascript" src="/alms/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="/alms/datatables-bootstrap/dataTables.bootstrap.js"></script>
 </body>
 </html>

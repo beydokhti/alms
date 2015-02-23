@@ -5,6 +5,8 @@ import grails.converters.JSON
 
 class BrokerController {
 
+    def queryService
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -12,10 +14,6 @@ class BrokerController {
     }
 
     def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        [brokerInstanceList: Broker.list(params), brokerInstanceTotal: Broker.count()]
-//
-        [instanceTotal: Broker.count()]
     }
 
     def jsonList() {
@@ -37,17 +35,15 @@ class BrokerController {
                 options.order = params["sSortDir_0"]
                 options.sort = columns[sortIndex]
             }
-//            def result = SystemUser.search("*${params.sSearch}*", options)
-//            list = result.results
+            def result = Broker.search("*${params.sSearch}*", options)
+            list = result.results
         } else {
-//            def query = queryService.listQuery(params + [columns: columns])
-//            list = SystemUser.createCriteria().list(query)
-            //todo
-            list=Broker.all
+            def query = queryService.listQuery(params + [columns: columns])
+            list = Broker.createCriteria().list(query)
         }
 
         def array = list.collect { Broker it ->
-            def action ="<a href='${g.createLink(action: "show", params: [id: it.id])}'></a>"
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             [action, it.brokerPersianName, it.brokerLatinName, it.registerNo, it.registerLocation, it.seoRegisterNo.toString(), it.clubMembershipNo.toString()]
         }
 
