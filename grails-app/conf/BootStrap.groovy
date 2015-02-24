@@ -6,6 +6,8 @@ import alms.Person
 
 class BootStrap {
 
+    def destroy = {
+    }
     def init = { servletContext ->
 
         Broker broker= new Broker()
@@ -39,15 +41,100 @@ class BootStrap {
         broker.save()
 
         def brokerShare= new BrokerShareholder()
-        brokerShare.description="تست"
-        brokerShare.ownershipPercent=100
+        brokerShare.description="سهامدار اول"
+        brokerShare.ownershipPercent=40
         brokerShare.ownershipType="individual"
         brokerShare.representativeOnBoard="100"
         brokerShare.shareholderName="تستی"
-        brokerShare.sharesCount=1000
+        brokerShare.sharesCount=400
         brokerShare.save()
 
         broker.addToBrokerShareholders(brokerShare)
+        println(brokerShare.broker.id)
+
+        brokerShare= new BrokerShareholder()
+        brokerShare.description="سهامدار دوم"
+        brokerShare.ownershipPercent=60
+        brokerShare.ownershipType="individual"
+        brokerShare.representativeOnBoard="100"
+        brokerShare.shareholderName="تستی"
+        brokerShare.sharesCount=600
+        brokerShare.save()
+
+        broker.addToBrokerShareholders(brokerShare)
+        println(brokerShare.broker.id)
+
+
+//        second broker and details
+
+        broker= new Broker()
+        broker.brokerPersianName="کارگزار دوم"
+        broker.brokerLatinName="Second Broker"
+        broker.registerDate=new Date();
+        broker.registerNo="2"
+        broker.registerLocation="تهران در اول "
+        broker.seoRegisterDate=new Date()
+        broker.seoRegisterNo="2"
+        broker.clubMembershipNo="3"
+        broker.clubMembershipDate= new Date()
+        broker.registeredCapital="4"
+        broker.paidCapital=5
+        broker.sharesNumber=6
+        broker.financialYearEndMonth=7
+        broker.financialYearEndDay=8
+        broker.nationalCode="9"
+        broker.economicCode="10"
+        broker.centralOfficeAddress="11"
+        broker.centralOfficePostalCode="12"
+        broker.POBox="13"
+        broker.website="14"
+        broker.email="15"
+        broker.tseRank="16"
+        broker.tseOrdinaryPoint=7
+        broker.tseEncouragingPoint=8
+        broker.imeRank=19
+        broker.imeOrdinaryPoint=2
+        broker.imeEncouragingPoint=1
+        broker.save()
+
+        brokerShare=new BrokerShareholder()
+        brokerShare= new BrokerShareholder()
+        brokerShare.description="صاحاب اول"
+        brokerShare.ownershipPercent=60
+        brokerShare.ownershipType="individual"
+        brokerShare.representativeOnBoard="100"
+        brokerShare.shareholderName="صاحاب"
+        brokerShare.sharesCount=600
+        brokerShare.save()
+
+        broker.addToBrokerShareholders(brokerShare)
+        println(brokerShare.broker.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         Certificate certificate=new Certificate()
         certificate.cerType="سازمان بورس و اوراق بهادار"
@@ -83,7 +170,5 @@ class BootStrap {
 
 
 
-    }
-    def destroy = {
     }
 }
