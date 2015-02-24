@@ -5,17 +5,12 @@
 <head>
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'broker.label', default: 'Broker')}" />
-    <title><g:message code="default.list.label" args="[entityName]" /></title>
+    %{--<title><g:message code="default.list.label" args="[entityName]" /></title>--}%
 
 </head>
 <body>
 
-<div class="nav" role="navigation">
-    <ul>
-        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-    </ul>
-</div>
+
 <div id="list-broker" class="content scaffold-list" role="main">
     <script type="text/javascript" charset="utf-8">
         var brokerTable;
@@ -37,9 +32,9 @@
             });
         });
     </script>
-    <div class="page-header">
-        <h1><g:message code="broker.list"/></h1>
-    </div>
+
+    <legend><g:message code="broker.list" default="Broker List"></g:message> </legend>
+
     <div class="well">
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width" id="broker">
             <thead>
@@ -64,8 +59,9 @@
             <tbody>
             </tbody>
         </table>
-        <g:link class="button action blue" action="create"><span class="glabel"><g:message code="default.new.label" args="[entityName]" /></span></g:link>
+        <g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
     </div>
+
 
 </div>
 </body>

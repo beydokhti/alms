@@ -1,8 +1,10 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerShareholderController {
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +13,41 @@ class BrokerShareholderController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerShareholderInstanceList: BrokerShareholder.list(params), brokerShareholderInstanceTotal: BrokerShareholder.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            def brokerShareholdersLst = brokerIns.getBrokerShareholders().toList()
+            [brokerShareholderInstanceList: brokerShareholdersLst, brokerId: brokerIns.id]
+        }
     }
 
     def create() {
-        [brokerShareholderInstance: new BrokerShareholder(params)]
+        println(params)
+        [brokerShareholderInstance: new BrokerShareholder(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerShareholderInstance = new BrokerShareholder(params)
-        if (!brokerShareholderInstance.save(flush: true)) {
-            render(view: "create", model: [brokerShareholderInstance: brokerShareholderInstance])
-            return
-        }
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
+            def brokerShareholderInstance = new BrokerShareholder(params)
+            if (!brokerShareholderInstance.save(flush: true)) {
+                render(view: "create", model: [brokerShareholderInstance: brokerShareholderInstance])
+                return
+            }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), brokerShareholderInstance.id])
-        redirect(action: "show", id: brokerShareholderInstance.id)
+            brokerInstance.addToBrokerShareholders(brokerShareholderInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerShareholderInstance: brokerShareholderInstance])
+                return
+            }
+
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), brokerShareholderInstance.id])
+            //todo after create go to list or show?
+            redirect(action: "show", id: brokerShareholderInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -99,4 +119,39 @@ class BrokerShareholderController {
             redirect(action: "show", id: id)
         }
     }
+    def jsonList() {
+        def columns = ['action', 'shareholderName', 'ownershipType', 'ownershipPercent', 'sharesCount', 'representativeOnBoard', 'description']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerShareholder.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        //todo add brokerId to search condition
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerShareholder.search("*${params.sSearch}*", options)
+            list = result.results
+        } else {
+            def query = queryService.listQuery(params + [columns: columns])
+            list = BrokerShareholder.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerShareholder it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action, it.shareholderName, it.ownershipType, it.ownershipPercent.toString(), it.sharesCount.toString(), it.representativeOnBoard, it.description]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
 }

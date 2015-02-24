@@ -1,4 +1,5 @@
 import alms.Broker
+import alms.BrokerShareholder
 import alms.Certificate
 import alms.ObtainedCertificate
 import alms.Person
@@ -6,14 +7,47 @@ import alms.Person
 class BootStrap {
 
     def init = { servletContext ->
-//        Broker broker= new Broker()
-//        broker.brokerPersianName="کارگزار1"
-//        broker.brokerLatinName="broker1"
-//        broker.registerNo="1111"
-//        broker.registerLocation="Tehran"
-//        broker.seoRegisterNo=11111
-//        broker.clubMembershipNo=111111
-//        broker.save()
+
+        Broker broker= new Broker()
+        broker.brokerPersianName="کارگزار اول"
+        broker.brokerLatinName="First Broker"
+        broker.registerDate=new Date();
+        broker.registerNo="1"
+        broker.registerLocation="تهران سید خندان زیر پل"
+        broker.seoRegisterDate=new Date()
+        broker.seoRegisterNo="2"
+        broker.clubMembershipNo="3"
+        broker.clubMembershipDate= new Date()
+        broker.registeredCapital="4"
+        broker.paidCapital=5
+        broker.sharesNumber=6
+        broker.financialYearEndMonth=7
+        broker.financialYearEndDay=8
+        broker.nationalCode="9"
+        broker.economicCode="10"
+        broker.centralOfficeAddress="11"
+        broker.centralOfficePostalCode="12"
+        broker.POBox="13"
+        broker.website="14"
+        broker.email="15"
+        broker.tseRank="16"
+        broker.tseOrdinaryPoint=7
+        broker.tseEncouragingPoint=8
+        broker.imeRank=19
+        broker.imeOrdinaryPoint=2
+        broker.imeEncouragingPoint=1
+        broker.save()
+
+        def brokerShare= new BrokerShareholder()
+        brokerShare.description="تست"
+        brokerShare.ownershipPercent=100
+        brokerShare.ownershipType="individual"
+        brokerShare.representativeOnBoard="100"
+        brokerShare.shareholderName="تستی"
+        brokerShare.sharesCount=1000
+        brokerShare.save()
+
+        broker.addToBrokerShareholders(brokerShare)
 
         Certificate certificate=new Certificate()
         certificate.cerType="سازمان بورس و اوراق بهادار"
