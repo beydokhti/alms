@@ -31,7 +31,7 @@ class QueryService {
         def sortColumns = findOrderParams(params)
 
         def decorated = {
-            query.setResolveStrategy(Closure.DELEGATE_ONLY)
+            query.setResolveStrategy(Closure.DELEGATE_FIRST)
             query.setDelegate(delegate)
             query.call()
 

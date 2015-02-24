@@ -144,7 +144,10 @@ class BrokerShareholderController {
 
             list = result.results
         } else {
-            def query = queryService.listQuery(params + [columns: columns])
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
             list = BrokerShareholder.createCriteria().list(query)
         }
 
