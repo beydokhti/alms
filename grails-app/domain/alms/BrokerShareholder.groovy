@@ -7,6 +7,11 @@ class BrokerShareholder {
     Long sharesCount
     String representativeOnBoard
     String description
+    Broker broker
+
+    static belongsTo = [broker: Broker]
+
+    static searchable = true
 
     static constraints = {
         shareholderName(nullable: false)

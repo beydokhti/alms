@@ -16,7 +16,7 @@
             brokerTable = $('#broker').dataTable({
                 "bServerSide": true,
                 "bFilter": true,
-                "sAjaxSource": "<g:createLink action="jsonList" params="brokerId:${brokerId}"/>",
+                "sAjaxSource": "<g:createLink action="jsonList" params="${[brokerId:brokerId]}"/>",
                 "aoColumns": [
                     {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null, null, null, null]
             });

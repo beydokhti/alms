@@ -137,7 +137,11 @@ class BrokerShareholderController {
                 options.order = params["sSortDir_0"]
                 options.sort = columns[sortIndex]
             }
-            def result = BrokerShareholder.search("*${params.sSearch}*", options)
+            def result = BrokerShareholder.search {
+                must(term('$/BrokerShareholder/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
             list = result.results
         } else {
             def query = queryService.listQuery(params + [columns: columns])
