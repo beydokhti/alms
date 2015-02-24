@@ -11,6 +11,12 @@ class BrokerInvestmentFund {
     String	fundRegisterManager
     String	liquidityGuaranteeFund
     String	investmentManager
+
+    static belongsTo = [broker:Broker]
+
+    static searchable = true
+
+
     static constraints = {
         fundName(nullable: false)
         startingDate(nullable: false)

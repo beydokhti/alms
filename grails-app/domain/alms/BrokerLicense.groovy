@@ -9,6 +9,10 @@ class BrokerLicense implements Comparable {
     Date licenseDate
     Date licenseExpiry
 
+    static belongsTo = [broker:Broker]
+
+    static searchable = true
+
     static constraints = {
         displayOrder(nullable: false, unique: true)
         title1(nullable: true)

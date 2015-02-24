@@ -23,7 +23,7 @@
         });
     </script>
 
-    <legend><g:message code="brokerShareholder.list" default="Broker List"></g:message></legend>
+    <legend><g:message code="brokerShareholder.list" default="Shareholder List"></g:message></legend>
 
     <div class="well">
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"

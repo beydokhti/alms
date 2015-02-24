@@ -7,6 +7,9 @@ class BrokerSoftware {
     String	companyName
     String	contractType
 
+    static belongsTo = [broker:Broker]
+
+    static searchable = true
 
     static constraints = {
         title1(nullable: false)

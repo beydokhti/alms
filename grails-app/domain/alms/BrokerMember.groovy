@@ -14,6 +14,9 @@ class BrokerMember {
     String	email
     static hasMany = [certificates:ObtainedCertificate]
 
+    static belongsTo = [broker:Broker]
+    static searchable = true
+
     static constraints = {
         name(nullable: false)
         lastName(nullable: false)

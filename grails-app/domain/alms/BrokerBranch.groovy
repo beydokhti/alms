@@ -15,7 +15,12 @@ class BrokerBranch {
 
     Address address
 
+    static belongsTo = [broker:Broker]
+
     static hasMany = [phones: String]
+
+    static searchable = true
+
 
     static constraints = {
         city(nullable: false)
@@ -28,6 +33,8 @@ class BrokerBranch {
         imeFuture(nullable: false)
         tseFuture(nullable: false)
         mutualFundAdmin(nullable: false)
-        address(nullable: false)
+        //todo mtb address nullable false
+        address(nullable: true)
     }
 }
+//todo mtb blank constraint

@@ -1,6 +1,9 @@
 import alms.Broker
+import alms.BrokerBranch
 import alms.BrokerShareholder
 import alms.Certificate
+import alms.City
+import alms.Country
 import alms.ObtainedCertificate
 import alms.Person
 
@@ -9,6 +12,139 @@ class BootStrap {
     def destroy = {
     }
     def init = { servletContext ->
+
+
+        def country=new Country()
+        country.title="ایران"
+        country.save()
+
+        def city=new City()
+        city.title="تهران"
+        city.country=country
+        city.save()
+
+        city=new City()
+        city.title="مشهد"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="اصفهان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="کرج"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="تبریز"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="شیراز"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="اهواز"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="قم"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="کرمانشاه"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="رشت"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="کرمان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="ارومیه"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="زاهدان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="همدان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="اراک"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="یزد"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="قزوین"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="اردبیل"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="بندرعباس"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="زنجان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="خرم آباد"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="سنندج"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="گرگان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="ساری"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="شهرکرد"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="بندر بوشهر"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="بجنورد"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="بیرجند"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="ایلام"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="سمنان"
+        city.country=country
+        city.save()
+        city=new City()
+        city.title="یاسوج"
+        city.country=country
+        city.save()
+
+//      add broker
 
         Broker broker= new Broker()
         broker.brokerPersianName="کارگزار اول"
@@ -40,6 +176,7 @@ class BootStrap {
         broker.imeEncouragingPoint=1
         broker.save()
 
+//      shareholder
         def brokerShare= new BrokerShareholder()
         brokerShare.description="سهامدار اول"
         brokerShare.ownershipPercent=40
@@ -64,8 +201,22 @@ class BootStrap {
         broker.addToBrokerShareholders(brokerShare)
         println(brokerShare.broker.id)
 
+//      branch
+        def brokerBranch= new BrokerBranch()
+        brokerBranch.branchType="Branch"
+        brokerBranch.City=City.get(1)
+        brokerBranch.energyStock=true
+        brokerBranch.imeFuture=true
+        brokerBranch.imeStock=true
+        brokerBranch.mutualFundAdmin=false
+        brokerBranch.personnelCount=13
+        brokerBranch.representativePerson="تست"
+        brokerBranch.tseFuture=false
+        brokerBranch.tseStock=false
+        broker.addToBrokerBranches(brokerBranch)
+        broker.save()
 
-//        second broker and details
+//      second broker and details
 
         broker= new Broker()
         broker.brokerPersianName="کارگزار دوم"

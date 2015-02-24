@@ -82,7 +82,7 @@
         <g:message code="broker.clubMembershipDate.label" default="clubMembershipDate" />
     </label>
     <div class="col-sm-8">
-        //todo replace date picker
+        %{--//todo replace date picker--}%
         <g:datePicker  class="form-control"  name="clubMembershipDate" precision="day"  value="${brokerInstance?.clubMembershipDate}" default="none" noSelection="['': '']" />
         %{--<g:textField class="form-control"   name="clubMembershipDate" placeholder="clubMembershipDate"--}%
                      %{--value="${brokerInstance?.clubMembershipDate}"/>--}%

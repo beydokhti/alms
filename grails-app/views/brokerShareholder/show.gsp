@@ -17,7 +17,7 @@
 			</ul>
 		</div>
 		<div id="show-brokerShareholder" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+			<legend><g:message code="default.show.label" args="[entityName]" /></legend>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>

@@ -8,6 +8,10 @@ class BrokerTradingStation {
     String	phone
     String	address
 
+    static belongsTo = [broker:Broker]
+
+    static searchable = true
+
     static constraints = {
         city(nullable: false)
         stationType(nullable: false,inList: ['SecuritiesAndBonds',

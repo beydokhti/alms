@@ -16,8 +16,7 @@ class BrokerShareholderController {
         println(params)
         def brokerIns=Broker.get(params.id)
         if (brokerIns) {
-            def brokerShareholdersLst = brokerIns.getBrokerShareholders().toList()
-            [brokerShareholderInstanceList: brokerShareholdersLst, brokerId: brokerIns.id]
+            [brokerId: brokerIns.id]
         }
     }
 
@@ -32,21 +31,15 @@ class BrokerShareholderController {
         //todo handle if brokerInstance is null
         if (brokerInstance) {
             def brokerShareholderInstance = new BrokerShareholder(params)
-            if (!brokerShareholderInstance.save(flush: true)) {
-                render(view: "create", model: [brokerShareholderInstance: brokerShareholderInstance])
-                return
-            }
-
             brokerInstance.addToBrokerShareholders(brokerShareholderInstance)
             if (!brokerInstance.save(flush: true)) {
-                render(view: "create", model: [brokerShareholderInstance: brokerShareholderInstance])
+                render(view: "create", model: [brokerShareholderInstance: brokerShareholderInstance,brokerId: brokerInstance.id])
                 return
             }
-
 
             flash.message = message(code: 'default.created.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), brokerShareholderInstance.id])
             //todo after create go to list or show?
-            redirect(action: "show", id: brokerShareholderInstance.id)
+            redirect(action: "list", id: brokerInstance.id)
         }
     }
 
@@ -127,7 +120,6 @@ class BrokerShareholderController {
         dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
 
         def list
-        //todo add brokerId to search condition
         if (params.containsKey('sSearch') && params.get('sSearch')) {
             def options = [:]
             options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)

@@ -43,7 +43,8 @@ class BrokerController {
         }
 
         def array = list.collect { Broker it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a><a href='${g.createLink(controller: "brokerShareholder",action: "list", params: [id: it.id])}'>${message(code: "shar", default: "Share")}</a>"
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a><a href='${g.createLink(controller: "brokerShareholder",action: "list", params: [id: it.id])}'>${message(code: "shar", default: "Share")}</a>" +
+                    "<a href='${g.createLink(controller: "brokerBranch",action: "list", params: [id: it.id])}'>${message(code: "brn", default: "Brn")}</a>"
             println(action)
             [action, it.brokerPersianName, it.brokerLatinName, it.registerNo, it.registerLocation, it.seoRegisterNo.toString(), it.clubMembershipNo.toString()]
         }

@@ -8,4 +8,8 @@ class City {
         country(nullable: false)
         title(nullable: false)
     }
+
+    def String toString(){
+    "$title/$country.title"
+    }
 }
