@@ -1,6 +1,6 @@
 %{--<g:render template="/layouts/${session["uiTheme"] ?: grailsApplication.config.ib.bank}"/>--}%
 %{--<script language="JavaScript">--}%
-    %{--window.bank='${grailsApplication.config.ib.bank}';--}%
+%{--window.bank='${grailsApplication.config.ib.bank}';--}%
 %{--</script>--}%
 <link rel="stylesheet" type="text/css" href="${resource(dir: 'css', file: '_keyboard.css')}"/>
 <link rel="stylesheet" type="text/css" href="${resource(dir: 'css', file: 'select2.css')}"/>
@@ -37,9 +37,9 @@
         $("input[type=text].numeric").css("direction", "ltr").keydown(function (event) {
             // Allow: backspace, delete, tab, escape, and enter
             if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
-                // Allow: Ctrl+A
+                        // Allow: Ctrl+A
                     (event.keyCode == 65 && event.ctrlKey === true) ||
-                // Allow: home, end, left, right
+                        // Allow: home, end, left, right
                     (event.keyCode >= 35 && event.keyCode <= 39)) {
                 // let it happen, don't do anything
                 return;
@@ -55,9 +55,9 @@
         $("input[type=password].numeric").css("direction", "ltr").keydown(function (event) {
             // Allow: backspace, delete, tab, escape, and enter
             if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
-                // Allow: Ctrl+A
+                        // Allow: Ctrl+A
                     (event.keyCode == 65 && event.ctrlKey === true) ||
-                // Allow: home, end, left, right
+                        // Allow: home, end, left, right
                     (event.keyCode >= 35 && event.keyCode <= 39)) {
                 // let it happen, don't do anything
                 return;

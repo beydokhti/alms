@@ -2,9 +2,13 @@ package alms
 
 class BrokerPortfolio {
 
-    String	countOfContract
+    Long	countOfContract
     Long	sumOfContract
     Long	countOfConsultantContract
+
+    static belongsTo = [broker:Broker]
+
+    static searchable = true
 
     static constraints = {
         countOfContract(nullable: false)

@@ -1,100 +1,115 @@
 <%@ page import="alms.BrokerBranch" %>
+<g:hiddenField name="brokerId" value="${brokerId}"></g:hiddenField>
 
+<div class="form-group col-md-6">
+    <label for="City" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.City.label" default="City"/>
+    </label>
 
-
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'city', 'error')} required">
-	<label for="city">
-		<g:message code="brokerBranch.city.label" default="City" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="city" name="city.id" from="${alms.City.list()}" optionKey="id" required="" value="${brokerBranchInstance?.city?.id}" class="many-to-one"/>
+    <div class="col-sm-8">
+        <g:select class="form-control" name="City.id" placeholder="City" from="${alms.City?.list()}" optionKey="id"
+                  value="${brokerBranchInstance?.city?.id}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'branchType', 'error')} ">
-	<label for="branchType">
-		<g:message code="brokerBranch.branchType.label" default="Branch Type" />
-		
-	</label>
-	<g:select name="branchType" from="${brokerBranchInstance.constraints.branchType.inList}" value="${brokerBranchInstance?.branchType}" valueMessagePrefix="brokerBranch.branchType" noSelection="['': '']"/>
+<div class="form-group col-md-6">
+    <label for="branchType" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.branchType.label" default="branchType"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:select class="form-control" name="branchType" placeholder="branchType"
+                  from="${brokerBranchInstance.constraints.branchType.inList}"
+                  value="${brokerBranchInstance?.branchType}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'representativePerson', 'error')} ">
-	<label for="representativePerson">
-		<g:message code="brokerBranch.representativePerson.label" default="Representative Person" />
-		
-	</label>
-	<g:textField name="representativePerson" value="${brokerBranchInstance?.representativePerson}"/>
+<div class="form-group col-md-6">
+    <label for="representativePerson" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.representativePerson.label" default="representativePerson"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="representativePerson" placeholder="representativePerson"
+                     value="${brokerBranchInstance?.representativePerson}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'personnelCount', 'error')} required">
-	<label for="personnelCount">
-		<g:message code="brokerBranch.personnelCount.label" default="Personnel Count" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="personnelCount" type="number" value="${brokerBranchInstance.personnelCount}" required=""/>
+<div class="form-group col-md-6">
+    <label for="personnelCount" class="col-sm-4 control-label">
+        <g:message code="brokerShareholder.personnelCount.label" default="personnelCount"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:field type="number" class="form-control" name="personnelCount" placeholder="personnelCount"
+                 value="${brokerShareholderInstance?.personnelCount}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'tseStock', 'error')} ">
-	<label for="tseStock">
-		<g:message code="brokerBranch.tseStock.label" default="Tse Stock" />
-		
-	</label>
-	<g:checkBox name="tseStock" value="${brokerBranchInstance?.tseStock}" />
+<div class="form-group col-md-6">
+    <label for="tseStock" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.tseStock.label" default="tseStock"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:checkBox class="form-control" name="tseStock" placeholder="tseStock"
+                    value="${brokerBranchInstance?.tseStock}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'imeStock', 'error')} ">
-	<label for="imeStock">
-		<g:message code="brokerBranch.imeStock.label" default="Ime Stock" />
-		
-	</label>
-	<g:checkBox name="imeStock" value="${brokerBranchInstance?.imeStock}" />
+<div class="form-group col-md-6">
+    <label for="imeStock" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.imeStock.label" default="imeStock"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:checkBox class="form-control" name="imeStock" placeholder="imeStock"
+                    value="${brokerBranchInstance?.imeStock}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'energyStock', 'error')} ">
-	<label for="energyStock">
-		<g:message code="brokerBranch.energyStock.label" default="Energy Stock" />
-		
-	</label>
-	<g:checkBox name="energyStock" value="${brokerBranchInstance?.energyStock}" />
+<div class="form-group col-md-6">
+    <label for="energyStock" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.energyStock.label" default="energyStock"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:checkBox class="form-control" name="energyStock" placeholder="energyStock"
+                    value="${brokerBranchInstance?.energyStock}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'imeFuture', 'error')} ">
-	<label for="imeFuture">
-		<g:message code="brokerBranch.imeFuture.label" default="Ime Future" />
-		
-	</label>
-	<g:checkBox name="imeFuture" value="${brokerBranchInstance?.imeFuture}" />
+<div class="form-group col-md-6">
+    <label for="imeFuture" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.imeFuture.label" default="imeFuture"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:checkBox class="form-control" name="imeFuture" placeholder="imeFuture"
+                    value="${brokerBranchInstance?.imeFuture}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'tseFuture', 'error')} ">
-	<label for="tseFuture">
-		<g:message code="brokerBranch.tseFuture.label" default="Tse Future" />
-		
-	</label>
-	<g:checkBox name="tseFuture" value="${brokerBranchInstance?.tseFuture}" />
+<div class="form-group col-md-6">
+    <label for="tseFuture" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.tseFuture.label" default="tseFuture"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:checkBox class="form-control" name="tseFuture" placeholder="tseFuture"
+                    value="${brokerBranchInstance?.tseFuture}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'mutualFundAdmin', 'error')} ">
-	<label for="mutualFundAdmin">
-		<g:message code="brokerBranch.mutualFundAdmin.label" default="Mutual Fund Admin" />
-		
-	</label>
-	<g:checkBox name="mutualFundAdmin" value="${brokerBranchInstance?.mutualFundAdmin}" />
+<div class="form-group col-md-6">
+    <label for="mutualFundAdmin" class="col-sm-4 control-label">
+        <g:message code="brokerBranch.mutualFundAdmin.label" default="mutualFundAdmin"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:checkBox class="form-control" name="mutualFundAdmin" placeholder="mutualFundAdmin"
+                    value="${brokerBranchInstance?.mutualFundAdmin}"/>
+    </div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'address', 'error')} required">
-	<label for="address">
-		<g:message code="brokerBranch.address.label" default="Address" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="address" name="address.id" from="${alms.Address.list()}" optionKey="id" required="" value="${brokerBranchInstance?.address?.id}" class="many-to-one"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerBranchInstance, field: 'phones', 'error')} ">
-	<label for="phones">
-		<g:message code="brokerBranch.phones.label" default="Phones" />
-		
-	</label>
-	
-</div>
 

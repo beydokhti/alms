@@ -13,7 +13,7 @@
 
 <body>
 <div id="create-person" class="content scaffold-create" role="main">
-    <h1><g:message code="person.create.label"/></h1>
+    <legend><g:message code="person.create.label"/></legend>
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
@@ -26,7 +26,7 @@
         </ul>
     </g:hasErrors>
     <g:form action="save">
-        <fieldset class="form">
+        <fieldset class="form-horizontal">
             <%@ page import="alms.Person" %>
 
             <div class="row">
@@ -109,28 +109,30 @@
                 </div>
 
                 %{--<div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'certificates', 'error')} ">--}%
-                    %{--<label for="certificates">--}%
-                        %{--<g:message code="person.certificates.label" default="Certificates"/>--}%
+                %{--<label for="certificates">--}%
+                %{--<g:message code="person.certificates.label" default="Certificates"/>--}%
 
-                    %{--</label>--}%
-                    %{--<g:select name="certificates" from="${alms.ObtainedCertificate.list()}" multiple="multiple"--}%
-                              %{--optionKey="id" size="5" value="${personInstance?.certificates*.id}" class="many-to-many"/>--}%
+                %{--</label>--}%
+                %{--<g:select name="certificates" from="${alms.ObtainedCertificate.list()}" multiple="multiple"--}%
+                %{--optionKey="id" size="5" value="${personInstance?.certificates*.id}" class="many-to-many"/>--}%
                 %{--</div>--}%
-             </div>
+            </div>
 
         </fieldset>
 
         <div class="row">
 
-            <div class="col-md-6" >
+            <div class="col-md-6">
                 <g:message code="person.add.certificates" default="Add Certificates"/>
             </div>
-            <div class="col-md-10" >
+
+            <div class="col-md-10">
                 <dynamic:block itemId="fullName" min="1" max="10" addBtnId="addFullName" removeBtnLabel="Delete"
                                onComplete="initDatePicker" limitReachedMsg="Limit is exceeded!" template="elem"/>
                 <input id="addFullName" type="button" value="Add user"/>
             </div>
         </div>
+
         <div class="col-md-12" style="height: 20px"></div>
         <fieldset class="buttons">
             <g:submitButton name="create" class="btn btn-primary active"
@@ -138,8 +140,6 @@
             <g:link class="btn btn-primary active" action="list"><g:message code="person.list.label"/></g:link>
         </fieldset>
     </g:form>
-
-
 
 </div>
 </body>

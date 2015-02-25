@@ -1,100 +1,102 @@
 <%@ page import="alms.BrokerMember" %>
+<g:hiddenField name="brokerId" value="${brokerId}"></g:hiddenField>
 
-
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'name', 'error')} ">
-	<label for="name">
-		<g:message code="brokerMember.name.label" default="Name" />
-		
-	</label>
-	<g:textField name="name" value="${brokerMemberInstance?.name}"/>
+<div class="form-group col-md-6">
+    <label for="name" class="col-sm-4 control-label">
+        <g:message code="brokerMember.name.label" default="name" />
+    </label>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="name" placeholder="name"
+                     value="${brokerMemberInstance?.name}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'lastName', 'error')} ">
-	<label for="lastName">
-		<g:message code="brokerMember.lastName.label" default="Last Name" />
-		
-	</label>
-	<g:textField name="lastName" value="${brokerMemberInstance?.lastName}"/>
+<div class="form-group col-md-6">
+    <label for="lastName" class="col-sm-4 control-label">
+        <g:message code="brokerMember.lastName.label" default="lastName" />
+    </label>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="lastName" placeholder="lastName"
+                     value="${brokerMemberInstance?.lastName}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'sex', 'error')} ">
-	<label for="sex">
-		<g:message code="brokerMember.sex.label" default="Sex" />
-		
-	</label>
-	<g:select name="sex" from="${brokerMemberInstance.constraints.sex.inList}" value="${brokerMemberInstance?.sex}" valueMessagePrefix="brokerMember.sex" noSelection="['': '']"/>
+<div class="form-group col-md-6">
+    <label for="sex" class="col-sm-4 control-label">
+        <g:message code="brokerMember.sex.label" default="sex" />
+    </label>
+    <div class="col-sm-8">
+        <g:select class="form-control"   name="sex" placeholder="sex" from="${brokerMemberInstance.constraints.sex.inList}"
+                  value="${brokerMemberInstance?.sex}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'position', 'error')} ">
-	<label for="position">
-		<g:message code="brokerMember.position.label" default="Position" />
-		
-	</label>
-	<g:select name="position" from="${brokerMemberInstance.constraints.position.inList}" value="${brokerMemberInstance?.position}" valueMessagePrefix="brokerMember.position" noSelection="['': '']"/>
+<div class="form-group col-md-6">
+    <label for="position" class="col-sm-4 control-label">
+        <g:message code="brokerMember.position.label" default="position" />
+    </label>
+    <div class="col-sm-8">
+        <g:select class="form-control"   name="position" placeholder="position" from="${brokerMemberInstance.constraints.position.inList}"
+                  value="${brokerMemberInstance?.position}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'startDate', 'error')} required">
-	<label for="startDate">
-		<g:message code="brokerMember.startDate.label" default="Start Date" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="startDate" precision="day"  value="${brokerMemberInstance?.startDate}"  />
+<div class="form-group col-md-6">
+    <label for="startDate" class="col-sm-4 control-label">
+        <g:message code="broker.startDate.label" default="startDate" />
+    </label>
+    <div class="col-sm-8">
+        <g:datePicker class="form-control" name="startDate" precision="day" value="${brokerMemberInstance?.startDate}"
+                      default="none" noSelection="['': '']"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'degree', 'error')} ">
-	<label for="degree">
-		<g:message code="brokerMember.degree.label" default="Degree" />
-		
-	</label>
-	<g:select name="degree" from="${brokerMemberInstance.constraints.degree.inList}" value="${brokerMemberInstance?.degree}" valueMessagePrefix="brokerMember.degree" noSelection="['': '']"/>
+<div class="form-group col-md-6">
+    <label for="degree" class="col-sm-4 control-label">
+        <g:message code="brokerMember.degree.label" default="degree" />
+    </label>
+    <div class="col-sm-8">
+        <g:select class="form-control"   name="degree" placeholder="degree" from="${brokerMemberInstance.constraints.degree.inList}"
+                  value="${brokerMemberInstance?.degree}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'field', 'error')} ">
-	<label for="field">
-		<g:message code="brokerMember.field.label" default="Field" />
-		
-	</label>
-	<g:select name="field" from="${brokerMemberInstance.constraints.field.inList}" value="${brokerMemberInstance?.field}" valueMessagePrefix="brokerMember.field" noSelection="['': '']"/>
+<div class="form-group col-md-6">
+    <label for="field" class="col-sm-4 control-label">
+        <g:message code="brokerMember.field.label" default="field" />
+    </label>
+    <div class="col-sm-8">
+        <g:select class="form-control"   name="field" placeholder="field" from="${brokerMemberInstance.constraints.field.inList}"
+                  value="${brokerMemberInstance?.field}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'dateOfBirth', 'error')} required">
-	<label for="dateOfBirth">
-		<g:message code="brokerMember.dateOfBirth.label" default="Date Of Birth" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="dateOfBirth" precision="day"  value="${brokerMemberInstance?.dateOfBirth}"  />
+<div class="form-group col-md-6">
+    <label for="dateOfBirth" class="col-sm-4 control-label">
+        <g:message code="broker.dateOfBirth.label" default="dateOfBirth" />
+    </label>
+    <div class="col-sm-8">
+        <g:datePicker class="form-control" name="dateOfBirth" precision="day" value="${brokerMemberInstance?.dateOfBirth}"
+                      default="none" noSelection="['': '']"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'nationalCode', 'error')} ">
-	<label for="nationalCode">
-		<g:message code="brokerMember.nationalCode.label" default="National Code" />
-		
-	</label>
-	<g:textField name="nationalCode" value="${brokerMemberInstance?.nationalCode}"/>
+<div class="form-group col-md-6">
+    <label for="nationalCode" class="col-sm-4 control-label">
+        <g:message code="brokerMember.nationalCode.label" default="nationalCode" />
+    </label>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="nationalCode" placeholder="nationalCode"
+                     value="${brokerMemberInstance?.nationalCode}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'mobile', 'error')} ">
-	<label for="mobile">
-		<g:message code="brokerMember.mobile.label" default="Mobile" />
-		
-	</label>
-	<g:textField name="mobile" value="${brokerMemberInstance?.mobile}"/>
+<div class="form-group col-md-6">
+    <label for="mobile" class="col-sm-4 control-label">
+        <g:message code="brokerMember.mobile.label" default="mobile" />
+    </label>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="mobile" placeholder="mobile"
+                     value="${brokerMemberInstance?.mobile}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'email', 'error')} ">
-	<label for="email">
-		<g:message code="brokerMember.email.label" default="Email" />
-		
-	</label>
-	<g:textField name="email" value="${brokerMemberInstance?.email}"/>
+<div class="form-group col-md-6">
+    <label for="email" class="col-sm-4 control-label">
+        <g:message code="brokerMember.email.label" default="email" />
+    </label>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="email" placeholder="email"
+                     value="${brokerMemberInstance?.email}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerMemberInstance, field: 'certificates', 'error')} ">
-	<label for="certificates">
-		<g:message code="brokerMember.certificates.label" default="Certificates" />
-		
-	</label>
-	<g:select name="certificates" from="${alms.ObtainedCertificate.list()}" multiple="multiple" optionKey="id" size="5" value="${brokerMemberInstance?.certificates*.id}" class="many-to-many"/>
-</div>
-

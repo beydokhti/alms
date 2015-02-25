@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerSoftwareController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +14,76 @@ class BrokerSoftwareController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerSoftwareInstanceList: BrokerSoftware.list(params), brokerSoftwareInstanceTotal: BrokerSoftware.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            [brokerId: brokerIns.id]
+        }
     }
 
+    def jsonList() {
+        def columns = ['action','title1','title2','companyName','contractType']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerSoftware.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerSoftware.search {
+                must(term('$/BrokerSoftware/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = BrokerSoftware.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerSoftware it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action,it.title1,it.title2,it.companyName,it.contractType]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
+
     def create() {
-        [brokerSoftwareInstance: new BrokerSoftware(params)]
+        [brokerSoftwareInstance: new BrokerSoftware(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerSoftwareInstance = new BrokerSoftware(params)
-        if (!brokerSoftwareInstance.save(flush: true)) {
-            render(view: "create", model: [brokerSoftwareInstance: brokerSoftwareInstance])
-            return
-        }
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerSoftware.label', default: 'BrokerSoftware'), brokerSoftwareInstance.id])
-        redirect(action: "show", id: brokerSoftwareInstance.id)
+            def brokerSoftwareInstance = new BrokerSoftware(params)
+            brokerInstance.addToBrokerSoftware(brokerSoftwareInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerSoftwareInstance: brokerSoftwareInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerSoftware.label', default: 'brokerSoftware'), brokerSoftwareInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -78,7 +134,7 @@ class BrokerSoftwareController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerSoftware.label', default: 'BrokerSoftware'), brokerSoftwareInstance.id])
-        redirect(action: "show", id: brokerSoftwareInstance.id)
+        redirect(action: "list", id: brokerSoftwareInstance.broker.id)
     }
 
     def delete(Long id) {

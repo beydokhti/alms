@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerLicenseController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +14,76 @@ class BrokerLicenseController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerLicenseInstanceList: BrokerLicense.list(params), brokerLicenseInstanceTotal: BrokerLicense.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            [brokerId: brokerIns.id]
+        }
     }
 
+    def jsonList() {
+        def columns = ['action','displayOrder','title1','title2','hasLicense','licenseNumber','licenseDate','licenseExpiry']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerLicense.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerLicense.search {
+                must(term('$/BrokerLicense/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = BrokerLicense.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerLicense it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action, it.displayOrder,it.title1,it.title2,it.hasLicense,it.licenseNumber,it.licenseDate,it.licenseExpiry]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
+
     def create() {
-        [brokerLicenseInstance: new BrokerLicense(params)]
+        [brokerLicenseInstance: new BrokerLicense(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerLicenseInstance = new BrokerLicense(params)
-        if (!brokerLicenseInstance.save(flush: true)) {
-            render(view: "create", model: [brokerLicenseInstance: brokerLicenseInstance])
-            return
-        }
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), brokerLicenseInstance.id])
-        redirect(action: "show", id: brokerLicenseInstance.id)
+            def brokerLicenseInstance = new BrokerLicense(params)
+            brokerInstance.addToBrokerLicenses(brokerLicenseInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerLicenseInstance: brokerLicenseInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerLicense.label', default: 'brokerLicense'), brokerLicenseInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -78,7 +134,7 @@ class BrokerLicenseController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), brokerLicenseInstance.id])
-        redirect(action: "show", id: brokerLicenseInstance.id)
+        redirect(action: "list", id: brokerLicenseInstance.broker.id)
     }
 
     def delete(Long id) {

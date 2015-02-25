@@ -19,8 +19,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script type="text/javascript" src="${resource(plugin: "jquery", dir: "js/jquery", file: "jquery-1.11.1.min.js")}"></script>
-    <script type="text/javascript" src="${resource(dir: "DataTables/media/js", file: "jquery.dataTables.min.js")}"></script>
+    <script type="text/javascript"
+            src="${resource(plugin: "jquery", dir: "js/jquery", file: "jquery-1.11.1.min.js")}"></script>
+    <script type="text/javascript"
+            src="${resource(dir: "DataTables/media/js", file: "jquery.dataTables.min.js")}"></script>
     <g:layoutHead/>
     <r:layoutResources/>
 </head>
@@ -30,7 +32,8 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -38,6 +41,7 @@
             </button>
             <a class="navbar-brand" href="#">Project name</a>
         </div>
+
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>

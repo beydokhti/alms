@@ -24,10 +24,10 @@
     <g:layoutHead/>
     <g:javascript library="jquery"></g:javascript>
     <r:layoutResources/>
-       %{--Datatables--}%
-        %{--<script src="/alms/static/js/jquery.js" type="text/javascript" charset="UTF-8"></script>--}%
-        %{--<script src="/alms/static/js/jquery.dataTables.min.js" type="text/javascript" charset="UTF-8"></script>--}%
-        %{--<script src="/alms/static/js/jquery.dataTables.js" type="text/javascript" charset="UTF-8"></script>--}%
+    %{--Datatables--}%
+    %{--<script src="/alms/static/js/jquery.js" type="text/javascript" charset="UTF-8"></script>--}%
+    %{--<script src="/alms/static/js/jquery.dataTables.min.js" type="text/javascript" charset="UTF-8"></script>--}%
+    %{--<script src="/alms/static/js/jquery.dataTables.js" type="text/javascript" charset="UTF-8"></script>--}%
 
     %{--Bootstarp--}%
 

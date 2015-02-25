@@ -14,42 +14,45 @@ class BrokerMember {
     String	email
     static hasMany = [certificates:ObtainedCertificate]
 
+    static belongsTo = [broker:Broker]
+    static searchable = true
+
     static constraints = {
         name(nullable: false)
         lastName(nullable: false)
         sex(nullable: false,inList: ['male','female'])
         position(nullable: false,inList: ['DeputyCEO',
-                                          'ClerkOfficeReceptionist',
-                                          'FinanceAndAdministration Manager',
-                                          'ChiefFinancialOfficer',
-                                          'DirectorOfAdministration',
-                                          'HeadOfAccounting',
-                                          'AccountingOfficer',
-                                          'PortfolioManager',
-                                          'ExpertPortfolio',
-                                          'FundManager',
+                                          'Receptionist',
+                                          'FinanceMng',
+                                          'FinancialOff',
+                                          'Administration',
+                                          'Accounting',
+                                          'AccountingOff',
+                                          'PortfolioMng',
+                                          'ExpertPort',
+                                          'FundMng',
                                           'ExpertFund',
-                                          'ResearchandDevelopmentManager',
-                                          'OfficerITstaff',
-                                          'onlinetransactionsOfficer',
-                                          'callcenterOfficer',
-                                          'DirectorofSecurities',
-                                          'SecuritiesDealer',
-                                          'Derivativesecuritiestrader',
-                                          'SecuritiesComplianceConsultant',
-                                          'SecuritiesReceptionist',
-                                          'SecuritiesComplianceOfficer',
-                                          'securitiesAcceptanceFuture',
-                                          'CommodityManager',
-                                          'CommodityTrader',
-                                          'CommodityDerivativesTrader',
-                                          'CommodityReceptionistConsultant',
-                                          'CommodityReceptionist',
-                                          'CommodityComplianceOfficer',
-                                          'CommodityAcceptanceFuture',
-                                          'EnergyExchangeManager',
-                                          'EnergyExchangeTrader',
-                                          'EnergyExchangeReceptionist'])
+                                          'ResearchMng',
+                                          'ITStaff',
+                                          'OnTxnOff',
+                                          'CallCenterOff',
+                                          'Securities',
+                                          'SecDealer',
+                                          'DerivativeSec',
+                                          'SecComplianceCon',
+                                          'SecReceptionist',
+                                          'SecCompliance',
+                                          'secAcceptance',
+                                          'CommodityMng',
+                                          'ComTrader',
+                                          'ComDerivatives',
+                                          'ComRecConsultant',
+                                          'ComReceptionist',
+                                          'ComComplianceOff',
+                                          'ComAcceptanceFuture',
+                                          'EnergyExMng',
+                                          'EnergyExTrader',
+                                          'EnergyExRec'])
         startDate(nullable: false)
         degree(nullable: false,inList:['PhD',
                                        'Master',
@@ -73,3 +76,4 @@ class BrokerMember {
 
     }
 }
+//todo mtb hasmany

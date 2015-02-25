@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerBranchController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +14,75 @@ class BrokerBranchController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerBranchInstanceList: BrokerBranch.list(params), brokerBranchInstanceTotal: BrokerBranch.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            [brokerId: brokerIns.id]
+        }
     }
 
+    def jsonList() {
+        def columns = ['action','city','branchType','representativePerson','personnelCount','tseStock','imeStock','energyStock','imeFuture','tseFuture','mutualFundAdmin']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerBranch.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerBranch.search {
+                must(term('$/BrokerBranch/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = BrokerBranch.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerBranch it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action,it.City.toString(),message(code:"brokerBranch.branchType."+it.branchType, default:  it.branchType),it.representativePerson,it.personnelCount,it.tseStock,it.imeStock,it.energyStock,it.imeFuture,it.tseFuture,it.mutualFundAdmin]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
     def create() {
-        [brokerBranchInstance: new BrokerBranch(params)]
+        [brokerBranchInstance: new BrokerBranch(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerBranchInstance = new BrokerBranch(params)
-        if (!brokerBranchInstance.save(flush: true)) {
-            render(view: "create", model: [brokerBranchInstance: brokerBranchInstance])
-            return
-        }
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), brokerBranchInstance.id])
-        redirect(action: "show", id: brokerBranchInstance.id)
+            def brokerBranchInstance = new BrokerBranch(params)
+            brokerInstance.addToBrokerBranches(brokerBranchInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerBranchInstance: brokerBranchInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), brokerBranchInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -78,7 +133,7 @@ class BrokerBranchController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), brokerBranchInstance.id])
-        redirect(action: "show", id: brokerBranchInstance.id)
+        redirect(action: "list", id: brokerBranchInstance.broker.id)
     }
 
     def delete(Long id) {

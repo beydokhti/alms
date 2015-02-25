@@ -1,66 +1,66 @@
-
 <%@ page import="alms.BrokerBranch" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'brokerBranch.label', default: 'BrokerBranch')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#list-brokerBranch" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-brokerBranch" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-				<thead>
-					<tr>
-					
-						<th><g:message code="brokerBranch.city.label" default="City" /></th>
-					
-						<g:sortableColumn property="branchType" title="${message(code: 'brokerBranch.branchType.label', default: 'Branch Type')}" />
-					
-						<g:sortableColumn property="representativePerson" title="${message(code: 'brokerBranch.representativePerson.label', default: 'Representative Person')}" />
-					
-						<g:sortableColumn property="personnelCount" title="${message(code: 'brokerBranch.personnelCount.label', default: 'Personnel Count')}" />
-					
-						<g:sortableColumn property="tseStock" title="${message(code: 'brokerBranch.tseStock.label', default: 'Tse Stock')}" />
-					
-						<g:sortableColumn property="imeStock" title="${message(code: 'brokerBranch.imeStock.label', default: 'Ime Stock')}" />
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${brokerBranchInstanceList}" status="i" var="brokerBranchInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${brokerBranchInstance.id}">${fieldValue(bean: brokerBranchInstance, field: "city")}</g:link></td>
-					
-						<td>${fieldValue(bean: brokerBranchInstance, field: "branchType")}</td>
-					
-						<td>${fieldValue(bean: brokerBranchInstance, field: "representativePerson")}</td>
-					
-						<td>${fieldValue(bean: brokerBranchInstance, field: "personnelCount")}</td>
-					
-						<td><g:formatBoolean boolean="${brokerBranchInstance.tseStock}" /></td>
-					
-						<td><g:formatBoolean boolean="${brokerBranchInstance.imeStock}" /></td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${brokerBranchInstanceTotal}" />
-			</div>
-		</div>
-	</body>
+<head>
+    <meta name="layout" content="main">
+    <g:set var="entityName" value="${message(code: 'brokerBranch.label', default: 'BrokerBranch')}"/>
+</head>
+
+<body>
+<script type="text/javascript" charset="utf-8">
+    var brokerTable;
+
+    $(document).ready(function () {
+        brokerTable = $('#brokerBranches').dataTable({
+            "bServerSide": true,
+            "bFilter": true,
+            "sAjaxSource": "<g:createLink action="jsonList" params="${[brokerId:brokerId]}"/>",
+            "aoColumns": [
+                {
+                    "bSortable": false,
+                    "sClass": "nowrap minimum-width"
+                }, null, null, null, null, null, null, null, null, null, null]
+        });
+    });
+</script>
+%{--todo mtb present checkbox--}%
+<legend><g:message code="brokerBranches.list" default="Branches List"></g:message></legend>
+
+<div class="well">
+    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
+           id="brokerBranches">
+        <thead>
+        <tr>
+
+            <th></th>
+
+            <th><g:message code="brokerBranches.city" default="City"/></th>
+
+            <th><g:message code="brokerBranches.branchType" default="Branch Type"/></th>
+
+            <th><g:message code="brokerBranches.representativePerson" default="Representative Person"/></th>
+
+            <th><g:message code="brokerBranches.personnelCount" default="Personnel Count"/></th>
+
+            <th><g:message code="brokerBranches.tseStock" default="tse Stock"/></th>
+
+            <th><g:message code="brokerBranches.imeStock" default="ime Stock"/></th>
+
+            <th><g:message code="brokerBranches.energyStock" default="Energy Stock"/></th>
+
+            <th><g:message code="brokerBranches.imeFuture" default="ime Future"/></th>
+
+            <th><g:message code="brokerBranches.tseFuture" default="tse Future"/></th>
+
+            <th><g:message code="brokerBranches.mutualFundAdmin" default="Mutual Fund Admin"/></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <g:link class="btn" action="create" id="${brokerId}"><g:message code="default.new.label"
+                                                                    args="[entityName]"/></g:link>
+</div>
+</body>
 </html>

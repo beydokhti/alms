@@ -1,12 +1,16 @@
 package alms
 
 class BrokerTradingStation {
-    String	city
+    City	city
     String	stationType
     String	activities
     String	trader
     String	phone
     String	address
+
+    static belongsTo = [broker:Broker]
+
+    static searchable = true
 
     static constraints = {
         city(nullable: false)
