@@ -1,28 +1,30 @@
 <%@ page import="alms.BrokerPortfolio" %>
+<g:hiddenField name="brokerId" value="${brokerId}"></g:hiddenField>
 
-
-
-<div class="fieldcontain ${hasErrors(bean: brokerPortfolioInstance, field: 'countOfContract', 'error')} ">
-	<label for="countOfContract">
-		<g:message code="brokerPortfolio.countOfContract.label" default="Count Of Contract" />
-		
-	</label>
-	<g:textField name="countOfContract" value="${brokerPortfolioInstance?.countOfContract}"/>
+<div class="form-group col-md-6">
+    <label for="countOfContract" class="col-sm-4 control-label">
+        <g:message code="brokerPortfolio.countOfContract.label" default="countOfContract" />
+    </label>
+    <div class="col-sm-8">
+        <g:field type="number" class="form-control" name="countOfContract" placeholder="countOfContract"
+                 value="${brokerPortfolioInstance?.countOfContract}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerPortfolioInstance, field: 'sumOfContract', 'error')} required">
-	<label for="sumOfContract">
-		<g:message code="brokerPortfolio.sumOfContract.label" default="Sum Of Contract" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="sumOfContract" type="number" value="${brokerPortfolioInstance.sumOfContract}" required=""/>
+<div class="form-group col-md-6">
+    <label for="sumOfContract" class="col-sm-4 control-label">
+        <g:message code="brokerPortfolio.sumOfContract.label" default="sumOfContract" />
+    </label>
+    <div class="col-sm-8">
+        <g:field type="number" class="form-control" name="sumOfContract" placeholder="sumOfContract"
+                 value="${brokerPortfolioInstance?.sumOfContract}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerPortfolioInstance, field: 'countOfConsultantContract', 'error')} required">
-	<label for="countOfConsultantContract">
-		<g:message code="brokerPortfolio.countOfConsultantContract.label" default="Count Of Consultant Contract" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="countOfConsultantContract" type="number" value="${brokerPortfolioInstance.countOfConsultantContract}" required=""/>
+<div class="form-group col-md-6">
+    <label for="countOfConsultantContract" class="col-sm-4 control-label">
+        <g:message code="brokerPortfolio.countOfConsultantContract.label" default="countOfConsultantContract" />
+    </label>
+    <div class="col-sm-8">
+        <g:field type="number" class="form-control" name="countOfConsultantContract" placeholder="countOfConsultantContract"
+                 value="${brokerPortfolioInstance?.countOfConsultantContract}"/>
+    </div>
 </div>
-

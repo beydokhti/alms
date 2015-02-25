@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerPortfolioController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +14,76 @@ class BrokerPortfolioController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerPortfolioInstanceList: BrokerPortfolio.list(params), brokerPortfolioInstanceTotal: BrokerPortfolio.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            [brokerId: brokerIns.id]
+        }
     }
 
+    def jsonList() {
+        def columns = ['action','countOfContract','sumOfContract','countOfConsultantContract']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerPortfolio.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerPortfolio.search {
+                must(term('$/BrokerPortfolio/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = BrokerPortfolio.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerPortfolio it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action,it.countOfContract,it.sumOfContract,it.countOfConsultantContract]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
+
     def create() {
-        [brokerPortfolioInstance: new BrokerPortfolio(params)]
+        [brokerPortfolioInstance: new BrokerPortfolio(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerPortfolioInstance = new BrokerPortfolio(params)
-        if (!brokerPortfolioInstance.save(flush: true)) {
-            render(view: "create", model: [brokerPortfolioInstance: brokerPortfolioInstance])
-            return
-        }
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), brokerPortfolioInstance.id])
-        redirect(action: "show", id: brokerPortfolioInstance.id)
+            def brokerPortfolioInstance = new BrokerPortfolio(params)
+            brokerInstance.addToBrokerPortfolios(brokerPortfolioInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerPortfolioInstance: brokerPortfolioInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerPortfolio.label', default: 'brokerPortfolio'), brokerPortfolioInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -78,7 +134,7 @@ class BrokerPortfolioController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), brokerPortfolioInstance.id])
-        redirect(action: "show", id: brokerPortfolioInstance.id)
+        redirect(action: "list", id: brokerPortfolioInstance.broker.id)
     }
 
     def delete(Long id) {

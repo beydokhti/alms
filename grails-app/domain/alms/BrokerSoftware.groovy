@@ -15,7 +15,7 @@ class BrokerSoftware {
         title1(nullable: false)
         title2(nullable: false)
         companyName(nullable: false)
-        contractType(nullable: false, inList: ['Buy' , 'Rent'])
+        contractType(nullable: false, inList: ["Buy" , "Rent"])
 
     }
 }

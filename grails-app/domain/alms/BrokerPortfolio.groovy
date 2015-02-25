@@ -2,7 +2,7 @@ package alms
 
 class BrokerPortfolio {
 
-    String	countOfContract
+    Long	countOfContract
     Long	sumOfContract
     Long	countOfConsultantContract
 

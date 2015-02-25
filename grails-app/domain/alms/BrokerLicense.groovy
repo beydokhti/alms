@@ -1,13 +1,13 @@
 package alms
 
 class BrokerLicense implements Comparable {
-    Byte displayOrder
-    String title1
-    String title2
+    Byte    displayOrder
+    String  title1
+    String  title2
     Boolean hasLicense
-    String licenseNumber
-    Date licenseDate
-    Date licenseExpiry
+    String  licenseNumber
+    Date    licenseDate
+    Date    licenseExpiry
 
     static belongsTo = [broker:Broker]
 

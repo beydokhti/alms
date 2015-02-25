@@ -1,10 +1,10 @@
 package alms
 
 class BrokerBranch {
-    City City
-    String branchType
-    String representativePerson
-    Short personnelCount
+    City    City
+    String  branchType
+    String  representativePerson
+    Short   personnelCount
 
     Boolean tseStock
     Boolean imeStock

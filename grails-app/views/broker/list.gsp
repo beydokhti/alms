@@ -1,15 +1,14 @@
-
 <%@ page import="alms.Broker" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="layout" content="main">
-    <g:set var="entityName" value="${message(code: 'broker.label', default: 'Broker')}" />
+    <g:set var="entityName" value="${message(code: 'broker.label', default: 'Broker')}"/>
     %{--<title><g:message code="default.list.label" args="[entityName]" /></title>--}%
 
 </head>
-<body>
 
+<body>
 
 <div id="list-broker" class="content scaffold-list" role="main">
     <script type="text/javascript" charset="utf-8">
@@ -20,23 +19,25 @@
 //                "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 //                "sPaginationType": "bootstrap",
 //                "oLanguage": {
-                    %{--"sLengthMenu": "_MENU_ <g:message code='records-per-page' default="Record per Page"/>",--}%
-                    %{--"sSearch": "<g:message code='find' default="Find"/>:",--}%
-                    %{--"sInfo": "<g:message code='showing' default="Showing"/> _START_ <g:message code='to'/> _END_ <g:message code='from'/> _TOTAL_"--}%
+                %{--"sLengthMenu": "_MENU_ <g:message code='records-per-page' default="Record per Page"/>",--}%
+                %{--"sSearch": "<g:message code='find' default="Find"/>:",--}%
+                %{--"sInfo": "<g:message code='showing' default="Showing"/> _START_ <g:message code='to'/> _END_ <g:message code='from'/> _TOTAL_"--}%
 //                },
                 "bServerSide": true,
                 "bFilter": true,
                 "sAjaxSource": "<g:createLink action="jsonList"/>",
                 "aoColumns": [
-                    { "bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null, null, null, null]
+                    {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null, null, null, null]
             });
         });
     </script>
+    %{--todo mtb how many column should be sent: aoColumns--}%
 
-    <legend><g:message code="broker.list" default="Broker List"></g:message> </legend>
+    <legend><g:message code="broker.list" default="Broker List"></g:message></legend>
 
     <div class="well">
-        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width" id="broker">
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
+               id="broker">
             <thead>
             <tr>
 
@@ -59,9 +60,8 @@
             <tbody>
             </tbody>
         </table>
-        <g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link>
+        <g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
-
 
 </div>
 </body>

@@ -4,7 +4,9 @@ import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerBranchController {
+
     def queryService
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -16,13 +18,14 @@ class BrokerBranchController {
         def brokerIns=Broker.get(params.id)
         if (brokerIns) {
             [brokerId: brokerIns.id]
-        }    }
+        }
+    }
 
     def jsonList() {
-        def columns = ['action','City','branchType','representativePerson','personnelCount','tseStock','imeStock','energyStock','imeFuture','tseFuture','mutualFundAdmin']
+        def columns = ['action','city','branchType','representativePerson','personnelCount','tseStock','imeStock','energyStock','imeFuture','tseFuture','mutualFundAdmin']
 
         def dataTableResponse = [:]
-        dataTableResponse.iTotalRecords = BrokerShareholder.count()
+        dataTableResponse.iTotalRecords = BrokerBranch.count()
         dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
 
         def list
@@ -52,8 +55,7 @@ class BrokerBranchController {
         def array = list.collect { BrokerBranch it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action, it.City.toString(), it.branchType, it.representativePerson, it.personnelCount, it.tseStock, it.imeStock, it.energyStock, it.imeFuture, it.tseFuture, it.mutualFundAdmin,
-            ]
+            [action,it.City.toString(),message(code:"brokerBranch.branchType."+it.branchType, default:  it.branchType),it.representativePerson,it.personnelCount,it.tseStock,it.imeStock,it.energyStock,it.imeFuture,it.tseFuture,it.mutualFundAdmin]
         }
 
         dataTableResponse.aaData = array
@@ -131,7 +133,7 @@ class BrokerBranchController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), brokerBranchInstance.id])
-        redirect(action: "show", id: brokerBranchInstance.id)
+        redirect(action: "list", id: brokerBranchInstance.broker.id)
     }
 
     def delete(Long id) {

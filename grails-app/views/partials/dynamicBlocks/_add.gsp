@@ -1,7 +1,8 @@
 <div id="count_${id}" style="display: none;">0</div>
+
 <div id="parent_${id}"></div>
 <g:if test="${!addBtnId}">
-	<input id="add_${id}" type="button" value="Add"/>
+    <input id="add_${id}" type="button" value="Add"/>
 </g:if>
 
 <r:script>

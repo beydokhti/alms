@@ -3,14 +3,15 @@ package alms
 class BrokerInvestmentFund {
 
     String	fundName
-    String	startingDate
+    Date	startingDate
     String	typeAndScale
-    String	fundManager
-    String	fundCustodian
-    String	agencyFund
-    String	fundRegisterManager
-    String	liquidityGuaranteeFund
-    String	investmentManager
+    boolean fundManager
+    boolean	fundCustodian
+    boolean	agencyFund
+    boolean	fundRegisterManager
+    boolean	liquidityGuaranteeFund
+
+    static hasMany = [investmentManager : String]
 
     static belongsTo = [broker:Broker]
 
@@ -20,13 +21,26 @@ class BrokerInvestmentFund {
     static constraints = {
         fundName(nullable: false)
         startingDate(nullable: false)
-        typeAndScale(nullable: false)
+        typeAndScale(nullable: false,inList: ["FIStocksLarge",
+                                              "FIStocksSmall",
+                                              "FIStocksPayoutLarge",
+                                              "FIStocksPayoutSmall",
+                                              "IFForeigners",
+                                              "IFIndex",
+                                              "ETF",
+                                              "FIGuaranteedInterest",
+                                              "FIProfitForecasts",
+                                              "FIForeign",
+                                              "IFCharity",
+                                              "IFIndexLarge",
+                                              "IFLandBuilding"])
         fundManager(nullable: false)
         fundCustodian(nullable: false)
         agencyFund(nullable: false)
         fundRegisterManager(nullable: false)
         liquidityGuaranteeFund(nullable: false)
-        investmentManager(nullable: false)
+//todo mtb nullable false
+        investmentManager(nullable: true)
 
     }
 }

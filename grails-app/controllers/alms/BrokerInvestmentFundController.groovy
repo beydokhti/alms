@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerInvestmentFundController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +14,78 @@ class BrokerInvestmentFundController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerInvestmentFundInstanceList: BrokerInvestmentFund.list(params), brokerInvestmentFundInstanceTotal: BrokerInvestmentFund.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            [brokerId: brokerIns.id]
+        }
     }
 
+
+    def jsonList() {
+        def columns = ['action','fundName','startingDate','typeAndScale','fundManager','fundCustodian','agencyFund','fundRegisterManager','liquidityGuaranteeFund','investmentManager']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerInvestmentFund.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerInvestmentFund.search {
+                must(term('$/BrokerInvestmentFund/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = BrokerInvestmentFund.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerInvestmentFund it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action, it.fundName,it.startingDate.toString(),message(code:"BrokerInvestmentFund."+it.typeAndScale,it.typeAndScale),it.fundManager,it.fundCustodian,it.agencyFund,it.fundRegisterManager,it.liquidityGuaranteeFund,it.investmentManager]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
+
     def create() {
-        [brokerInvestmentFundInstance: new BrokerInvestmentFund(params)]
+        [brokerInvestmentFundInstance: new BrokerInvestmentFund(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerInvestmentFundInstance = new BrokerInvestmentFund(params)
-        if (!brokerInvestmentFundInstance.save(flush: true)) {
-            render(view: "create", model: [brokerInvestmentFundInstance: brokerInvestmentFundInstance])
-            return
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
+
+            def brokerInvestmentFundInstance = new BrokerInvestmentFund(params)
+            brokerInstance.addToBrokerInvestmentFounds(brokerInvestmentFundInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerInvestmentFundInstance: brokerInvestmentFundInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerInvestmentFund.label', default: 'Broker Investment Found'), brokerInvestmentFundInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), brokerInvestmentFundInstance.id])
-        redirect(action: "show", id: brokerInvestmentFundInstance.id)
     }
 
     def show(Long id) {
@@ -78,7 +136,7 @@ class BrokerInvestmentFundController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), brokerInvestmentFundInstance.id])
-        redirect(action: "show", id: brokerInvestmentFundInstance.id)
+        redirect(action: "list", id: brokerInvestmentFundInstance.broker.id)
     }
 
     def delete(Long id) {

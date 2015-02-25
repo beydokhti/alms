@@ -91,7 +91,7 @@ class BrokerShareholderController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), brokerShareholderInstance.id])
-        redirect(action: "show", id: brokerShareholderInstance.id)
+        redirect(action: "list", id: brokerShareholderInstance.broker.id)
     }
 
     def delete(Long id) {

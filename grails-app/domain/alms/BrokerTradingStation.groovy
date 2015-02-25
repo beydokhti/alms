@@ -1,7 +1,7 @@
 package alms
 
 class BrokerTradingStation {
-    String	city
+    City	city
     String	stationType
     String	activities
     String	trader

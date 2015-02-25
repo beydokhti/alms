@@ -23,13 +23,13 @@
     <g:form method="post">
         <g:hiddenField name="id" value="${brokerInstance?.id}"/>
         <g:hiddenField name="version" value="${brokerInstance?.version}"/>
-        <fieldset class="form">
+        <fieldset class="form-horizontal">
             <g:render template="form"/>
         </fieldset>
         <fieldset class="buttons">
-            <g:actionSubmit class="btn btn-default"  action="update"
+            <g:actionSubmit class="btn btn-default" action="update"
                             value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-            <g:actionSubmit class="btn btn-default"  action="delete"
+            <g:actionSubmit class="btn btn-default" action="delete"
                             value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate=""
                             onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
         </fieldset>

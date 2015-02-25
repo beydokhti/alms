@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerTradingStationController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,24 +14,77 @@ class BrokerTradingStationController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [brokerTradingStationInstanceList: BrokerTradingStation.list(params), brokerTradingStationInstanceTotal: BrokerTradingStation.count()]
+        println(params)
+        def brokerIns=Broker.get(params.id)
+        if (brokerIns) {
+            [brokerId: brokerIns.id]
+        }
     }
 
+    def jsonList() {
+        def columns = ['action','city','stationType','activities','trader','phone','address']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = BrokerTradingStation.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = BrokerTradingStation.search {
+                must(term('$/BrokerTradingStation/broker/id', params.long("brokerId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("broker.id", params.long("brokerId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = BrokerTradingStation.createCriteria().list(query)
+        }
+
+        def array = list.collect { BrokerTradingStation it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action,it.city.toString(),message(code:"brokerTradingStation.stationType."+it.stationType,defaault:it.stationType),it.activities,it.trader,it.phone,it.address]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
     def create() {
-        [brokerTradingStationInstance: new BrokerTradingStation(params)]
+        [brokerTradingStationInstance: new BrokerTradingStation(params),brokerId:params.id]
     }
 
     def save() {
-        def brokerTradingStationInstance = new BrokerTradingStation(params)
-        if (!brokerTradingStationInstance.save(flush: true)) {
-            render(view: "create", model: [brokerTradingStationInstance: brokerTradingStationInstance])
-            return
+        println(params)
+        def brokerInstance=Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
+
+            def brokerTradingStationInstance = new BrokerTradingStation(params)
+            brokerInstance.addToBrokerTradingStations(brokerTradingStationInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerTradingStationInstance: brokerTradingStationInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerTradingStation.label', default: 'brokerTradingStation'), brokerTradingStationInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), brokerTradingStationInstance.id])
-        redirect(action: "show", id: brokerTradingStationInstance.id)
-    }
+   }
 
     def show(Long id) {
         def brokerTradingStationInstance = BrokerTradingStation.get(id)
@@ -78,7 +134,7 @@ class BrokerTradingStationController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), brokerTradingStationInstance.id])
-        redirect(action: "show", id: brokerTradingStationInstance.id)
+        redirect(action: "list", id: brokerTradingStationInstance.broker.id)
     }
 
     def delete(Long id) {

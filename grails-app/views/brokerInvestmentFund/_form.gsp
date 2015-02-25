@@ -1,76 +1,76 @@
 <%@ page import="alms.BrokerInvestmentFund" %>
+<g:hiddenField name="brokerId" value="${brokerId}"></g:hiddenField>
 
 
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'fundName', 'error')} ">
-	<label for="fundName">
-		<g:message code="brokerInvestmentFund.fundName.label" default="Fund Name" />
-		
-	</label>
-	<g:textField name="fundName" value="${brokerInvestmentFundInstance?.fundName}"/>
+"<div class="form-group col-md-6">
+    <label for="fundName" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.fundName.label" default="fundName" />
+    </label>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="fundName" placeholder="fundName"
+                     value="${brokerInvestmentFundInstance?.fundName}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'startingDate', 'error')} ">
-	<label for="startingDate">
-		<g:message code="brokerInvestmentFund.startingDate.label" default="Starting Date" />
-		
-	</label>
-	<g:textField name="startingDate" value="${brokerInvestmentFundInstance?.startingDate}"/>
+<div class="form-group col-md-6">
+    <label for="startingDate" class="col-sm-4 control-label">
+        <g:message code="broker.startingDate.label" default="startingDate" />
+    </label>
+    <div class="col-sm-8">
+        <g:datePicker class="form-control" name="startingDate" precision="day" value="${brokerInvestmentFundInstance?.startingDate}"
+                      default="none" noSelection="['': '']"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'typeAndScale', 'error')} ">
-	<label for="typeAndScale">
-		<g:message code="brokerInvestmentFund.typeAndScale.label" default="Type And Scale" />
-		
-	</label>
-	<g:textField name="typeAndScale" value="${brokerInvestmentFundInstance?.typeAndScale}"/>
+<div class="form-group col-md-6">
+    <label for="typeAndScale" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.typeAndScale.label" default="typeAndScale" />
+    </label>
+    <div class="col-sm-8">
+        <g:select class="form-control"   name="typeAndScale" placeholder="typeAndScale" from="${brokerInvestmentFundInstance.constraints.typeAndScale.inList}"
+                  value="${brokerInvestmentFundInstance?.typeAndScale}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'fundManager', 'error')} ">
-	<label for="fundManager">
-		<g:message code="brokerInvestmentFund.fundManager.label" default="Fund Manager" />
-		
-	</label>
-	<g:textField name="fundManager" value="${brokerInvestmentFundInstance?.fundManager}"/>
+<div class="form-group col-md-6">
+    <label for="fundManager" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.fundManager.label" default="fundManager" />
+    </label>
+    <div class="col-sm-8">
+        <g:checkBox class="form-control"   name="fundManager" placeholder="fundManager"
+                    value="${brokerInvestmentFundInstance?.fundManager}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'fundCustodian', 'error')} ">
-	<label for="fundCustodian">
-		<g:message code="brokerInvestmentFund.fundCustodian.label" default="Fund Custodian" />
-		
-	</label>
-	<g:textField name="fundCustodian" value="${brokerInvestmentFundInstance?.fundCustodian}"/>
+<div class="form-group col-md-6">
+    <label for="fundCustodian" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.fundCustodian.label" default="fundCustodian" />
+    </label>
+    <div class="col-sm-8">
+        <g:checkBox class="form-control"   name="fundCustodian" placeholder="fundCustodian"
+                    value="${brokerInvestmentFundInstance?.fundCustodian}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'agencyFund', 'error')} ">
-	<label for="agencyFund">
-		<g:message code="brokerInvestmentFund.agencyFund.label" default="Agency Fund" />
-		
-	</label>
-	<g:textField name="agencyFund" value="${brokerInvestmentFundInstance?.agencyFund}"/>
+<div class="form-group col-md-6">
+    <label for="agencyFund" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.agencyFund.label" default="agencyFund" />
+    </label>
+    <div class="col-sm-8">
+        <g:checkBox class="form-control"   name="agencyFund" placeholder="agencyFund"
+                    value="${brokerInvestmentFundInstance?.agencyFund}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'fundRegisterManager', 'error')} ">
-	<label for="fundRegisterManager">
-		<g:message code="brokerInvestmentFund.fundRegisterManager.label" default="Fund Register Manager" />
-		
-	</label>
-	<g:textField name="fundRegisterManager" value="${brokerInvestmentFundInstance?.fundRegisterManager}"/>
+<div class="form-group col-md-6">
+    <label for="fundRegisterManager" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.fundRegisterManager.label" default="fundRegisterManager" />
+    </label>
+    <div class="col-sm-8">
+        <g:checkBox class="form-control"   name="fundRegisterManager" placeholder="fundRegisterManager"
+                    value="${brokerInvestmentFundInstance?.fundRegisterManager}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'liquidityGuaranteeFund', 'error')} ">
-	<label for="liquidityGuaranteeFund">
-		<g:message code="brokerInvestmentFund.liquidityGuaranteeFund.label" default="Liquidity Guarantee Fund" />
-		
-	</label>
-	<g:textField name="liquidityGuaranteeFund" value="${brokerInvestmentFundInstance?.liquidityGuaranteeFund}"/>
+<div class="form-group col-md-6">
+    <label for="liquidityGuaranteeFund" class="col-sm-4 control-label">
+        <g:message code="brokerInvestmentFund.liquidityGuaranteeFund.label" default="liquidityGuaranteeFund" />
+    </label>
+    <div class="col-sm-8">
+        <g:checkBox class="form-control"   name="liquidityGuaranteeFund" placeholder="liquidityGuaranteeFund"
+                    value="${brokerInvestmentFundInstance?.liquidityGuaranteeFund}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: brokerInvestmentFundInstance, field: 'investmentManager', 'error')} ">
-	<label for="investmentManager">
-		<g:message code="brokerInvestmentFund.investmentManager.label" default="Investment Manager" />
-		
-	</label>
-	<g:textField name="investmentManager" value="${brokerInvestmentFundInstance?.investmentManager}"/>
-</div>
-
