@@ -11,7 +11,9 @@
     <g:layoutTitle default="Grails-Bootstrap"/>
 
     <link href="${resource(dir: "bootstrap/css", file: "bootstrap.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "bootstrap-rtl/css", file: "bootstrap-rtl.min.css")}" rel="stylesheet">
     <link href="${resource(dir: "datatables-bootstrap", file: "dataTables.bootstrap.css")}" rel="stylesheet">
+    <link href="${resource(dir: "DataTables-rtl", file: "DataTables-rtl.css")}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
