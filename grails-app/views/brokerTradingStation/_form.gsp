@@ -7,7 +7,8 @@
         <g:message code="brokerTradingStation.city.label" default="city" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="City.id" placeholder="City" from="${alms.City?.list()}" optionKey="id"
+
+        <g:select class="form-control" name="city.id" placeholder="city" from="${alms.City?.list()}" optionKey="id"
                   value="${brokerTradingStationInstance?.city?.id}"/>
     </div>
 </div>
@@ -25,8 +26,8 @@
         <g:message code="brokerTradingStation.activities.label" default="activities" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control" name="City.id" placeholder="City" from="${alms.City?.list()}" optionKey="id"
-                  value="${brokerTradingStationInstance?.city?.id}"/>
+        <g:textField class="form-control"   name="activities" placeholder="activities"
+                     value="${brokerTradingStationInstance?.activities}"/>
 
     </div>
 </div>

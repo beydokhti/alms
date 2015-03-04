@@ -14,6 +14,7 @@
     <link href="${resource(dir: "bootstrap-rtl/css", file: "bootstrap-rtl.min.css")}" rel="stylesheet">
     <link href="${resource(dir: "datatables-bootstrap", file: "dataTables.bootstrap.css")}" rel="stylesheet">
     <link href="${resource(dir: "DataTables-rtl", file: "DataTables-rtl.css")}" rel="stylesheet">
+    <link href="${resource(dir:"formValidator/css" ,file:"formValidation.css")}"rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,6 +26,13 @@
             src="${resource(plugin: "jquery", dir: "js/jquery", file: "jquery-1.11.1.min.js")}"></script>
     <script type="text/javascript"
             src="${resource(dir: "DataTables/media/js", file: "jquery.dataTables.min.js")}"></script>
+    %{--todo mtb attach .j or .min.js--}%
+    <script type="text/javascript"
+            src="${resource(dir:"formValidator/js",file:"formValidation.js")}"></script>
+    <script type="text/javascript"
+            src="${resource(dir:"formValidator/js/framework",file:"bootstrap.js")}"></script>
+    <script type="text/javascript"
+            src="${resource(dir:"formValidator/js/language/",file:"fa_IR.js")}"></script>
     <g:layoutHead/>
     <r:layoutResources/>
 </head>

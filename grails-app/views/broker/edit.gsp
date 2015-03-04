@@ -7,6 +7,258 @@
 </head>
 
 <body>
+
+<script>
+    $(document).ready(function () {
+        $('#mainForm')
+                .on('init.field.fv', function (e, data) {
+                    var $parent = data.element.parents('.form-group'),
+                            $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                    $icon.on('click.clearing', function () {
+                        if ($icon.hasClass('glyphicon-remove')) {
+                            data.fv.resetField(data.element);
+                        }
+                    });
+                })
+                .formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    locale: 'fa_IR',
+                    fields: {
+                        brokerPersianName: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        brokerLatinName: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        registerDate: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        registerNo: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        registerLocation: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        seoRegisterDate: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        seoRegisterNo: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        clubMembershipNo: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        clubMembershipDate: {
+                            validators: {
+                                notEmpty: {},
+                            }
+                        },
+                        registeredCapital: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        paidCapital: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        sharesNumber: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        financialYearEndMonth: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                stringLength: {
+                                    max: 2
+                                }, between: {
+                                    min: 1,
+                                    max: 12
+                                }
+                            }
+                        },
+                        financialYearEndDay: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                stringLength: {
+                                    max: 4
+                                }, between: {
+                                    min: 1,
+                                    max: 31
+                                }
+                            }
+                        },
+                        nationalCode: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 11
+                                }
+                            }
+                        },
+                        economicCode: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 11
+                                }
+                            }
+                        },
+                        centralOfficeAddress: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 200
+                                }
+                            }
+                        },
+                        centralOfficePostalCode: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 10
+                                }
+                            }
+                        },
+                        POBox: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 15
+                                }
+                            }
+                        },
+                        website: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        email: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        tseRank: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        tseOrdinaryPoint: {
+                            validators: {
+                                digits: {},
+                                between: {
+                                    min: 0,
+                                    max: 127
+                                }
+                            }
+                        },
+                        tseEncouragingPoint: {
+                            validators: {
+                                digits: {},
+                                between: {
+                                    min: 0,
+                                    max: 127
+                                }
+                            }
+                        },
+                        imeRank: {
+                            validators: {
+                                notEmpty: {},
+                                stringLength: {
+                                    max: 100
+                                }
+                            }
+                        },
+                        imeOrdinaryPoint: {
+                            validators: {
+                                digits: {},
+                                between: {
+                                    min: 0,
+                                    max: 127
+                                }
+
+                            }
+                        },
+                        imeEncouragingPoint: {
+                            validators: {
+                                digits: {},
+                                between: {
+                                    min: 0,
+                                    max: 127
+                                }
+
+                            }
+                        }
+                    }
+                });
+    });
+
+</script>
+
 <div id="edit-broker" class="content scaffold-edit" role="main">
     <legend><g:message code="default.edit.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
@@ -20,7 +272,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form method="post">
+    <g:form method="post" name="mainForm">
         <g:hiddenField name="id" value="${brokerInstance?.id}"/>
         <g:hiddenField name="version" value="${brokerInstance?.version}"/>
         <fieldset class="form-horizontal">

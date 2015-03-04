@@ -212,7 +212,7 @@ class BootStrap {
 //      branch
         def brokerBranch = new BrokerBranch()
         brokerBranch.branchType = "Branch"
-        brokerBranch.City = City.get(1)
+        brokerBranch.city = City.get(1)
         brokerBranch.energyStock = true
         brokerBranch.imeFuture = true
         brokerBranch.imeStock = true
@@ -363,32 +363,6 @@ class BootStrap {
 
         broker.addToBrokerShareholders(brokerShare)
         println(brokerShare.broker.id)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         Certificate certificate = new Certificate()
         certificate.cerType = "سازمان بورس و اوراق بهادار"

@@ -55,7 +55,7 @@ class BrokerBranchController {
         def array = list.collect { BrokerBranch it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.City.toString(),message(code:"brokerBranch.branchType."+it.branchType, default:  it.branchType),it.representativePerson,it.personnelCount,it.tseStock,it.imeStock,it.energyStock,it.imeFuture,it.tseFuture,it.mutualFundAdmin]
+            [action,it.city.toString(),message(code:"brokerBranch.branchType."+it.branchType, default:  it.branchType),it.representativePerson,it.personnelCount,it.tseStock,it.imeStock,it.energyStock,it.imeFuture,it.tseFuture,it.mutualFundAdmin]
         }
 
         dataTableResponse.aaData = array

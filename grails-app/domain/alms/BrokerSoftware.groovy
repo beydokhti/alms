@@ -6,6 +6,7 @@ class BrokerSoftware {
     String	title2
     String	companyName
     String	contractType
+    Broker  broker
 
     static belongsTo = [broker:Broker]
 

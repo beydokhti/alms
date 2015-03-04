@@ -7,6 +7,73 @@
 </head>
 
 <body>
+
+<script>
+    $(document).ready(function () {
+        $('#mainForm')
+                .on('init.field.fv', function (e, data) {
+                    var $parent = data.element.parents('.form-group'),
+                            $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                    $icon.on('click.clearing', function () {
+                        if ($icon.hasClass('glyphicon-remove')) {
+                            data.fv.resetField(data.element);
+                        }
+                    });
+                })
+                .formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    locale: 'fa_IR',
+                    fields: {
+                        shareholderName: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        ownershipType: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        ownershipPercent: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                between: {
+                                    min: 0,
+                                    max: 100
+                                }
+                            }
+                        },
+                        sharesCount: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {}
+                            }
+                        },
+                        representativeOnBoard: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        description: {
+                            validators: {
+                                stringLength: {
+                                    max: 200
+                                }
+                            }
+                        }
+                    }
+                });
+    });
+
+</script>
+
+
 <div id="edit-brokerShareholder" class="content scaffold-edit" role="main">
     <legend><g:message code="default.edit.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
@@ -20,7 +87,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form method="post" class="form-horizontal">
+    <g:form method="post" class="form-horizontal"  name="mainForm">
         <g:hiddenField name="id" value="${brokerShareholderInstance?.id}"/>
         <g:hiddenField name="version" value="${brokerShareholderInstance?.version}"/>
         <fieldset class="form-horizontal">

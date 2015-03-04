@@ -2,46 +2,46 @@ package alms
 
 class Broker {
 
-    String brokerPersianName
-    String brokerLatinName
+    String  brokerPersianName
+    String  brokerLatinName
 
-    Date registerDate
-    String registerNo
-    String registerLocation
+    Date    registerDate
+    String  registerNo
+    String  registerLocation
 
-    Date seoRegisterDate
-    String seoRegisterNo
+    Date    seoRegisterDate
+    String  seoRegisterNo
 
-    String clubMembershipNo
-    Date clubMembershipDate
+    String  clubMembershipNo
+    Date    clubMembershipDate
 
-    Long registeredCapital
-    Long paidCapital
-    Long sharesNumber
+    Long    registeredCapital
+    Long    paidCapital
+    Long    sharesNumber
 
-    Byte financialYearEndMonth
-    Byte financialYearEndDay
+    Byte    financialYearEndMonth
+    Byte    financialYearEndDay
 
     // todo: personnel number should be auto calculated
 
-    String nationalCode
-    String economicCode
+    String  nationalCode
+    String  economicCode
 
-    String centralOfficeAddress
-    String centralOfficePostalCode
+    String  centralOfficeAddress
+    String  centralOfficePostalCode
 
-    String POBox
+    String  POBox
 
-    String website
-    String email
+    String  website
+    String  email
 
-    String tseRank
-    Byte tseOrdinaryPoint
-    Byte tseEncouragingPoint
+    String  tseRank
+    Byte    tseOrdinaryPoint
+    Byte    tseEncouragingPoint
 
-    String imeRank
-    Byte imeOrdinaryPoint
-    Byte imeEncouragingPoint
+    String  imeRank
+    Byte    imeOrdinaryPoint
+    Byte    imeEncouragingPoint
 
 
     static hasMany = [centralOfficePhones   : String, centralOfficeFaxes: String, brokerLicenses: BrokerLicense,

@@ -5,6 +5,7 @@ class BrokerPortfolio {
     Long	countOfContract
     Long	sumOfContract
     Long	countOfConsultantContract
+    Broker  broker
 
     static belongsTo = [broker:Broker]
 

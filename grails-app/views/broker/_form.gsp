@@ -1,8 +1,6 @@
 <%@ page import="alms.Broker" %>
 
 
-
-
 <div class="form-group col-md-6">
     <label for="brokerPersianName" class="col-sm-4 control-label">
         <g:message code="broker.brokerPersianName.label" default="brokerPersianName"/>
@@ -113,7 +111,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="registeredCapital" placeholder="registeredCapital"
+        <g:textField class="form-control" name="registeredCapital" placeholder="registeredCapital"
                  value="${brokerInstance?.registeredCapital}"/>
     </div>
 </div>
@@ -124,7 +122,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="paidCapital" placeholder="paidCapital"
+        <g:textField class="form-control" name="paidCapital" placeholder="paidCapital"
                  value="${brokerInstance?.paidCapital}"/>
     </div>
 </div>
@@ -135,7 +133,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="sharesNumber" placeholder="sharesNumber"
+        <g:textField class="form-control" name="sharesNumber" placeholder="sharesNumber"
                  value="${brokerInstance?.sharesNumber}"/>
     </div>
 </div>
@@ -146,7 +144,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="financialYearEndMonth" placeholder="financialYearEndMonth"
+        <g:textField class="form-control" name="financialYearEndMonth" placeholder="financialYearEndMonth"
                  value="${brokerInstance?.financialYearEndMonth}"/>
     </div>
 </div>
@@ -157,7 +155,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="financialYearEndDay" placeholder="financialYearEndDay"
+        <g:textField class="form-control" name="financialYearEndDay" placeholder="financialYearEndDay"
                  value="${brokerInstance?.financialYearEndDay}"/>
     </div>
 </div>
@@ -256,7 +254,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="tseOrdinaryPoint" placeholder="tseOrdinaryPoint"
+        <g:textField class="form-control" name="tseOrdinaryPoint" placeholder="tseOrdinaryPoint"
                  value="${brokerInstance?.tseOrdinaryPoint}"/>
     </div>
 </div>
@@ -267,7 +265,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="tseEncouragingPoint" placeholder="tseEncouragingPoint"
+        <g:textField class="form-control" name="tseEncouragingPoint" placeholder="tseEncouragingPoint"
                  value="${brokerInstance?.tseEncouragingPoint}"/>
     </div>
 </div>
@@ -289,7 +287,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="imeOrdinaryPoint" placeholder="imeOrdinaryPoint"
+        <g:textField class="form-control" name="imeOrdinaryPoint" placeholder="imeOrdinaryPoint"
                  value="${brokerInstance?.imeOrdinaryPoint}"/>
     </div>
 </div>
@@ -300,7 +298,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="imeEncouragingPoint" placeholder="imeEncouragingPoint"
+        <g:textField class="form-control" name="imeEncouragingPoint" placeholder="imeEncouragingPoint"
                  value="${brokerInstance?.imeEncouragingPoint}"/>
     </div>
 </div>

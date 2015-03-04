@@ -7,6 +7,50 @@
 </head>
 
 <body>
+
+<script>
+    $(document).ready(function () {
+        $('#mainForm')
+                .on('init.field.fv', function (e, data) {
+                    var $parent = data.element.parents('.form-group'),
+                            $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                    $icon.on('click.clearing', function () {
+                        if ($icon.hasClass('glyphicon-remove')) {
+                            data.fv.resetField(data.element);
+                        }
+                    });
+                })
+                .formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    locale: 'fa_IR',
+                    fields: {
+                        city: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+
+                        activities: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        trader: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        }
+                    }
+                });
+    });
+
+</script>
+
 <div id="create-brokerTradingStation" class="content scaffold-create" role="main">
     <legend><g:message code="default.create.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
@@ -20,7 +64,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form action="save">
+    <g:form action="save"  name="mainForm">
         <fieldset class="form-horizontal">
             <g:render template="form"/>
         </fieldset>

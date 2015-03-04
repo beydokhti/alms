@@ -6,6 +6,64 @@
     <g:set var="entityName" value="${message(code: 'brokerMember.label', default: 'BrokerMember')}"/>
 </head>
 
+<script>
+    $(document).ready(function () {
+        $('#mainForm')
+                .on('init.field.fv', function (e, data) {
+                    var $parent = data.element.parents('.form-group'),
+                            $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                    $icon.on('click.clearing', function () {
+                        if ($icon.hasClass('glyphicon-remove')) {
+                            data.fv.resetField(data.element);
+                        }
+                    });
+                })
+                .formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    locale: 'fa_IR',
+                    fields: {
+                        name: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        lastName: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        startDate: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        dateOfBirth: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        nationalCode: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {}
+                            }
+                        },
+                        mobile: {
+                            validators: {
+                                digits: {}
+                            }
+                        }
+                    }
+                });
+    });
+
+</script>
+
 <body>
 <div id="create-brokerMember" class="content scaffold-create" role="main">
     <legend><g:message code="default.create.label" args="[entityName]"/></legend>
@@ -20,7 +78,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form action="save">
+    <g:form action="save"  name="mainForm">
         <fieldset class="form-horizontal">
             <g:render template="form"/>
         </fieldset>

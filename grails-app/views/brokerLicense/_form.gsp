@@ -7,7 +7,7 @@
         <g:message code="brokerLicense.displayOrder.label" default="displayOrder" />
     </label>
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="displayOrder" placeholder="displayOrder"
+        <g:textField class="form-control" name="displayOrder" placeholder="displayOrder"
                  value="${brokerLicenseInstance?.displayOrder}"/>
     </div>
 </div>

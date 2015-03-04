@@ -2,7 +2,7 @@
 <g:hiddenField name="brokerId" value="${brokerId}"></g:hiddenField>
 
 
-"<div class="form-group col-md-6">
+<div class="form-group col-md-6">
     <label for="fundName" class="col-sm-4 control-label">
         <g:message code="brokerInvestmentFund.fundName.label" default="fundName" />
     </label>

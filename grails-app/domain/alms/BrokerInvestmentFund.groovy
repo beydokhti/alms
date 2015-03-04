@@ -11,6 +11,8 @@ class BrokerInvestmentFund {
     boolean	fundRegisterManager
     boolean	liquidityGuaranteeFund
 
+    Broker  broker
+
     static hasMany = [investmentManager : String]
 
     static belongsTo = [broker:Broker]
@@ -34,11 +36,11 @@ class BrokerInvestmentFund {
                                               "IFCharity",
                                               "IFIndexLarge",
                                               "IFLandBuilding"])
-        fundManager(nullable: false)
-        fundCustodian(nullable: false)
-        agencyFund(nullable: false)
-        fundRegisterManager(nullable: false)
-        liquidityGuaranteeFund(nullable: false)
+        fundManager(nullable:true)
+        fundCustodian(nullable: true)
+        agencyFund(nullable: true)
+        fundRegisterManager(nullable: true)
+        liquidityGuaranteeFund(nullable: true)
 //todo mtb nullable false
         investmentManager(nullable: true)
 

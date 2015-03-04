@@ -12,6 +12,8 @@ class BrokerMember {
     String	nationalCode
     String	mobile
     String	email
+    Broker  broker
+
     static hasMany = [certificates:ObtainedCertificate]
 
     static belongsTo = [broker:Broker]
@@ -71,8 +73,8 @@ class BrokerMember {
                                        'Other'])
         dateOfBirth(nullable: false)
         nationalCode(nullable: false)
-        mobile(nullable: false)
-        email(nullable: false)
+        mobile(nullable: true)
+        email(nullable: true)
 
     }
 }

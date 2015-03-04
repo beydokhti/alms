@@ -7,6 +7,49 @@
 </head>
 
 <body>
+
+<script>
+    $(document).ready(function () {
+        $('#mainForm')
+                .on('init.field.fv', function (e, data) {
+                    var $parent = data.element.parents('.form-group'),
+                            $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                    $icon.on('click.clearing', function () {
+                        if ($icon.hasClass('glyphicon-remove')) {
+                            data.fv.resetField(data.element);
+                        }
+                    });
+                })
+                .formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    locale: 'fa_IR',
+                    fields: {
+                        title1: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        title2: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        },
+                        companyName: {
+                            validators: {
+                                notEmpty: {}
+                            }
+                        }
+                    }
+                });
+    });
+
+</script>
+
 <div id="edit-brokerSoftware" class="content scaffold-edit" role="main">
     <legend><g:message code="default.edit.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
@@ -20,7 +63,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form method="post">
+    <g:form method="post"  name="mainForm">
         <g:hiddenField name="id" value="${brokerSoftwareInstance?.id}"/>
         <g:hiddenField name="version" value="${brokerSoftwareInstance?.version}"/>
         <fieldset class="form-horizontal">

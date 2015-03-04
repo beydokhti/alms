@@ -6,7 +6,7 @@
         <g:message code="brokerPortfolio.countOfContract.label" default="countOfContract" />
     </label>
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="countOfContract" placeholder="countOfContract"
+        <g:textField  class="form-control" name="countOfContract" placeholder="countOfContract"
                  value="${brokerPortfolioInstance?.countOfContract}"/>
     </div>
 </div>
@@ -15,7 +15,7 @@
         <g:message code="brokerPortfolio.sumOfContract.label" default="sumOfContract" />
     </label>
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="sumOfContract" placeholder="sumOfContract"
+        <g:textField  class="form-control" name="sumOfContract" placeholder="sumOfContract"
                  value="${brokerPortfolioInstance?.sumOfContract}"/>
     </div>
 </div>
@@ -24,7 +24,7 @@
         <g:message code="brokerPortfolio.countOfConsultantContract.label" default="countOfConsultantContract" />
     </label>
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="countOfConsultantContract" placeholder="countOfConsultantContract"
+        <g:textField  class="form-control" name="countOfConsultantContract" placeholder="countOfConsultantContract"
                  value="${brokerPortfolioInstance?.countOfConsultantContract}"/>
     </div>
 </div>

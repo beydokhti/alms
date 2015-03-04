@@ -30,7 +30,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="ownershipPercent" placeholder="ownershipPercent"
+        <g:textField class="form-control" name="ownershipPercent" placeholder="ownershipPercent"
                  value="${brokerShareholderInstance?.ownershipPercent}"/>
     </div>
 </div>
@@ -41,7 +41,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="sharesCount" placeholder="sharesCount"
+        <g:textField class="form-control" name="sharesCount" placeholder="sharesCount"
                  value="${brokerShareholderInstance?.sharesCount}"/>
     </div>
 </div>

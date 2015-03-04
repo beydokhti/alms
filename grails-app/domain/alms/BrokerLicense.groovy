@@ -8,6 +8,7 @@ class BrokerLicense implements Comparable {
     String  licenseNumber
     Date    licenseDate
     Date    licenseExpiry
+    Broker  broker
 
     static belongsTo = [broker:Broker]
 

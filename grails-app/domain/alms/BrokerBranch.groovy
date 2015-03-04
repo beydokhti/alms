@@ -1,7 +1,7 @@
 package alms
 
 class BrokerBranch {
-    City    City
+    City    city
     String  branchType
     String  representativePerson
     Short   personnelCount

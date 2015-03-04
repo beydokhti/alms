@@ -33,7 +33,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form method="post">
+    <g:form method="post"  name="mainForm">
         <g:hiddenField name="id" value="${certificateInstance?.id}"/>
         <g:hiddenField name="version" value="${certificateInstance?.version}"/>
         <fieldset class="form-horizontal">

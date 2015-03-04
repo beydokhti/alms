@@ -3,11 +3,11 @@
 
 <div class="form-group col-md-6">
     <label for="City" class="col-sm-4 control-label">
-        <g:message code="brokerBranch.City.label" default="City"/>
+        <g:message code="brokerBranch.city.label" default="City"/>
     </label>
 
     <div class="col-sm-8">
-        <g:select class="form-control" name="City.id" placeholder="City" from="${alms.City?.list()}" optionKey="id"
+        <g:select class="form-control" name="city.id" placeholder="city" from="${alms.City?.list()}" optionKey="id"
                   value="${brokerBranchInstance?.city?.id}"/>
     </div>
 </div>
@@ -41,7 +41,7 @@
     </label>
 
     <div class="col-sm-8">
-        <g:field type="number" class="form-control" name="personnelCount" placeholder="personnelCount"
+        <g:textField class="form-control" name="personnelCount" placeholder="personnelCount"
                  value="${brokerShareholderInstance?.personnelCount}"/>
     </div>
 </div>

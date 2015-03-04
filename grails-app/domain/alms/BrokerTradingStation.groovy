@@ -6,7 +6,10 @@ class BrokerTradingStation {
     String	activities
     String	trader
     String	phone
+    //todo mtb change to Class Address
     String	address
+
+    Broker  broker
 
     static belongsTo = [broker:Broker]
 
@@ -21,8 +24,8 @@ class BrokerTradingStation {
         ])
         activities(nullable: false)
         trader(nullable: false)
-        phone(nullable: false)
-        address(nullable: false)
+        phone(nullable: true)
+        address(nullable: true)
 
     }
 }
