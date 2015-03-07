@@ -79,8 +79,7 @@ class BrokerMemberController {
             def brokerMemberInstance = new BrokerMember(params)
             brokerMemberInstance.isActive = true
 
-            def person = Person.get(brokerMemberInstance.person.id)
-            def brokerMemberList = BrokerMember.findByPerson(person)
+            def brokerMemberList = BrokerMember.findAllByPerson(brokerMemberInstance.person)
             brokerMemberList.each { member ->
                 if (!member.endDate) {
                     member.endDate = brokerMemberInstance.startDate
@@ -90,11 +89,10 @@ class BrokerMemberController {
             }
 
             brokerInstance.addToBrokerMembers(brokerMemberInstance)
-            brokerInstance.save(flush:true)
-            if (!brokerInstance.save(flush: true)) {
-                render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
-                return
-            }
+//            if (!brokerInstance.save(flush: true)) {
+//                render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
+//                return
+//            }
 
             flash.message = message(code: 'default.created.message', args: [message(code: 'brokerMember.label', default: 'brokerMember'), brokerMemberInstance.id])
             redirect(action: "list", id: brokerInstance.id)
