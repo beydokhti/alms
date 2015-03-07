@@ -15,14 +15,14 @@ class BrokerMemberController {
 
     def list(Integer max) {
         println(params)
-        def brokerIns=Broker.get(params.id)
+        def brokerIns = Broker.get(params.id)
         if (brokerIns) {
             [brokerId: brokerIns.id]
         }
     }
 
     def jsonList() {
-        def columns = ['action','name','lastName','sex','position','startDate','degree','field','dateOfBirth','nationalCode','mobile','email']
+        def columns = ['action', 'name', 'lastName', 'sex', 'position', 'startDate', 'degree', 'field', 'dateOfBirth', 'nationalCode', 'mobile', 'email']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = BrokerMember.count()
@@ -53,9 +53,12 @@ class BrokerMemberController {
         }
 
         def array = list.collect { BrokerMember it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.name,it.lastName,it.sex,message(code:"brokerMember.position."+it.position,default: it.position),it.startDate,message(code:"person.degree."+it.degree,default: it.degree),message(code:"person.field."+it.field,it.field),it.dateOfBirth,it.nationalCode,it.mobile,it.email]
+            [action, it.person.name, it.person.lastName, message(code: "person.sex." + it.person.sex, default: it.person.sex), message(code: "brokerMember.position." + it.position, default: it.position),
+             it.startDate, message(code: "person.degree." + it.person.degree, default: it.person.degree),
+             message(code: "person.field." + it.person.field, it.person.field), it.person.dateOfBirth, it.person.nationalCode,
+             it.person.mobile, it.person.email]
         }
 
         dataTableResponse.aaData = array
@@ -64,16 +67,51 @@ class BrokerMemberController {
 
 
     def create() {
-        [brokerMemberInstance: new BrokerMember(params),brokerId:params.id]
+        [brokerMemberInstance: new BrokerMember(params), brokerId: params.id]
     }
 
     def save() {
         println(params)
-        def brokerInstance=Broker.get(params.brokerId)
+        def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
 
             def brokerMemberInstance = new BrokerMember(params)
+            brokerMemberInstance.isActive = true
+
+            def person = Person.get(brokerMemberInstance.person.id)
+            def brokerMemberList = BrokerMember.findByPerson(person)
+            brokerMemberList.each { member ->
+                if (!member.endDate) {
+                    member.endDate = brokerMemberInstance.startDate
+                }
+                member.isActive = false
+                member.save()
+            }
+
+            brokerInstance.addToBrokerMembers(brokerMemberInstance)
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerMember.label', default: 'brokerMember'), brokerMemberInstance.id])
+            redirect(action: "list", id: brokerInstance.id)
+        }
+
+    }
+
+    def saveAll() {
+        println(params)
+        def brokerInstance = Broker.get(params.brokerId)
+        //todo handle if brokerInstance is null
+        if (brokerInstance) {
+
+            def brokerMemberInstance = new BrokerMember(params)
+            def person = new Person(params)
+            person.save()
+            brokerMemberInstance.person = person
+            brokerMemberInstance.isActive = true
             brokerInstance.addToBrokerMembers(brokerMemberInstance)
             if (!brokerInstance.save(flush: true)) {
                 render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
@@ -119,8 +157,8 @@ class BrokerMemberController {
         if (version != null) {
             if (brokerMemberInstance.version > version) {
                 brokerMemberInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'brokerMember.label', default: 'BrokerMember')] as Object[],
-                          "Another user has updated this BrokerMember while you were editing")
+                        [message(code: 'brokerMember.label', default: 'BrokerMember')] as Object[],
+                        "Another user has updated this BrokerMember while you were editing")
                 render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
                 return
             }
@@ -136,6 +174,38 @@ class BrokerMemberController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), brokerMemberInstance.id])
         redirect(action: "list", id: brokerMemberInstance.broker.id)
     }
+
+    def updateAll(Long id, Long version) {
+        println(params)
+        def brokerMemberInstance = BrokerMember.get(id)
+        if (!brokerMemberInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
+            redirect(action: "list")
+            return
+        }
+
+        if (version != null) {
+            if (brokerMemberInstance.version > version) {
+                brokerMemberInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                        [message(code: 'brokerMember.label', default: 'BrokerMember')] as Object[],
+                        "Another user has updated this BrokerMember while you were editing")
+                render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
+                return
+            }
+        }
+
+        brokerMemberInstance.properties = params
+        brokerMemberInstance.person.properties = params
+
+        if (!brokerMemberInstance.save(flush: true)) {
+            render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
+            return
+        }
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), brokerMemberInstance.id])
+        redirect(action: "list", id: brokerMemberInstance.broker.id)
+    }
+
 
     def delete(Long id) {
         def brokerMemberInstance = BrokerMember.get(id)
@@ -154,5 +224,9 @@ class BrokerMemberController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def Assign() {
+        [brokerMemberInstance: new BrokerMember(params), brokerId: params.id]
     }
 }

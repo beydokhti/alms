@@ -44,7 +44,7 @@
 
                 <th><g:message code="person.field" default="field"/></th>
 
-                <th><g:message code="person.dataOfBirth" default="Data Of Birth"/></th>
+                <th><g:message code="person.dateOfBirth" default="Data Of Birth"/></th>
 
                 <th><g:message code="person.nationalCode" default="National Code"/></th>
 

@@ -252,38 +252,38 @@ class BootStrap {
         broker.save()
 
 //        Member
-        def brokerMember = new BrokerMember()
-        brokerMember.name = "اسمم"
-        brokerMember.lastName = "فامیلم"
-        brokerMember.sex = "female"
-        brokerMember.position = "DeputyCEO"
-        brokerMember.startDate = new Date()
-        brokerMember.degree = "PhD"
-        brokerMember.field = "EngAndTech"
-        brokerMember.dateOfBirth = new Date()
-        brokerMember.nationalCode = "123123123123"
-        brokerMember.mobile = "019238127381"
-        brokerMember.email = "m@m.com"
-
-        broker.addToBrokerMembers(brokerMember)
-        broker.save()
-
-        def brokerMember1= new BrokerMember()
-        brokerMember1.name = "اسمت"
-        brokerMember1.lastName = "فامیلت"
-        brokerMember1.sex = "female"
-        brokerMember1.position = "EnergyExTrader"
-        brokerMember1.startDate = new Date()
-        brokerMember1.degree = "Master"
-        brokerMember1.field = "Economy"
-        brokerMember1.dateOfBirth = new Date()
-        brokerMember1.nationalCode = "23424234"
-        brokerMember1.mobile = "093592374984"
-        brokerMember1.email = "msdlfkjsdf@sdflkj.com"
-
-        broker.addToBrokerMembers(brokerMember1)
-        broker.save()
-        brokerMember1.save()
+//        def brokerMember = new BrokerMember()
+//        brokerMember.name = "اسمم"
+//        brokerMember.lastName = "فامیلم"
+//        brokerMember.sex = "female"
+//        brokerMember.position = "DeputyCEO"
+//        brokerMember.startDate = new Date()
+//        brokerMember.degree = "PhD"
+//        brokerMember.field = "EngAndTech"
+//        brokerMember.dateOfBirth = new Date()
+//        brokerMember.nationalCode = "123123123123"
+//        brokerMember.mobile = "019238127381"
+//        brokerMember.email = "m@m.com"
+//
+//        broker.addToBrokerMembers(brokerMember)
+//        broker.save()
+//
+//        def brokerMember1= new BrokerMember()
+//        brokerMember1.name = "اسمت"
+//        brokerMember1.lastName = "فامیلت"
+//        brokerMember1.sex = "female"
+//        brokerMember1.position = "EnergyExTrader"
+//        brokerMember1.startDate = new Date()
+//        brokerMember1.degree = "Master"
+//        brokerMember1.field = "Economy"
+//        brokerMember1.dateOfBirth = new Date()
+//        brokerMember1.nationalCode = "23424234"
+//        brokerMember1.mobile = "093592374984"
+//        brokerMember1.email = "msdlfkjsdf@sdflkj.com"
+//
+//        broker.addToBrokerMembers(brokerMember1)
+//        broker.save()
+//        brokerMember1.save()
 
 //        portfolio
 
@@ -388,7 +388,7 @@ class BootStrap {
         person.sex = "female"
         person.degree = "Master"
         person.field = "EngAndTech"
-        person.dataOfBirth = new Date()
+        person.dateOfBirth = new Date()
         person.nationalCode = "00686140987"
         person.mobile = "09361782347"
         person.email = "reza.ali@gmail.com"

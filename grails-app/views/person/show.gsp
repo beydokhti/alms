@@ -81,13 +81,13 @@
             </li>
         </g:if>
 
-        <g:if test="${personInstance?.dataOfBirth}">
+        <g:if test="${personInstance?.dateOfBirth}">
             <li class="fieldcontain">
-                <span id="dataOfBirth-label" class="property-label"><g:message code="person.dataOfBirth.label"
+                <span id="dateOfBirth-label" class="property-label"><g:message code="person.dateOfBirth.label"
                                                                                default="Data Of Birth"/></span>
 
-                <span class="property-value" aria-labelledby="dataOfBirth-label"><g:formatDate
-                        date="${personInstance?.dataOfBirth}"/></span>
+                <span class="property-value" aria-labelledby="dateOfBirth-label"><g:formatDate
+                        date="${personInstance?.dateOfBirth}"/></span>
 
             </li>
         </g:if>

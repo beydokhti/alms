@@ -39,8 +39,8 @@ class CourseController {
 
         println(courseList as JSON)
         //todo mtb change return value
-        render(courseList as JSON)
-//        render("[{\"TaskID\":4,\"OwnerID\":2,\"Title\":\"Bowling tournament\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370811600000)\\/\",\"End\":\"\\/Date(1370822400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":5,\"OwnerID\":2,\"Title\":\"Take the dog to the vet\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370847600000)\\/\",\"End\":\"\\/Date(1370851200000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":6,\"OwnerID\":2,\"Title\":\"Call Charlie about the project\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370950200000)\\/\",\"End\":\"\\/Date(1370955600000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":7,\"OwnerID\":3,\"Title\":\"Meeting with Alex\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1371034800000)\\/\",\"End\":\"\\/Date(1371038400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false}]")
+//        render(courseList as JSON)
+        render("[{\"TaskID\":4,\"OwnerID\":2,\"Title\":\"Bowling tournament\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370811600000)\\/\",\"End\":\"\\/Date(1370822400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":5,\"OwnerID\":2,\"Title\":\"Take the dog to the vet\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370847600000)\\/\",\"End\":\"\\/Date(1370851200000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":6,\"OwnerID\":2,\"Title\":\"Call Charlie about the project\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370950200000)\\/\",\"End\":\"\\/Date(1370955600000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":7,\"OwnerID\":3,\"Title\":\"Meeting with Alex\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1371034800000)\\/\",\"End\":\"\\/Date(1371038400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false}]")
     }
 
     def create() {
@@ -89,8 +89,8 @@ class CourseController {
         courseData.TaskID = courseInstance.id
         courseData.Title = courseInstance.title
         courseData.Start = courseInstance.start
-        courseData.Start = "/Date($courseInstance.end.time)/"
-        courseData.End = "/Date($courseInstance.end.time)/"
+        courseData.Start = '\\/Date(${courseInstance.end.time})\\/'
+        courseData.End = "\\" + """/Date(${courseInstance.end.time})/"""
         courseData.StartTimezone = courseInstance.startTimezone
         courseData.EndTimezone = courseInstance.endTimezone
         courseData.Description = courseInstance.description
@@ -100,8 +100,8 @@ class CourseController {
         courseData.OwnerID = courseInstance.ownerID
         courseData.IsAllDay = courseInstance.isAllDay
 //todo mtb change return value
-//        render(courseData as JSON)
-        render("[{\"TaskID\":122,\"OwnerID\":1,\"Title\":\"No title\",\"Description\":\"\",\"StartTimezone\":\"\",\"Start\":\"\\/Date(1370937600000)\\/\",\"End\":\"\\/Date(1370937600000)\\/\",\"EndTimezone\":\"\",\"RecurrenceRule\":\"\",\"RecurrenceID\":null,\"RecurrenceException\":\"\",\"IsAllDay\":false}]")
+        render([courseData] as JSON)
+//        render("[{\"TaskID\":122,\"OwnerID\":1,\"Title\":\"No title\",\"Description\":\"\",\"StartTimezone\":\"\",\"Start\":\"\\/Date(1370937600000)\\/\",\"End\":\"\\/Date(1370937600000)\\/\",\"EndTimezone\":\"\",\"RecurrenceRule\":\"\",\"RecurrenceID\":null,\"RecurrenceException\":\"\",\"IsAllDay\":false}]")
     }
 
     def show(Long id) {

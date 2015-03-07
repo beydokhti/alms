@@ -7,7 +7,7 @@
     </label>
     <div class="col-sm-8">
         <g:textField class="form-control"   name="name" placeholder="name"
-                     value="${brokerMemberInstance?.name}"/>
+                     value="${brokerMemberInstance?.person?.name}"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -16,7 +16,7 @@
     </label>
     <div class="col-sm-8">
         <g:textField class="form-control"   name="lastName" placeholder="lastName"
-                     value="${brokerMemberInstance?.lastName}"/>
+                     value="${brokerMemberInstance?.person?.lastName}"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -24,8 +24,8 @@
         <g:message code="brokerMember.sex.label" default="sex" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="sex" placeholder="sex" from="${brokerMemberInstance.constraints.sex.inList}"
-                  value="${brokerMemberInstance?.sex}"
+        <g:select class="form-control"   name="sex" placeholder="sex" from="${new alms.Person().constraints?.sex.inList}"
+                  value="${brokerMemberInstance?.person?.sex}"
                   valueMessagePrefix="person.sex"/>
     </div>
 </div>
@@ -53,8 +53,8 @@
         <g:message code="brokerMember.degree.label" default="degree" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="degree" placeholder="degree" from="${brokerMemberInstance.constraints.degree.inList}"
-                  value="${brokerMemberInstance?.degree}"
+        <g:select class="form-control"   name="degree" placeholder="degree" from="${new alms.Person().constraints.degree.inList}"
+                  value="${brokerMemberInstance?.person?.degree}"
                   valueMessagePrefix="person.degree"/>
     </div>
 </div>
@@ -63,8 +63,8 @@
         <g:message code="brokerMember.field.label" default="field" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="field" placeholder="field" from="${brokerMemberInstance.constraints.field.inList}"
-                  value="${brokerMemberInstance?.field}"
+        <g:select class="form-control"   name="field" placeholder="field" from="${new alms.Person().constraints?.field.inList}"
+                  value="${brokerMemberInstance?.person?.field}"
                   valueMessagePrefix="person.field"/>
     </div>
 </div>
@@ -73,7 +73,7 @@
         <g:message code="broker.dateOfBirth.label" default="dateOfBirth" />
     </label>
     <div class="col-sm-8">
-        <g:datePicker class="form-control" name="dateOfBirth" precision="day" value="${brokerMemberInstance?.dateOfBirth}"
+        <g:datePicker class="form-control" name="dateOfBirth" precision="day" value="${brokerMemberInstance?.person?.dateOfBirth}"
                       default="none" noSelection="['': '']"/>
     </div>
 </div>
@@ -83,7 +83,7 @@
     </label>
     <div class="col-sm-8">
         <g:textField class="form-control"   name="nationalCode" placeholder="nationalCode"
-                     value="${brokerMemberInstance?.nationalCode}"/>
+                     value="${brokerMemberInstance?.person?.nationalCode}"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -92,7 +92,7 @@
     </label>
     <div class="col-sm-8">
         <g:textField class="form-control"   name="mobile" placeholder="mobile"
-                     value="${brokerMemberInstance?.mobile}"/>
+                     value="${brokerMemberInstance?.person?.mobile}"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -101,6 +101,6 @@
     </label>
     <div class="col-sm-8">
         <g:textField class="form-control"   name="email" placeholder="email"
-                     value="${brokerMemberInstance?.email}"/>
+                     value="${brokerMemberInstance?.person?.email}"/>
     </div>
 </div>

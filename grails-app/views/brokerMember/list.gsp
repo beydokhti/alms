@@ -63,6 +63,8 @@
     </table>
     <g:link class="btn" action="create" id="${brokerId}"><g:message code="default.new.label"
                                                                     args="[entityName]"/></g:link>
+   <g:link class="btn" action="assign" id="${brokerId}"><g:message code="default.assign.label"
+                                                                    args="[entityName]"/></g:link>
 </div>
 </body>
 </html>

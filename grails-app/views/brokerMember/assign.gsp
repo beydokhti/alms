@@ -29,35 +29,9 @@
                     },
                     locale: 'fa_IR',
                     fields: {
-                        name: {
-                            validators: {
-                                notEmpty: {}
-                            }
-                        },
-                        lastName: {
-                            validators: {
-                                notEmpty: {}
-                            }
-                        },
                         startDate: {
                             validators: {
                                 notEmpty: {}
-                            }
-                        },
-                        dateOfBirth: {
-                            validators: {
-                                notEmpty: {}
-                            }
-                        },
-                        nationalCode: {
-                            validators: {
-                                notEmpty: {},
-                                digits: {}
-                            }
-                        },
-                        mobile: {
-                            validators: {
-                                digits: {}
                             }
                         }
                     }
@@ -66,8 +40,8 @@
 
 </script>
 
-<div id="edit-brokerMember" class="content scaffold-edit" role="main">
-    <legend><g:message code="default.edit.label" args="[entityName]"/></legend>
+<div id="create-brokerMember" class="content scaffold-create" role="main">
+    <legend><g:message code="default.create.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
@@ -79,18 +53,13 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form method="post"  name="mainForm">
-        <g:hiddenField name="id" value="${brokerMemberInstance?.id}"/>
-        <g:hiddenField name="version" value="${brokerMemberInstance?.version}"/>
+    <g:form action="save"  name="mainForm">
         <fieldset class="form-horizontal">
-            <g:render template="form"/>
+            <g:render template="formAssign"/>
         </fieldset>
         <fieldset class="buttons">
-            <g:actionSubmit class="btn btn-default" action="updateAll"
-                            value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-            <g:actionSubmit class="btn btn-default" action="delete"
-                            value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate=""
-                            onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+            <g:submitButton name="create" class="btn btn-default"
+                            value="${message(code: 'default.button.create.label', default: 'Create')}"/>
         </fieldset>
     </g:form>
 </div>

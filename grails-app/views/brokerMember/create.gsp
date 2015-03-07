@@ -6,6 +6,8 @@
     <g:set var="entityName" value="${message(code: 'brokerMember.label', default: 'BrokerMember')}"/>
 </head>
 
+<body>
+
 <script>
     $(document).ready(function () {
         $('#mainForm')
@@ -64,7 +66,6 @@
 
 </script>
 
-<body>
 <div id="create-brokerMember" class="content scaffold-create" role="main">
     <legend><g:message code="default.create.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
@@ -78,7 +79,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form action="save"  name="mainForm">
+    <g:form action="saveAll"  name="mainForm">
         <fieldset class="form-horizontal">
             <g:render template="form"/>
         </fieldset>

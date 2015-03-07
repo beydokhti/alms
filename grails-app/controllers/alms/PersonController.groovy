@@ -23,7 +23,7 @@ class PersonController {
 
     def jsonList() {
         println(params.toString())
-        def columns = ['action', 'name', 'lastName', 'sex', 'degree', 'field', 'dataOfBirth', 'nationalCode', 'mobile', 'email']
+        def columns = ['action', 'name', 'lastName', 'sex', 'degree', 'field', 'dateOfBirth', 'nationalCode', 'mobile', 'email']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = Person.count()
@@ -58,7 +58,7 @@ class PersonController {
                     "<a href='${g.createLink(controller: "obtainedCertificate",action: "list", params: [id: it.id])}'>${message(code: "certificate", default: "Cer")}</a>"
             println(action)
             [action, it.name, it.lastName, message(code: "person.sex." + it.sex, default: ""), message(code: "person.degree." + it.degree, default: ""),
-             message(code: "person.field." + it.field, default: ""), it.dataOfBirth.toString(), it.nationalCode, it.mobile, it.email]
+             message(code: "person.field." + it.field, default: ""), it.dateOfBirth.toString(), it.nationalCode, it.mobile, it.email]
         }
 
         dataTableResponse.aaData = array

@@ -6,14 +6,14 @@ class Person {
     String	sex
     String	degree
     String	field
-    Date	dataOfBirth
+    Date	dateOfBirth
     String	nationalCode
     String	mobile
     String	email
 
-    Institution institution
+//    Institution institution
 
-    static belongsTo = [institution:Institution]
+//    static belongsTo = [institution:Institution]
 
     static hasMany = [certificates:ObtainedCertificate]
 
@@ -36,7 +36,7 @@ class Person {
                                        'EngAndTech',
                                        'Law',
                                        'Other'])
-        dataOfBirth(nullable: false)
+        dateOfBirth(nullable: false)
         nationalCode(nullable: false,blank: false)
         mobile(nullable:true)
         email(nullable: true)

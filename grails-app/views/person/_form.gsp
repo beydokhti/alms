@@ -63,12 +63,12 @@
 </div>
 
 <div class="form-group col-md-6">
-    <label for="dataOfBirth" class="col-sm-4 control-label">
-        <g:message code="person.dataOfBirth.label" default="dataOfBirth"/>
+    <label for="dateOfBirth" class="col-sm-4 control-label">
+        <g:message code="person.dateOfBirth.label" default="dateOfBirth"/>
     </label>
 
     <div class="col-sm-8">
-        <g:datePicker class="form-control" name="dataOfBirth" precision="day" value="${personInstance?.dataOfBirth}"
+        <g:datePicker class="form-control" name="dateOfBirth" precision="day" value="${personInstance?.dateOfBirth}"
                       default="none" noSelection="['': '']"/>
     </div>
 </div>
