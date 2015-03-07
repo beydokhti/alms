@@ -90,6 +90,7 @@ class BrokerMemberController {
             }
 
             brokerInstance.addToBrokerMembers(brokerMemberInstance)
+            brokerInstance.save(flush:true)
             if (!brokerInstance.save(flush: true)) {
                 render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
                 return
