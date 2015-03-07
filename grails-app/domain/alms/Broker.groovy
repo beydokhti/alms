@@ -47,7 +47,8 @@ class Broker {
     static hasMany = [centralOfficePhones   : String, centralOfficeFaxes: String, brokerLicenses: BrokerLicense,
                       brokerShareholders    : BrokerShareholder, brokerBranches: BrokerBranch,
                       brokerInvestmentFounds: BrokerInvestmentFund, brokerPortfolios: BrokerPortfolio,
-                      brokerMembers         : BrokerMember, institutions: Institution, brokerTradingStations: BrokerTradingStation,
+                      brokerMembers         : BrokerMember,//todo mtb institution related to broker or not? institutions: Institution,
+                      brokerTradingStations: BrokerTradingStation,
                       brokerSoftware        : BrokerSoftware]
 
     static searchable = true

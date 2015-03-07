@@ -1,69 +1,57 @@
 <%@ page import="alms.Institution" %>
 
 
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'name', 'error')} ">
-    <label for="name">
-        <g:message code="institution.name.label" default="Name"/>
-
+<div class="form-group col-md-6">
+    <label for="name" class="col-sm-4 control-label">
+        <g:message code="institution.name.label" default="name" />
     </label>
-    <g:textField name="name" value="${institutionInstance?.name}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="name" placeholder="name"
+                     value="${institutionInstance?.name}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'nationalCode', 'error')} ">
-    <label for="nationalCode">
-        <g:message code="institution.nationalCode.label" default="National Code"/>
-
+<div class="form-group col-md-6">
+    <label for="nationalCode" class="col-sm-4 control-label">
+        <g:message code="institution.nationalCode.label" default="nationalCode" />
     </label>
-    <g:textField name="nationalCode" value="${institutionInstance?.nationalCode}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="nationalCode" placeholder="nationalCode"
+                     value="${institutionInstance?.nationalCode}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'registerNumber', 'error')} ">
-    <label for="registerNumber">
-        <g:message code="institution.registerNumber.label" default="Register Number"/>
-
+<div class="form-group col-md-6">
+    <label for="registerNumber" class="col-sm-4 control-label">
+        <g:message code="institution.registerNumber.label" default="registerNumber" />
     </label>
-    <g:textField name="registerNumber" value="${institutionInstance?.registerNumber}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="registerNumber" placeholder="registerNumber"
+                     value="${institutionInstance?.registerNumber}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'address', 'error')} ">
-    <label for="address">
-        <g:message code="institution.address.label" default="Address"/>
-
+<div class="form-group col-md-6">
+    <label for="address" class="col-sm-4 control-label">
+        <g:message code="institution.address.label" default="address" />
     </label>
-    <g:textField name="address" value="${institutionInstance?.address}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="address" placeholder="address"
+                     value="${institutionInstance?.address}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'phone', 'error')} ">
-    <label for="phone">
-        <g:message code="institution.phone.label" default="Phone"/>
-
+<div class="form-group col-md-6">
+    <label for="fax" class="col-sm-4 control-label">
+        <g:message code="institution.fax.label" default="fax" />
     </label>
-    <g:textField name="phone" value="${institutionInstance?.phone}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="fax" placeholder="fax"
+                     value="${institutionInstance?.fax}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'fax', 'error')} ">
-    <label for="fax">
-        <g:message code="institution.fax.label" default="Fax"/>
-
+<div class="form-group col-md-6">
+    <label for="email" class="col-sm-4 control-label">
+        <g:message code="institution.email.label" default="email" />
     </label>
-    <g:textField name="fax" value="${institutionInstance?.fax}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="email" placeholder="email"
+                     value="${institutionInstance?.email}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'email', 'error')} ">
-    <label for="email">
-        <g:message code="institution.email.label" default="Email"/>
-
-    </label>
-    <g:textField name="email" value="${institutionInstance?.email}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: institutionInstance, field: 'person', 'error')} ">
-    <label for="person">
-        <g:message code="institution.person.label" default="Person"/>
-
-    </label>
-    <g:select name="person" from="${alms.Person.list()}" multiple="multiple" optionKey="id" size="5"
-              value="${institutionInstance?.person*.id}" class="many-to-many"/>
-</div>
-

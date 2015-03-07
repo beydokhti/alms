@@ -55,7 +55,7 @@ class BrokerSoftwareController {
         def array = list.collect { BrokerSoftware it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.title1,it.title2,it.companyName,it.contractType]
+            [action,it.title1,it.title2,it.companyName,message(code:"brokerSoftwareController.contractType."+it.contractType,default: it.contractType)]
         }
 
         dataTableResponse.aaData = array

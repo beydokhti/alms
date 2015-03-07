@@ -21,7 +21,7 @@
     });
 </script>
 %{--todo mtb present checkbox--}%
-<legend><g:message code="brokerTradingStation.list" default="Branches List"></g:message></legend>
+<legend><g:message code="brokerTradingStation.list" default="Trading Station List"></g:message></legend>
 
 <div class="well">
     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"

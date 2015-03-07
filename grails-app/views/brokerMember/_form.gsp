@@ -25,7 +25,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="sex" placeholder="sex" from="${brokerMemberInstance.constraints.sex.inList}"
-                  value="${brokerMemberInstance?.sex}"/>
+                  value="${brokerMemberInstance?.sex}"
+                  valueMessagePrefix="person.sex"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -34,7 +35,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="position" placeholder="position" from="${brokerMemberInstance.constraints.position.inList}"
-                  value="${brokerMemberInstance?.position}"/>
+                  value="${brokerMemberInstance?.position}"
+                  valueMessagePrefix="brokerMember.position"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -52,7 +54,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="degree" placeholder="degree" from="${brokerMemberInstance.constraints.degree.inList}"
-                  value="${brokerMemberInstance?.degree}"/>
+                  value="${brokerMemberInstance?.degree}"
+                  valueMessagePrefix="person.degree"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -61,7 +64,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="field" placeholder="field" from="${brokerMemberInstance.constraints.field.inList}"
-                  value="${brokerMemberInstance?.field}"/>
+                  value="${brokerMemberInstance?.field}"
+                  valueMessagePrefix="person.field"/>
     </div>
 </div>
 <div class="form-group col-md-6">

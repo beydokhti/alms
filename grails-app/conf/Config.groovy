@@ -62,6 +62,9 @@ grails.exceptionresolver.params.exclude = ['password']
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
+//Kendo UI Scheduler use JSON Javascript timestamp
+//grails.converters.json.date = 'javascript'
+
 environments {
     development {
         grails.logging.jul.usebridge = true

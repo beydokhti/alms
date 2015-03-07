@@ -1,91 +1,107 @@
 <%@ page import="alms.Person" %>
+<g:hiddenField name="institutionId" value="${institutionId}"></g:hiddenField>
 
-<div class="row">
-    <div class="fieldcontain  col-md-6 ${hasErrors(bean: personInstance, field: 'name', 'error')} ">
-        <label for="name">
-            <g:message code="person.name.label" default="Name"/>
 
-        </label>
-        <g:textField name="name" value="${personInstance?.name}"/>
+<div class="form-group col-md-6">
+    <label for="name" class="col-sm-4 control-label">
+        <g:message code="person.name.label" default="name"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="name" placeholder="name"
+                     value="${personInstance?.name}"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'lastName', 'error')} ">
-        <label for="lastName">
-            <g:message code="person.lastName.label" default="Last Name"/>
+<div class="form-group col-md-6">
+    <label for="lastName" class="col-sm-4 control-label">
+        <g:message code="person.lastName.label" default="lastName"/>
+    </label>
 
-        </label>
-        <g:textField name="lastName" value="${personInstance?.lastName}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="lastName" placeholder="lastName"
+                     value="${personInstance?.lastName}"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'sex', 'error')} ">
-        <label for="sex">
-            <g:message code="person.sex.label" default="Sex"/>
+<div class="form-group col-md-6">
+    <label for="sex" class="col-sm-4 control-label">
+        <g:message code="person.sex.label" default="sex"/>
+    </label>
 
-        </label>
-        <g:select name="sex" from="${personInstance.constraints.sex.inList}" value="${personInstance?.sex}"
-                  valueMessagePrefix="person.sex" noSelection="['': '']"/>
-
+    <div class="col-sm-8">
+        <g:select class="form-control" name="sex" placeholder="sex" from="${personInstance.constraints.sex.inList}"
+                  value="${personInstance?.sex}"
+                  valueMessagePrefix="person.sex"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'degree', 'error')} ">
-        <label for="degree">
-            <g:message code="person.degree.label" default="Degree"/>
+<div class="form-group col-md-6">
+    <label for="degree" class="col-sm-4 control-label">
+        <g:message code="person.degree.label" default="degree"/>
+    </label>
 
-        </label>
-        <g:select name="degree" from="${personInstance.constraints.degree.inList}" value="${personInstance?.degree}"
-                  valueMessagePrefix="person.degree" noSelection="['': '']"/>
+    <div class="col-sm-8">
+        <g:select class="form-control" name="degree" placeholder="degree"
+                  from="${personInstance.constraints.degree.inList}"
+                  value="${personInstance?.degree}"
+                  valueMessagePrefix="person.degree"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'field', 'error')} ">
-        <label for="field">
-            <g:message code="person.field.label" default="Field"/>
+<div class="form-group col-md-6">
+    <label for="field" class="col-sm-4 control-label">
+        <g:message code="person.field.label" default="field"/>
+    </label>
 
-        </label>
-        <g:select name="field" from="${personInstance.constraints.field.inList}" value="${personInstance?.field}"
-                  valueMessagePrefix="person.field" noSelection="['': '']"/>
+    <div class="col-sm-8">
+        <g:select class="form-control" name="field" placeholder="field"
+                  from="${personInstance.constraints.field.inList}"
+                  value="${personInstance?.field}"
+                  valueMessagePrefix="person.field"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'dataOfBirth', 'error')} required">
-        <label for="dataOfBirth">
-            <g:message code="person.dataOfBirth.label" default="Data Of Birth"/>
-            <span class="required-indicator">*</span>
-        </label>
-        <g:datePicker name="dataOfBirth" precision="day" value="${personInstance?.dataOfBirth}"/>
+<div class="form-group col-md-6">
+    <label for="dataOfBirth" class="col-sm-4 control-label">
+        <g:message code="person.dataOfBirth.label" default="dataOfBirth"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:datePicker class="form-control" name="dataOfBirth" precision="day" value="${personInstance?.dataOfBirth}"
+                      default="none" noSelection="['': '']"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'nationalCode', 'error')} ">
-        <label for="nationalCode">
-            <g:message code="person.nationalCode.label" default="National Code"/>
+<div class="form-group col-md-6">
+    <label for="nationalCode" class="col-sm-4 control-label">
+        <g:message code="person.nationalCode.label" default="nationalCode"/>
+    </label>
 
-        </label>
-        <g:textField name="nationalCode" value="${personInstance?.nationalCode}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="nationalCode" placeholder="nationalCode"
+                     value="${personInstance?.nationalCode}"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'mobile', 'error')} ">
-        <label for="mobile">
-            <g:message code="person.mobile.label" default="Mobile"/>
+<div class="form-group col-md-6">
+    <label for="mobile" class="col-sm-4 control-label">
+        <g:message code="person.mobile.label" default="mobile"/>
+    </label>
 
-        </label>
-        <g:textField name="mobile" value="${personInstance?.mobile}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="mobile" placeholder="mobile"
+                     value="${personInstance?.mobile}"/>
     </div>
+</div>
 
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'email', 'error')} ">
-        <label for="email">
-            <g:message code="person.email.label" default="Email"/>
+<div class="form-group col-md-6">
+    <label for="email" class="col-sm-4 control-label">
+        <g:message code="person.email.label" default="email"/>
+    </label>
 
-        </label>
-        <g:textField name="email" value="${personInstance?.email}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="email" placeholder="email"
+                     value="${personInstance?.email}"/>
     </div>
-
-    <div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'certificates', 'error')} ">
-        <label for="certificates">
-            <g:message code="person.certificates.label" default="Certificates"/>
-
-        </label>
-        <g:select name="certificates" from="${alms.ObtainedCertificate.list()}" multiple="multiple" optionKey="id"
-                  size="5" value="${personInstance?.certificates*.id}" class="many-to-many"/>
-    </div>
-    %{--<div class="fieldcontain col-md-6  ${hasErrors(bean: personInstance, field: 'certificates', 'error')} ">--}%
-    %{--<input class="btn btn-default" type="button" onclick="doAddCertificate()" value="${message(code:'person.add.certificates',default: 'Add Certificates')}">--}%
-    %{--</div>--}%
 </div>

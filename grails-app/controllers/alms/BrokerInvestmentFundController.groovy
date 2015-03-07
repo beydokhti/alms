@@ -56,7 +56,7 @@ class BrokerInvestmentFundController {
         def array = list.collect { BrokerInvestmentFund it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action, it.fundName,it.startingDate.toString(),message(code:"BrokerInvestmentFund."+it.typeAndScale,it.typeAndScale),it.fundManager,it.fundCustodian,it.agencyFund,it.fundRegisterManager,it.liquidityGuaranteeFund,it.investmentManager]
+            [action, it.fundName,it.startingDate.toString(),message(code:"BrokerInvestmentFund.typeAndScale."+it.typeAndScale,it.typeAndScale),it.fundManager,it.fundCustodian,it.agencyFund,it.fundRegisterManager,it.liquidityGuaranteeFund,it.investmentManager]
         }
 
         dataTableResponse.aaData = array

@@ -4,19 +4,20 @@ class Institution {
     String	name
     String	nationalCode
     String	registerNumber
+    //todo mtb add address
     String	address
-    String	phone
     String	fax
     String	email
-    static hasMany = [person:Person]
+    static hasMany = [person:Person,phone:String]
+
+    static searchable = true
 
     static constraints = {
-        name(nullable: false)
-        nationalCode(nullable: false)
-        registerNumber(nullable: false)
-        address(nullable: false)
-        phone(nullable: false)
-        fax(nullable: false)
-        email(nullable: false)
+        name(nullable: false,blank:false)
+        nationalCode(nullable: false,blank:false)
+        registerNumber(nullable: false,blank:false)
+        address(nullable: true)
+        fax(nullable: true)
+        email(nullable: true)
     }
 }

@@ -7,65 +7,59 @@
 </head>
 
 <body>
-%{--<a href="#list-person" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
-%{--<div class="nav" role="navigation">--}%
-%{--<ul>--}%
-%{--<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>--}%
-%{--<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>--}%
-%{--</ul>--}%
-%{--</div>--}%
+
 <div id="list-person" class="content scaffold-list" role="main">
-    <legend><g:message code="person.list.label" args="[entityName]"/></legend>
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <table>
-        <thead>
-        <tr>
+    <script type="text/javascript" charset="utf-8">
+        var personTable;
 
-            <g:sortableColumn property="name" title="${message(code: 'person.name.label', default: 'Name')}"/>
+        $(document).ready(function () {
+            personTable = $('#person').dataTable({
+                "bServerSide": true,
+                "bFilter": true,
+                "sAjaxSource": "<g:createLink action="jsonList" params="${[institutionId:institutionId]}"/>",
+                "aoColumns": [
+                    {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null, null,null, null, null, null,null]
+            });
+        });
+    </script>
 
-            <g:sortableColumn property="lastName"
-                              title="${message(code: 'person.lastName.label', default: 'Last Name')}"/>
+    <legend><g:message code="person.list" default="person List"></g:message></legend>
 
-            <g:sortableColumn property="sex" title="${message(code: 'person.sex.label', default: 'Sex')}"/>
+    <div class="well">
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
+               id="person">
+            <thead>
+            <tr>
 
-            <g:sortableColumn property="degree" title="${message(code: 'person.degree.label', default: 'Degree')}"/>
+                <th></th>
 
-            <g:sortableColumn property="field" title="${message(code: 'person.field.label', default: 'Field')}"/>
 
-            <g:sortableColumn property="dataOfBirth"
-                              title="${message(code: 'person.dataOfBirth.label', default: 'Data Of Birth')}"/>
+                <th><g:message code="person.name" default="Name"/></th>
 
-        </tr>
-        </thead>
-        <tbody>
-        <g:each in="${personInstanceList}" status="i" var="personInstance">
-            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                <th><g:message code="person.lastName" default="Last Name"/></th>
 
-                <td><g:link action="show"
-                            id="${personInstance.id}">${fieldValue(bean: personInstance, field: "name")}</g:link></td>
+                <th><g:message code="person.sex" default="sex"/></th>
 
-                <td>${fieldValue(bean: personInstance, field: "lastName")}</td>
+                <th><g:message code="person.degree" default="degree"/></th>
 
-                <td>${fieldValue(bean: personInstance, field: "sex")}</td>
+                <th><g:message code="person.field" default="field"/></th>
 
-                <td>${fieldValue(bean: personInstance, field: "degree")}</td>
+                <th><g:message code="person.dataOfBirth" default="Data Of Birth"/></th>
 
-                <td>${fieldValue(bean: personInstance, field: "field")}</td>
+                <th><g:message code="person.nationalCode" default="National Code"/></th>
 
-                <td><g:formatDate date="${personInstance.dataOfBirth}"/></td>
+                <th><g:message code="person.mobile" default="email"/></th>
 
+                <th><g:message code="person.email" default="email"/></th>
             </tr>
-        </g:each>
-        </tbody>
-    </table>
-
-    <div class="pagination">
-        <g:paginate total="${personInstanceTotal}"/>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <g:link class="btn" action="create" id="${institutionId}"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
-    <g:link class="btn btn-primary active" action="create"><g:message code="person.create.label"
-                                                                      args="[entityName]"/></g:link>
+
 </div>
+
 </body>
 </html>

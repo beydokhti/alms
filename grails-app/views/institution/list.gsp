@@ -8,68 +8,53 @@
 </head>
 
 <body>
-<a href="#list-institution" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                                  default="Skip to content&hellip;"/></a>
-
-<div class="nav" role="navigation">
-    <ul>
-        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="create" action="create"><g:message code="default.new.label"
-                                                              args="[entityName]"/></g:link></li>
-    </ul>
-</div>
 
 <div id="list-institution" class="content scaffold-list" role="main">
-    <legend><g:message code="default.list.label" args="[entityName]"/></legend>
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <table>
-        <thead>
-        <tr>
+    <script type="text/javascript" charset="utf-8">
+        var institutionTable;
 
-            <g:sortableColumn property="name" title="${message(code: 'institution.name.label', default: 'Name')}"/>
+        $(document).ready(function () {
+            institutionTable = $('#institution').dataTable({
+                "bServerSide": true,
+                "bFilter": true,
+                "sAjaxSource": "<g:createLink action="jsonList"/>",
+                "aoColumns": [
+                    {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null, null, null, null]
+            });
+        });
+    </script>
 
-            <g:sortableColumn property="nationalCode"
-                              title="${message(code: 'institution.nationalCode.label', default: 'National Code')}"/>
+    <legend><g:message code="institution.list" default="Institution List"></g:message></legend>
 
-            <g:sortableColumn property="registerNumber"
-                              title="${message(code: 'institution.registerNumber.label', default: 'Register Number')}"/>
+    <div class="well">
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
+               id="institution">
+            <thead>
+            <tr>
 
-            <g:sortableColumn property="address"
-                              title="${message(code: 'institution.address.label', default: 'Address')}"/>
+                <th></th>
 
-            <g:sortableColumn property="phone" title="${message(code: 'institution.phone.label', default: 'Phone')}"/>
 
-            <g:sortableColumn property="fax" title="${message(code: 'institution.fax.label', default: 'Fax')}"/>
+                <th><g:message code="institution.name" default="Name"/></th>
 
-        </tr>
-        </thead>
-        <tbody>
-        <g:each in="${institutionInstanceList}" status="i" var="institutionInstance">
-            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                <th><g:message code="institution.nationalCode" default="National Code"/></th>
 
-                <td><g:link action="show"
-                            id="${institutionInstance.id}">${fieldValue(bean: institutionInstance, field: "name")}</g:link></td>
+                <th><g:message code="institution.registerNumber" default="Register No"/></th>
 
-                <td>${fieldValue(bean: institutionInstance, field: "nationalCode")}</td>
+                <th><g:message code="institution.address" default="address"/></th>
 
-                <td>${fieldValue(bean: institutionInstance, field: "registerNumber")}</td>
+                <th><g:message code="institution.fax" default="fax"/></th>
 
-                <td>${fieldValue(bean: institutionInstance, field: "address")}</td>
-
-                <td>${fieldValue(bean: institutionInstance, field: "phone")}</td>
-
-                <td>${fieldValue(bean: institutionInstance, field: "fax")}</td>
+                <th><g:message code="institution.email" default="email"/></th>
 
             </tr>
-        </g:each>
-        </tbody>
-    </table>
-
-    <div class="pagination">
-        <g:paginate total="${institutionInstanceTotal}"/>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
+
 </div>
 </body>
 </html>

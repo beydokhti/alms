@@ -20,7 +20,8 @@
     <div class="col-sm-8">
         <g:select class="form-control" name="branchType" placeholder="branchType"
                   from="${brokerBranchInstance.constraints.branchType.inList}"
-                  value="${brokerBranchInstance?.branchType}"/>
+                  value="${brokerBranchInstance?.branchType}"
+                  valueMessagePrefix="brokerBranch.branchType"/>
     </div>
 </div>
 
@@ -42,7 +43,7 @@
 
     <div class="col-sm-8">
         <g:textField class="form-control" name="personnelCount" placeholder="personnelCount"
-                 value="${brokerShareholderInstance?.personnelCount}"/>
+                 value="${brokerBranchInstance?.personnelCount}"/>
     </div>
 </div>
 

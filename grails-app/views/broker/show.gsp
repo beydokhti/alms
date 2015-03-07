@@ -429,19 +429,19 @@
             </li>
         </g:if>
 
-        <g:if test="${brokerInstance?.institutions}">
-            <li class="fieldcontain">
-                <span id="institutions-label" class="property-label"><g:message code="broker.institutions.label"
-                                                                                default="Institutions"/></span>
+        %{--<g:if test="${brokerInstance?.institutions}">--}%
+            %{--<li class="fieldcontain">--}%
+                %{--<span id="institutions-label" class="property-label"><g:message code="broker.institutions.label"--}%
+                                                                                %{--default="Institutions"/></span>--}%
 
-                <g:each in="${brokerInstance.institutions}" var="i">
-                    <span class="property-value" aria-labelledby="institutions-label"><g:link controller="institution"
-                                                                                              action="show"
-                                                                                              id="${i.id}">${i?.encodeAsHTML()}</g:link></span>
-                </g:each>
+                %{--<g:each in="${brokerInstance.institutions}" var="i">--}%
+                    %{--<span class="property-value" aria-labelledby="institutions-label"><g:link controller="institution"--}%
+                                                                                              %{--action="show"--}%
+                                                                                              %{--id="${i.id}">${i?.encodeAsHTML()}</g:link></span>--}%
+                %{--</g:each>--}%
 
-            </li>
-        </g:if>
+            %{--</li>--}%
+        %{--</g:if>--}%
 
     </ol>
     <g:form>

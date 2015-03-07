@@ -18,7 +18,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="stationType" placeholder="stationType" from="${brokerTradingStationInstance.constraints.stationType.inList}"
-                  value="${brokerTradingStationInstance?.stationType}"/>
+                  value="${brokerTradingStationInstance?.stationType}"
+                  valueMessagePrefix="brokerTradingStation.stationType"/>
     </div>
 </div>
 <div class="form-group col-md-6">

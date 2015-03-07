@@ -15,8 +15,12 @@ class BrokerShareholderController {
     def list(Integer max) {
         println(params)
         def brokerIns=Broker.get(params.id)
+        def totalStock=0
+        brokerIns.brokerShareholders.each {share->
+            totalStock+=share.ownershipPercent
+        }
         if (brokerIns) {
-            [brokerId: brokerIns.id]
+            [brokerId: brokerIns.id,totalStock: totalStock]
         }
     }
 
@@ -146,7 +150,7 @@ class BrokerShareholderController {
         def array = list.collect { BrokerShareholder it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action, it.shareholderName, it.ownershipType, it.ownershipPercent.toString(), it.sharesCount.toString(), it.representativeOnBoard, it.description]
+            [action, it.shareholderName,message(code:"brokerShareholder.ownershipType."+ it.ownershipType.toString(),default:it.ownershipType), it.ownershipPercent.toString(), it.sharesCount.toString(), it.representativeOnBoard, it.description]
         }
 
         dataTableResponse.aaData = array

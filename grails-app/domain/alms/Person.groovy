@@ -11,19 +11,23 @@ class Person {
     String	mobile
     String	email
 
+    Institution institution
+
+    static belongsTo = [institution:Institution]
+
     static hasMany = [certificates:ObtainedCertificate]
 
     static constraints = {
         name(nullable: false,blank: false)
         lastName(nullable: false,blank: false)
-        sex(nullable: false,blank: false,inList: ['male','female'])
-        degree(nullable: false,blank: false,inList: ['PhD',
+        sex(nullable: false,inList: ['male','female'])
+        degree(nullable: false,inList: ['PhD',
                                         'Master',
                                         'Expert',
                                         'PostDiploma',
                                         'Diploma',
                                         'NoDiploma'])
-        field(nullable: false,blank: false,inList: ['FinancialMng',
+        field(nullable: false,inList: ['FinancialMng',
                                        'FinancialEng',
                                        'Accounting',
                                        'OtherMng',
@@ -32,10 +36,10 @@ class Person {
                                        'EngAndTech',
                                        'Law',
                                        'Other'])
-        dataOfBirth(nullable: false,blank: false)
+        dataOfBirth(nullable: false)
         nationalCode(nullable: false,blank: false)
-        mobile(nullable: false,blank: false)
-        email(nullable: false,blank: false)
+        mobile(nullable:true)
+        email(nullable: true)
 
     }
 }

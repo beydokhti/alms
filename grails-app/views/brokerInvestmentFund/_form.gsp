@@ -26,7 +26,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="typeAndScale" placeholder="typeAndScale" from="${brokerInvestmentFundInstance.constraints.typeAndScale.inList}"
-                  value="${brokerInvestmentFundInstance?.typeAndScale}"/>
+                  value="${brokerInvestmentFundInstance?.typeAndScale}"
+                  valueMessagePrefix="BrokerInvestmentFund.typeAndScale"/>
     </div>
 </div>
 <div class="form-group col-md-6">

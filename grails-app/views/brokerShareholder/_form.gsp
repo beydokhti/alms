@@ -20,7 +20,8 @@
     <div class="col-sm-8">
         <g:select class="form-control" name="ownershipType" placeholder="ownershipType"
                   from="${brokerShareholderInstance.constraints.ownershipType.inList}"
-                  value="${brokerShareholderInstance?.ownershipType}"/>
+                  value="${brokerShareholderInstance?.ownershipType}"
+                  valueMessagePrefix="brokerShareholder.ownershipType"/>
     </div>
 </div>
 

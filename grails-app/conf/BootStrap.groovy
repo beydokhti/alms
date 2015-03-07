@@ -10,6 +10,7 @@ import alms.BrokerTradingStation
 import alms.Certificate
 import alms.City
 import alms.Country
+import alms.Institution
 import alms.ObtainedCertificate
 import alms.Person
 
@@ -195,7 +196,6 @@ class BootStrap {
         brokerShare.save()
 
         broker.addToBrokerShareholders(brokerShare)
-        println(brokerShare.broker.id)
 
         brokerShare = new BrokerShareholder()
         brokerShare.description = "سهامدار دوم"
@@ -207,7 +207,6 @@ class BootStrap {
         brokerShare.save()
 
         broker.addToBrokerShareholders(brokerShare)
-        println(brokerShare.broker.id)
 
 //      branch
         def brokerBranch = new BrokerBranch()
@@ -362,8 +361,8 @@ class BootStrap {
         brokerShare.save()
 
         broker.addToBrokerShareholders(brokerShare)
-        println(brokerShare.broker.id)
 
+//        certificate
         Certificate certificate = new Certificate()
         certificate.cerType = "سازمان بورس و اوراق بهادار"
         certificate.cerTitle = "اصول بازار سرمایه"
@@ -382,6 +381,7 @@ class BootStrap {
         obtainedCer.obtainedDate = new Date()
         obtainedCer.save()
 
+        //person
         Person person = new Person()
         person.name = "Reza"
         person.lastName = "ALi"
@@ -395,6 +395,18 @@ class BootStrap {
         person.save()
 //        person.certificates.add(obtainedCer)
 //        person.save()
+
+
+        //Institution
+        def institution = new Institution()
+        institution.name="نهاد قشنگ"
+        institution.nationalCode="123345"
+        institution.address="ته ته تهران"
+        institution.email="nahad@ghashng.com"
+        institution.fax="02126435345"
+        institution.registerNumber="123123"
+        institution.save()
+        institution.addToPerson(person).save()
 
 
     }

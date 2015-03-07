@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class PersonController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,28 +14,78 @@ class PersonController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [personInstanceList: Person.list(params), personInstanceTotal: Person.count()]
+        println(params)
+        def institution = Institution.get(params.id)
+        if (institution) {
+            [institutionId: institution.id]
+        }
     }
 
-    def create() {
-        [personInstance: new Person(params)]
+    def jsonList() {
+        println(params.toString())
+        def columns = ['action', 'name', 'lastName', 'sex', 'degree', 'field', 'dataOfBirth', 'nationalCode', 'mobile', 'email']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = Person.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = Person.search {
+                must(term('$/Person/broker/id', params.long("institutionId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("institution.id", params.long("institutionId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = Person.createCriteria().list(query)
+        }
+
+        def array = list.collect { Person it ->
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
+                    "<a href='${g.createLink(controller: "obtainedCertificate",action: "list", params: [id: it.id])}'>${message(code: "certificate", default: "Cer")}</a>"
+            println(action)
+            [action, it.name, it.lastName, message(code: "person.sex." + it.sex, default: ""), message(code: "person.degree." + it.degree, default: ""),
+             message(code: "person.field." + it.field, default: ""), it.dataOfBirth.toString(), it.nationalCode, it.mobile, it.email]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
     }
-    def createPC() {
-        [personInstance: new Person(params)]
+
+
+    def create() {
+        [personInstance: new Person(params),institutionId:params.id]
     }
 
     def save() {
-        println(params as String)
-        def personInstance = new Person(params)
-//        def cer=Certificate.get(params.)
-        if (!personInstance.save(flush: true)) {
-            render(view: "create", model: [personInstance: personInstance])
-            return
-        }
+        println(params)
+        def institutionInstance = Institution.get(params.institutionId)
+        //todo handle if brokerInstance is null
+        if (institutionInstance) {
+            def personInstance = new Person(params)
+            institutionInstance.addToPerson(personInstance)
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'person.label', default: 'Person'), personInstance.id])
-        redirect(action: "show", id: personInstance.id)
+            if (!personInstance.save(flush: true)) {
+                render(view: "create", model: [personInstance: personInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'person.label', default: 'Person'), personInstance.id])
+            redirect(action: "list", id: institutionInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -78,12 +131,12 @@ class PersonController {
         personInstance.properties = params
 
         if (!personInstance.save(flush: true)) {
-            render(view: "edit", model: [personInstance: personInstance])
+            render(view: "edit", model: [id: personInstance])
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'person.label', default: 'Person'), personInstance.id])
-        redirect(action: "show", id: personInstance.id)
+        redirect(action: "list", id: personInstance.institution.id)
     }
 
     def delete(Long id) {

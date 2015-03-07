@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class InstitutionController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,9 +14,46 @@ class InstitutionController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [institutionInstanceList: Institution.list(params), institutionInstanceTotal: Institution.count()]
     }
+    def jsonList() {
+        def columns = ['action', 'name', 'nationalCode', 'registerNumber', 'address', 'fax', 'email']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = Institution.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+//        dataTableResponse.sEcho = Integer.valueOf(params.sEcho)
+
+        def list
+
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = Institution.search("*${params.sSearch}*", options)
+            list = result.results
+        } else {
+            def query = queryService.listQuery(params + [columns: columns])
+            list = Institution.createCriteria().list(query)
+        }
+
+        def array = list.collect { Institution it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
+            "<a href='${g.createLink(controller: "person",action: "list", params: [id: it.id])}'>${message(code: "person", default: "person")}</a>"
+
+            println(action)
+            [action, it.name, it.nationalCode, it.registerNumber, it.address, it.fax.toString(),it.email]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
 
     def create() {
         [institutionInstance: new Institution(params)]
@@ -27,7 +67,7 @@ class InstitutionController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'institution.label', default: 'Institution'), institutionInstance.id])
-        redirect(action: "show", id: institutionInstance.id)
+        redirect(action: "list")
     }
 
     def show(Long id) {
@@ -78,7 +118,7 @@ class InstitutionController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'institution.label', default: 'Institution'), institutionInstance.id])
-        redirect(action: "show", id: institutionInstance.id)
+        redirect(action: "show")
     }
 
     def delete(Long id) {

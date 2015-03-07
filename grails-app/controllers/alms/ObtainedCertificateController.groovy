@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class ObtainedCertificateController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,23 +14,77 @@ class ObtainedCertificateController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [obtainedCertificateInstanceList: ObtainedCertificate.list(params), obtainedCertificateInstanceTotal: ObtainedCertificate.count()]
+        println(params)
+        def personIns=Person.get(params.id)
+        if (personIns) {
+            [personId: personIns.id]
+        }
     }
 
+
+    def jsonList() {
+        println(params.toString())
+        def columns = ['action', 'certificate','obtainedDate']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = ObtainedCertificate.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = ObtainedCertificate.search {
+                must(term('$/ObtainedCertificate/person/id', params.long("personId")))
+                must(queryString("*${params.sSearch}*"))
+            }
+
+            list = result.results
+        } else {
+            def query_criteria = {
+                eq("person.id", params.long("personId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            list = ObtainedCertificate.createCriteria().list(query)
+        }
+
+        def array = list.collect { ObtainedCertificate it ->
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            println(action)
+            [action, it.certificate.toString(),it.obtainedDate.toString()]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
+
     def create() {
-        [obtainedCertificateInstance: new ObtainedCertificate(params)]
+        [obtainedCertificateInstance: new ObtainedCertificate(params),personId:params.id]
     }
 
     def save() {
-        def obtainedCertificateInstance = new ObtainedCertificate(params)
-        if (!obtainedCertificateInstance.save(flush: true)) {
-            render(view: "create", model: [obtainedCertificateInstance: obtainedCertificateInstance])
-            return
-        }
+        println(params)
+        def personInstance = Person.get(params.personId)
+        //todo handle if brokerInstance is null
+        if (personInstance) {
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), obtainedCertificateInstance.id])
-        redirect(action: "show", id: obtainedCertificateInstance.id)
+            def obtainedCertificateInstance = new ObtainedCertificate(params)
+            personInstance.addToCertificates(obtainedCertificateInstance)
+            if (!obtainedCertificateInstance.save(flush: true)) {
+                render(view: "create", model: [obtainedCertificateInstance: obtainedCertificateInstance])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), obtainedCertificateInstance.id])
+            redirect(action: "list", id: personInstance.id)
+        }
     }
 
     def show(Long id) {
@@ -78,7 +135,7 @@ class ObtainedCertificateController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), obtainedCertificateInstance.id])
-        redirect(action: "show", id: obtainedCertificateInstance.id)
+        redirect(action: "list", id: obtainedCertificateInstance.person.id)
     }
 
     def delete(Long id) {

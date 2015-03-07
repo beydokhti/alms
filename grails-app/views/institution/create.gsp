@@ -8,15 +8,80 @@
 </head>
 
 <body>
-<a href="#create-institution" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                                    default="Skip to content&hellip;"/></a>
 
-<div class="nav" role="navigation">
-    <ul>
-        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]"/></g:link></li>
-    </ul>
-</div>
+<script>
+    $(document).ready(function () {
+        $('#mainForm')
+                .on('init.field.fv', function (e, data) {
+                    var $parent = data.element.parents('.form-group'),
+                            $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                    $icon.on('click.clearing', function () {
+                        if ($icon.hasClass('glyphicon-remove')) {
+                            data.fv.resetField(data.element);
+                        }
+                    });
+                })
+                .formValidation({
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    locale: 'fa_IR',
+                    fields: {
+                        name: {
+                            validators: {
+                                notEmpty: {} ,
+                                stringLength: {
+                                    max: 200
+                                }
+                            }
+                        },
+                        nationalCode: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {} ,
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        registerNumber: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {}  ,
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        address: {
+                            validators: {
+                                stringLength: {
+                                    max: 200
+                                }
+                            }
+                        },
+                        fax: {
+                            validators: {
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        },
+                        email: {
+                            validators: {
+                                stringLength: {
+                                    max: 50
+                                }
+                            }
+                        }
+                    }
+                });
+    });
+
+</script>
 
 <div id="create-institution" class="content scaffold-create" role="main">
     <legend><g:message code="default.create.label" args="[entityName]"/></legend>
@@ -31,7 +96,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form action="save">
+    <g:form action="save" class="form-horizontal" name="mainForm">
         <fieldset class="form-horizontal">
             <g:render template="form"/>
         </fieldset>

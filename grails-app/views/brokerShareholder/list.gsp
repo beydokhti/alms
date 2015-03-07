@@ -33,17 +33,17 @@
 
                 <th></th>
 
-                <th><g:message code="brokerShareholder.shareholderName" default="Persian Name"/></th>
+                <th><g:message code="brokerShareholder.shareholderName" default="Shareholder Name"/></th>
 
-                <th><g:message code="brokerShareholder.ownershipType" default="Latin Name"/></th>
+                <th><g:message code="brokerShareholder.ownershipType" default="Ownership Type"/></th>
 
-                <th><g:message code="brokerShareholder.ownershipPercent" default="Register No"/></th>
+                <th><g:message code="brokerShareholder.ownershipPercent" default="Ownership Percent"/></th>
 
-                <th><g:message code="brokerShareholder.sharesCount" default="Register Location"/></th>
+                <th><g:message code="brokerShareholder.sharesCount" default="Shares Count"/></th>
 
-                <th><g:message code="brokerShareholder.representativeOnBoard" default="Seo Register No"/></th>
+                <th><g:message code="brokerShareholder.representativeOnBoard" default="Representative On Board"/></th>
 
-                <th><g:message code="brokerShareholder.description" default="Club MemberShip No"/></th>
+                <th><g:message code="brokerShareholder.description" default="description"/></th>
 
             </tr>
             </thead>
@@ -56,5 +56,15 @@
 
 </div>
 
+<g:if test="${totalStock == 100}">
+    <div class="alert alert-success" role="alert">
+        <g:message code="brokerShareholder.totalStock.success" default="Success"/>
+    </div>
+</g:if>
+<g:else>
+    <div class="alert alert-danger" role="alert">
+        <g:message code="brokerShareholder.totalStock.danger" default="Danger"/>
+    </div>
+</g:else>
 </body>
 </html>
