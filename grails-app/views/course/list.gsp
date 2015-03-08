@@ -24,17 +24,9 @@
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="start" title="${message(code: 'course.start.label', default: 'Start')}" />
+						<g:sortableColumn property="title" title="${message(code: 'course.title.label', default: 'Title')}" />
 					
-						<g:sortableColumn property="end" title="${message(code: 'course.end.label', default: 'End')}" />
-					
-						<g:sortableColumn property="startTimezone" title="${message(code: 'course.startTimezone.label', default: 'Start Timezone')}" />
-					
-						<g:sortableColumn property="endTimezone" title="${message(code: 'course.endTimezone.label', default: 'End Timezone')}" />
-					
-						<g:sortableColumn property="description" title="${message(code: 'course.description.label', default: 'Description')}" />
-					
-						<g:sortableColumn property="recurrenceID" title="${message(code: 'course.recurrenceID.label', default: 'Recurrence ID')}" />
+						<g:sortableColumn property="color" title="${message(code: 'course.color.label', default: 'Color')}" />
 					
 					</tr>
 				</thead>
@@ -42,17 +34,9 @@
 				<g:each in="${courseInstanceList}" status="i" var="courseInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${courseInstance.id}">${fieldValue(bean: courseInstance, field: "start")}</g:link></td>
+						<td><g:link action="show" id="${courseInstance.id}">${fieldValue(bean: courseInstance, field: "title")}</g:link></td>
 					
-						<td>${fieldValue(bean: courseInstance, field: "end")}</td>
-					
-						<td>${fieldValue(bean: courseInstance, field: "startTimezone")}</td>
-					
-						<td>${fieldValue(bean: courseInstance, field: "endTimezone")}</td>
-					
-						<td>${fieldValue(bean: courseInstance, field: "description")}</td>
-					
-						<td>${fieldValue(bean: courseInstance, field: "recurrenceID")}</td>
+						<td>${fieldValue(bean: courseInstance, field: "color")}</td>
 					
 					</tr>
 				</g:each>

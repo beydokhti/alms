@@ -18,8 +18,8 @@ class EventController {
         [eventInstanceList: Event.list(params), eventInstanceTotal: Event.count()]
     }
 
-    def listEvent(){
-        def list= Event.list()
+    def listEvent() {
+        def list = Event.list()
 
 //        TimeZone.setDefault(TimeZone.getTimeZone('GMT'))
 
@@ -35,10 +35,11 @@ class EventController {
             eventMap.put("StartTimezone", event.startTimezone)
             eventMap.put("EndTimezone", event.endTimezone)
             eventMap.put("Description", event.description)
+            eventMap.put("Price", event.price)
             eventMap.put("RecurrenceID", event.recurrenceID)
             eventMap.put("RecurrenceRule", event.recurrenceRule)
             eventMap.put("RecurrenceException", event.recurrenceException)
-            eventMap.put("OwnerID", event.ownerID)
+            eventMap.put("CourseID", event.course.id)
             eventMap.put("IsAllDay", event.isAllDay)
             eventList.add(eventMap)
         }
@@ -46,8 +47,8 @@ class EventController {
         println(eventList as JSON)
         //todo mtb change return value
 //        render(eventList as JSON)
-        def jsonResponse=eventList as JSON
-        def response =jsonResponse.toString().replaceAll("Date","\\\\/Date").replaceAll("\\)","\\)\\\\/")
+        def jsonResponse = eventList as JSON
+        def response = jsonResponse.toString().replaceAll("Date", "\\\\/Date").replaceAll("\\)", "\\)\\\\/")
         render(response)
 //        render("[{\"TaskID\":4,\"OwnerID\":2,\"Title\":\"Bowling tournament\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370811600000)\\/\",\"End\":\"\\/Date(1370822400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":5,\"OwnerID\":2,\"Title\":\"Take the dog to the vet\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370847600000)\\/\",\"End\":\"\\/Date(1370851200000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":6,\"OwnerID\":2,\"Title\":\"Call Charlie about the project\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370950200000)\\/\",\"End\":\"\\/Date(1370955600000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false},{\"TaskID\":7,\"OwnerID\":3,\"Title\":\"Meeting with Alex\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1371034800000)\\/\",\"End\":\"\\/Date(1371038400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false}]")
 //        render("[{\"TaskID\":4,\"OwnerID\":2,\"Title\":\"Bowling tournament\",\"Description\":\"\",\"StartTimezone\":null,\"Start\":\"\\/Date(1370811600000)\\/\",\"End\":\"\\/Date(1370822400000)\\/\",\"EndTimezone\":null,\"RecurrenceRule\":null,\"RecurrenceID\":null,\"RecurrenceException\":null,\"IsAllDay\":false}]")
@@ -74,63 +75,47 @@ class EventController {
         println "Here is params: $params"
         println "Here is params.models: $params.models"
         def models = new org.codehaus.groovy.grails.web.json.JSONArray(params.models)
-        def eventData = [:]
 
-//        def tz=TimeZone.getDefault()
-//        TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
+        def courseInstance = Course.get(models[0].CourseID)
 
-        def eventInstance = new Event()
-        eventInstance.title = models[0].Title
-        eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
-        eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
-        eventInstance.startTimezone = models[0].StartTimezone//?models[0].StartTimezone:""
-        eventInstance.endTimezone = models[0].EndTimezone//?models[0].EndTimezone:""
-        eventInstance.description = models[0].Description//?models[0].Description:""
-        eventInstance.recurrenceID = models[0].RecurrenceID
-        eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
-        eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
-        eventInstance.ownerID = models[0].OwnerID
-        eventInstance.isAllDay = models[0].IsAllDay
+        if (courseInstance) {
+            def eventInstance = new Event()
+            eventInstance.title = models[0].Title
+            eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
+            eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
+            eventInstance.startTimezone = models[0].StartTimezone//?models[0].StartTimezone:""
+            eventInstance.endTimezone = models[0].EndTimezone//?models[0].EndTimezone:""
+            eventInstance.description = models[0].Description//?models[0].Description:""
+            eventInstance.price = models[0].Price//?models[0].Description:""
+            eventInstance.recurrenceID = models[0].RecurrenceID
+            eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
+            eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
+            eventInstance.price = models[0].Price
+            eventInstance.isAllDay = models[0].IsAllDay
 
-        if (!eventInstance.save(flush: true)) {
+            courseInstance.addToEvents(eventInstance)
+            if (!eventInstance.save(flush: true)) {
 
-            //todo mtb how return error message
-            render(eventData as JSON)
+                //todo mtb how return error message
+                render([])
+            }
+
+            def recurrenceID = eventInstance.recurrenceID ? "\"" + eventInstance.recurrenceID + "\"" : null
+            render("[{\"TaskID\":${eventInstance.id}," +
+                    "\"CourseID\":${eventInstance.course.id}," +
+                    "\"Title\":\"${eventInstance.title}\"," +
+                    "\"Description\":\"${eventInstance.description}\"," +
+                    "\"Price\":\"${eventInstance.price}\"," +
+                    "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
+                    "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
+                    "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
+                    "\"EndTimezone\":\"${eventInstance.endTimezone}\"," +
+                    "\"RecurrenceRule\":\"${eventInstance.recurrenceRule}\"," +
+                    "\"RecurrenceID\":${recurrenceID}," +
+                    "\"RecurrenceException\":\"${eventInstance.recurrenceException}\"," +
+                    "\"IsAllDay\":${eventInstance.isAllDay}}]")
         }
 
-
-//        eventData.TaskID = eventInstance.id
-//        eventData.Title = eventInstance.title
-//        eventData.Start = eventInstance.start.time
-//        eventData.End = eventInstance.end.time
-//        eventData.StartTimezone = eventInstance.startTimezone
-//        eventData.EndTimezone = eventInstance.endTimezone
-//        eventData.Description = eventInstance.description
-//        eventData.RecurrenceID = eventInstance.recurrenceID
-//        eventData.RecurrenceRule = eventInstance.recurrenceRule
-//        eventData.RecurrenceException = eventInstance.recurrenceException
-//        eventData.OwnerID = eventInstance.ownerID
-//        eventData.IsAllDay = eventInstance.isAllDay
-//todo mtb change return value
-//        def jsonResponse=[eventData] as JSON
-//        def response =jsonResponse.toString().replaceAll("new Date","\"\\\\/Date").replaceAll("\\),","\\)\\\\/\",")
-//        render(response)
-//        return   render("[{\"TaskID\":122,\"OwnerID\":1,\"Title\":\"No title\",\"Description\":\"\",\"StartTimezone\":\"\",\"Start\":\"\\/Date(1370966400000)\\/\",\"End\":\"\\/Date(1370968200000)\\/\",\"EndTimezone\":\"\",\"RecurrenceRule\":\"\",\"RecurrenceID\":null,\"RecurrenceException\":\"\",\"IsAllDay\":false}]")
-//
-
-        def recurrenceID= eventInstance.recurrenceID?"\""+eventInstance.recurrenceID+"\"":null
-        render("[{\"TaskID\":${eventInstance.id}," +
-                "\"OwnerID\":${eventInstance.ownerID}," +
-                "\"Title\":\"${eventInstance.title}\"," +
-                "\"Description\":\"${eventInstance.description}\"," +
-                "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
-                "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
-                "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
-                "\"EndTimezone\":\"${eventInstance.endTimezone}\"," +
-                "\"RecurrenceRule\":\"${eventInstance.recurrenceRule}\"," +
-                "\"RecurrenceID\":${recurrenceID}," +
-                "\"RecurrenceException\":\"${eventInstance.recurrenceException}\"," +
-                "\"IsAllDay\":${eventInstance.isAllDay}}]")
     }
 
     def show(Long id) {
@@ -190,39 +175,44 @@ class EventController {
         def models = new org.codehaus.groovy.grails.web.json.JSONArray(params.models)
         def eventData = [:]
 
-        def eventInstance = Event.get(models[0].TaskID)
-        eventInstance.title = models[0].Title
-        eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
-        eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
-        eventInstance.startTimezone = models[0].StartTimezone//?models[0].StartTimezone:""
-        eventInstance.endTimezone = models[0].EndTimezone//?models[0].EndTimezone:""
-        eventInstance.description = models[0].Description//?models[0].Description:""
-        eventInstance.recurrenceID = models[0].RecurrenceID
-        eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
-        eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
-        eventInstance.ownerID = models[0].OwnerID
-        eventInstance.isAllDay = models[0].IsAllDay
+        def courseInstance = Course.get(models[0].CourseID)
 
-        if (!eventInstance.save(flush: true)) {
+        if (courseInstance) {
+            def eventInstance = Event.get(models[0].TaskID)
+            eventInstance.title = models[0].Title
+            eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
+            eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
+            eventInstance.startTimezone = models[0].StartTimezone//?models[0].StartTimezone:""
+            eventInstance.endTimezone = models[0].EndTimezone//?models[0].EndTimezone:""
+            eventInstance.description = models[0].Description//?models[0].Description:""
+            eventInstance.price = models[0].Price//?models[0].Description:""
+            eventInstance.recurrenceID = models[0].RecurrenceID
+            eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
+            eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
+            eventInstance.isAllDay = models[0].IsAllDay
 
-            //todo mtb how return error message
-            render(eventData as JSON)
-        }
-        def recurrenceID= eventInstance.recurrenceID?"\""+eventInstance.recurrenceID+"\"":null
-        render("[{\"TaskID\":${eventInstance.id}," +
-                "\"OwnerID\":${eventInstance.ownerID}," +
-                "\"Title\":\"${eventInstance.title}\"," +
-                "\"Description\":\"${eventInstance.description}\"," +
-                "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
-                "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
-                "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
-                "\"EndTimezone\":\"${eventInstance.endTimezone}\"," +
-                "\"RecurrenceRule\":\"${eventInstance.recurrenceRule}\"," +
-                "\"RecurrenceID\":${recurrenceID}," +
-                "\"RecurrenceException\":\"${eventInstance.recurrenceException}\"," +
-                "\"IsAllDay\":${eventInstance.isAllDay}}]")
+            if (!eventInstance.save(flush: true)) {
+
+                //todo mtb how return error message
+                render(eventData as JSON)
+            }
+            def recurrenceID = eventInstance.recurrenceID ? "\"" + eventInstance.recurrenceID + "\"" : null
+            render("[{\"TaskID\":${eventInstance.id}," +
+                    "\"CourseID\":${eventInstance.course.id}," +
+                    "\"Title\":\"${eventInstance.title}\"," +
+                    "\"Description\":\"${eventInstance.description}\"," +
+                    "\"Price\":\"${eventInstance.price}\"," +
+                    "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
+                    "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
+                    "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
+                    "\"EndTimezone\":\"${eventInstance.endTimezone}\"," +
+                    "\"RecurrenceRule\":\"${eventInstance.recurrenceRule}\"," +
+                    "\"RecurrenceID\":${recurrenceID}," +
+                    "\"RecurrenceException\":\"${eventInstance.recurrenceException}\"," +
+                    "\"IsAllDay\":${eventInstance.isAllDay}}]")
 
 //        render("[{\"TaskID\":122,\"OwnerID\":1,\"Title\":\"No title\",\"Description\":\"\",\"StartTimezone\":\"\",\"Start\":\"\\/Date(1370853000000)\\/\",\"End\":\"\\/Date(1370854800000)\\/\",\"EndTimezone\":\"\",\"RecurrenceRule\":\"\",\"RecurrenceID\":null,\"RecurrenceException\":\"\",\"IsAllDay\":false}]")
+        }
     }
 
 
@@ -245,7 +235,7 @@ class EventController {
         }
     }
 
-    def deleteEvent(){
+    def deleteEvent() {
         //todo mtb delete response has events whole properties,if app deletes this event why sends back data?
         println "Delete params: $params"
         println "Delete params.models: $params.models"
@@ -254,11 +244,12 @@ class EventController {
         def eventInstance = Event.get(models[0].TaskID)
 
         try {
-            def recurrenceID= eventInstance.recurrenceID?"\""+eventInstance.recurrenceID+"\"":null
-            def response= "[{\"TaskID\":${eventInstance.id}," +
-                    "\"OwnerID\":${eventInstance.ownerID}," +
+            def recurrenceID = eventInstance.recurrenceID ? "\"" + eventInstance.recurrenceID + "\"" : null
+            def response = "[{\"TaskID\":${eventInstance.id}," +
+                    "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
+                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +

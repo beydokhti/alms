@@ -1,5 +1,7 @@
 package alms
 
+import java.awt.Color
+
 class Event {
     String title
     Date start
@@ -10,8 +12,13 @@ class Event {
     String recurrenceID
     String recurrenceRule
     String recurrenceException
-    String ownerID
+//    String ownerID
     String isAllDay
+    Long   price
+    Course course
+
+
+    static belongsTo = [course:Course]
 
     static constraints = {
         title(nullable: false)
@@ -23,7 +30,7 @@ class Event {
         recurrenceID(nullable: true)
         recurrenceRule(nullable: true,blank:true)
         recurrenceException(nullable: true,blank:true)
-        ownerID(nullable: true)
         isAllDay(nullable: true)
+        price(nullable: false,default:0)
     }
 }

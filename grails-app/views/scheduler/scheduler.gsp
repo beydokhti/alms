@@ -9,27 +9,28 @@
 
 <html>
 <head>
-    <title><g:message code="scheduler.scheduler" default="Scheduler"/> </title>
+    <title><g:message code="scheduler.scheduler" default="Scheduler"/></title>
     <meta charset="utf-8">
-    <link href="${resource(dir:"kendoUI/examples", file:"examples-offline.css")}" rel="stylesheet">
-    <link href="${resource(dir:"kendoUI/styles", file:"kendo.common-bootstrap.min.css")}" rel="stylesheet">
-    <link href="${resource(dir:"kendoUI/styles", file:"kendo.rtl.min.css")}" rel="stylesheet">
-    <link href="${resource(dir:"kendoUI/styles", file:"kendo.default.min.css")}" rel="stylesheet">
-    <link href="${resource(dir:"kendoUI/styles", file:"kendo.dataviz.min.css")}" rel="stylesheet">
-    <link href="${resource(dir:"kendoUI/styles", file:"kendo.dataviz.default.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "kendoUI/examples", file: "examples-offline.css")}" rel="stylesheet">
+    <link href="${resource(dir: "kendoUI/styles", file: "kendo.common-bootstrap.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "kendoUI/styles", file: "kendo.rtl.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "kendoUI/styles", file: "kendo.default.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "kendoUI/styles", file: "kendo.dataviz.min.css")}" rel="stylesheet">
+    <link href="${resource(dir: "kendoUI/styles", file: "kendo.dataviz.default.min.css")}" rel="stylesheet">
 
-    <script src="${resource(dir: "kendoUI/js",file:"jquery.min.js")}"></script>
-    <script src="${resource(dir: "kendoUI/js",file:"angular.min.js")}"></script>
-    <script src="${resource(dir: "kendoUI/js",file:"kendo.all.min.js")}"></script>
-    <script src="${resource(dir: "kendoUI/examples", file:"console.js")}"></script>
+    <script src="${resource(dir: "kendoUI/js", file: "jquery.min.js")}"></script>
+    <script src="${resource(dir: "kendoUI/js", file: "angular.min.js")}"></script>
+    <script src="${resource(dir: "kendoUI/js", file: "kendo.all.min.js")}"></script>
+    <script src="${resource(dir: "kendoUI/examples", file: "console.js")}"></script>
     %{--<script src="${resource(dir: "kendoUI/js/cultures", file:"kendo.culture.fa-IR.min.js")}"></script>--}%
 
     %{--<script type="text/javascript">--}%
-        %{--//set current to the "en-GB" culture script--}%
-        %{--kendo.culture("fa-IR");--}%
+    %{--//set current to the "en-GB" culture script--}%
+    %{--kendo.culture("fa-IR");--}%
     %{--</script>--}%
 
 </head>
+
 <body>
 
 <a class="offline-button" href="../index.html">Back</a>
@@ -42,21 +43,22 @@
             <input type="checkbox" id="charlie" value="3">
         </div>
     </div>
+
     <div id="scheduler"></div>
 </div>
 <script>
-    $(function() {
+    $(function () {
         $("#scheduler").kendoScheduler({
             date: new Date("2013/6/13"),
             startTime: new Date("2013/6/13 07:00 AM"),
             height: 600,
             views: [
                 "day",
-                { type: "workWeek", selected: true },
+                {type: "workWeek", selected: true},
                 "week",
                 "month",
                 "agenda",
-                { type: "timeline", eventHeight: 50}
+                {type: "timeline", eventHeight: 50}
             ],
             timezone: "Etc/UTC",
             dataSource: {
@@ -78,7 +80,7 @@
                         url: "<g:createLink controller="event" action="deleteEvent"></g:createLink>",
                         dataType: "json"
                     },
-                    parameterMap: function(options, operation) {
+                    parameterMap: function (options, operation) {
                         if (operation !== "read" && options.models) {
                             return {models: kendo.stringify(options.models)};
                         }
@@ -88,52 +90,64 @@
                     model: {
                         id: "taskId",
                         fields: {
-                            taskId: { from: "TaskID", type: "number" },
-                            title: { from: "Title", defaultValue: "No title", validation: { required: true } },
-                            start: { type: "date", from: "Start" },
-                            end: { type: "date", from: "End" },
-                            startTimezone: { from: "StartTimezone" },
-                            endTimezone: { from: "EndTimezone" },
-                            description: { from: "Description" },
-                            recurrenceId: { from: "RecurrenceID" },
-                            recurrenceRule: { from: "RecurrenceRule" },
-                            recurrenceException: { from: "RecurrenceException" },
-                            ownerId: { from: "OwnerID", defaultValue: 1 },
-                            isAllDay: { type: "boolean", from: "IsAllDay" }
+                            taskId: {from: "TaskID", type: "number"},
+                            title: {from: "Title", defaultValue: "No title", validation: {required: true}},
+                            start: {type: "date", from: "Start"},
+                            end: {type: "date", from: "End"},
+                            startTimezone: {from: "StartTimezone"},
+                            endTimezone: {from: "EndTimezone"},
+                            description: {from: "Description"},
+                            price: {from: "Price", type: "number"},
+                            recurrenceId: {from: "RecurrenceID"},
+                            recurrenceRule: {from: "RecurrenceRule"},
+                            recurrenceException: {from: "RecurrenceException"},
+                            courseId: {from: "CourseID", defaultValue: 1},
+                            isAllDay: {type: "boolean", from: "IsAllDay"}
                         }
                     }
                 },
                 filter: {
                     logic: "or",
                     filters: [
-                        { field: "ownerId", operator: "eq", value: 1 },
-                        { field: "ownerId", operator: "eq", value: 2 }
+                        {field: "courseId", operator: "eq", value: 1},
+                        {field: "courseId", operator: "eq", value: 2}
                     ]
                 }
             },
             resources: [
                 {
-                    field: "ownerId",
-                    title: "Owner",
+                    field: "courseId",
+                    title: "Course",
+                    dataSource:
+                    //[
+//                        { text: "Alex", value: 1, color: "#f8a398" },
+//                        { text: "Bob", value: 2, color: "#51a0ed" },
+//                        { text: "Charlie", value: 3, color: "#56ca85" }
+//                    ]
+                    ${courseDataSource}
+                },
+                {
+                    field: "price",
                     dataSource: [
-                        { text: "Alex", value: 1, color: "#f8a398" },
-                        { text: "Bob", value: 2, color: "#51a0ed" },
-                        { text: "Charlie", value: 3, color: "#56ca85" }
-                    ]
+//                        {text: "Alex", value: 1, color: "#f8a398"},
+//                        {text: "Bob", value: 2, color: "#51a0ed"},
+//                        {text: "Charlie", value: 3, color: "#56ca85"}
+                    ],
+                    title: "Price"
                 }
             ]
         });
 
-        $("#people :checkbox").change(function(e) {
-            var checked = $.map($("#people :checked"), function(checkbox) {
+        $("#people :checkbox").change(function (e) {
+            var checked = $.map($("#people :checked"), function (checkbox) {
                 return parseInt($(checkbox).val());
             });
 
             var scheduler = $("#scheduler").data("kendoScheduler");
 
             scheduler.dataSource.filter({
-                operator: function(task) {
-                    return $.inArray(task.ownerId, checked) >= 0;
+                operator: function (task) {
+                    return $.inArray(task.courseId, checked) >= 0;
                 }
             });
         });
@@ -163,25 +177,25 @@
     position: absolute;
     right: 0;
 }
+
 #alex {
     position: absolute;
     left: 4px;
     top: 81px;
 }
+
 #bob {
     position: absolute;
     left: 119px;
     top: 81px;
 }
+
 #charlie {
     position: absolute;
     left: 234px;
     top: 81px;
 }
 </style>
-
-
-
 
 </body>
 </html>

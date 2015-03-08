@@ -10,6 +10,7 @@ import alms.BrokerTradingStation
 import alms.Certificate
 import alms.City
 import alms.Country
+import alms.Course
 import alms.Institution
 import alms.InstitutionMember
 import alms.ObtainedCertificate
@@ -299,7 +300,7 @@ class BootStrap {
 //        software
         def brokerSoftware = new BrokerSoftware()
         brokerSoftware.companyName = "شرکت خود خودم"
-        brokerSoftware.contractType ="Buy"
+        brokerSoftware.contractType = "Buy"
         brokerSoftware.title1 = "خفن"
         brokerSoftware.title2 = "بازی"
 
@@ -408,17 +409,31 @@ class BootStrap {
         person.email = "mary.jigar@gmail.com"
         person.save()
 
-
         //Institution
         def institution = new Institution()
-        institution.name="نهاد قشنگ"
-        institution.nationalCode="123345"
-        institution.address="ته ته تهران"
-        institution.email="nahad@ghashng.com"
-        institution.fax="02126435345"
-        institution.registerNumber="123123"
+        institution.name = "نهاد قشنگ"
+        institution.nationalCode = "123345"
+        institution.address = "ته ته تهران"
+        institution.email = "nahad@ghashng.com"
+        institution.fax = "02126435345"
+        institution.registerNumber = "123123"
         institution.save()
 
+        //course
+        def courseInstance=new Course()
+        courseInstance.title="دوره دوره ها"
+        courseInstance.color="#808080"
+        courseInstance.save()
+
+        courseInstance=new Course()
+        courseInstance.title="دوره هفتگی"
+        courseInstance.color="#4B0082"
+        courseInstance.save()
+
+        courseInstance=new Course()
+        courseInstance.title="دوره دوستان"
+        courseInstance.color="#EE82EE"
+        courseInstance.save()
 
     }
 }
