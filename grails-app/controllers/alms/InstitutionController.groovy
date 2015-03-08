@@ -43,7 +43,7 @@ class InstitutionController {
 
         def array = list.collect { Institution it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
-            "<a href='${g.createLink(controller: "person",action: "list", params: [id: it.id])}'>${message(code: "person", default: "person")}</a>"
+            "<a href='${g.createLink(controller: "institutionMember",action: "list", params: [id: it.id])}'>${message(code: "institutionMember", default: "Mem")}</a>"
 
             println(action)
             [action, it.name, it.nationalCode, it.registerNumber, it.address, it.fax.toString(),it.email]

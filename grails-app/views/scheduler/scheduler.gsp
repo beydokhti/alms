@@ -9,9 +9,9 @@
 
 <html>
 <head>
-    <title>Basic usage</title>
+    <title><g:message code="scheduler.scheduler" default="Scheduler"/> </title>
     <meta charset="utf-8">
-    <link href="${resource(dir:"kendoUI/examples/content/shared/styles", file:"examples-offline.css")}" rel="stylesheet">
+    <link href="${resource(dir:"kendoUI/examples", file:"examples-offline.css")}" rel="stylesheet">
     <link href="${resource(dir:"kendoUI/styles", file:"kendo.common-bootstrap.min.css")}" rel="stylesheet">
     <link href="${resource(dir:"kendoUI/styles", file:"kendo.rtl.min.css")}" rel="stylesheet">
     <link href="${resource(dir:"kendoUI/styles", file:"kendo.default.min.css")}" rel="stylesheet">
@@ -21,11 +21,13 @@
     <script src="${resource(dir: "kendoUI/js",file:"jquery.min.js")}"></script>
     <script src="${resource(dir: "kendoUI/js",file:"angular.min.js")}"></script>
     <script src="${resource(dir: "kendoUI/js",file:"kendo.all.min.js")}"></script>
-    <script src="${resource(dir:"kendoUI/examples/content/shared/js", file:"console.js")}"></script>
-    <script>
+    <script src="${resource(dir: "kendoUI/examples", file:"console.js")}"></script>
+    %{--<script src="${resource(dir: "kendoUI/js/cultures", file:"kendo.culture.fa-IR.min.js")}"></script>--}%
 
-    </script>
-
+    %{--<script type="text/javascript">--}%
+        %{--//set current to the "en-GB" culture script--}%
+        %{--kendo.culture("fa-IR");--}%
+    %{--</script>--}%
 
 </head>
 <body>
@@ -74,7 +76,7 @@
                         dataType: "json"
                     },
                     destroy: {   // delete
-                        url: "<g:createLink controller="course" action="delete"></g:createLink>",
+                        url: "<g:createLink controller="course" action="deleteCourse"></g:createLink>",
                         dataType: "json"
                     },
                     parameterMap: function(options, operation) {
@@ -150,13 +152,13 @@
 }
 
 #team-schedule {
-    background: url('../kendoUI/examples/content/web/scheduler/team-schedule.png') transparent no-repeat;
+    background: url('../kendoUI/examples/team-schedule.png') transparent no-repeat;
     height: 115px;
     position: relative;
 }
 
 #people {
-    background: url('../kendoUI/examples/content/web/scheduler/scheduler-people.png') no-repeat;
+    background: url('../kendoUI/examples/scheduler-people.png') no-repeat;
     width: 345px;
     height: 115px;
     position: absolute;

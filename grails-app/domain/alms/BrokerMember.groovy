@@ -8,8 +8,6 @@ class BrokerMember {
     Boolean isActive
     String	position
 
-    static hasMany = [certificates:ObtainedCertificate]
-
     static belongsTo = [broker:Broker,person:Person]
 
     static searchable = true

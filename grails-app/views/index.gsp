@@ -85,6 +85,8 @@
 
 <g:link controller="broker" action="list">Broker List</g:link>
 <g:link controller="institution" action="list">Institution List</g:link>
+<g:link controller="scheduler" action="scheduler">scheduler</g:link>
+<g:link controller="course" action="list">Course</g:link>
 
 </body>
 </html>

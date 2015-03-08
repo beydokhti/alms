@@ -11,10 +11,6 @@ class Person {
     String	mobile
     String	email
 
-//    Institution institution
-
-//    static belongsTo = [institution:Institution]
-
     static hasMany = [certificates:ObtainedCertificate]
 
     static constraints = {
@@ -42,4 +38,8 @@ class Person {
         email(nullable: true)
 
     }
+    String toString(){
+        "$name $lastName"
+    }
+
 }

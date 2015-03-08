@@ -11,6 +11,7 @@ import alms.Certificate
 import alms.City
 import alms.Country
 import alms.Institution
+import alms.InstitutionMember
 import alms.ObtainedCertificate
 import alms.Person
 
@@ -22,7 +23,7 @@ class BootStrap {
     }
     def init = { servletContext ->
 
-
+        TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
         def country = new Country()
         country.title = "ایران"
         country.save()
@@ -385,7 +386,7 @@ class BootStrap {
         Person person = new Person()
         person.name = "Reza"
         person.lastName = "ALi"
-        person.sex = "female"
+        person.sex = "male"
         person.degree = "Master"
         person.field = "EngAndTech"
         person.dateOfBirth = new Date()
@@ -393,8 +394,19 @@ class BootStrap {
         person.mobile = "09361782347"
         person.email = "reza.ali@gmail.com"
         person.save()
-//        person.certificates.add(obtainedCer)
-//        person.save()
+
+
+        person = new Person()
+        person.name = "Mary"
+        person.lastName = "Jigar"
+        person.sex = "female"
+        person.degree = "Master"
+        person.field = "EngAndTech"
+        person.dateOfBirth = new Date()
+        person.nationalCode = "00686140987"
+        person.mobile = "09361782347"
+        person.email = "mary.jigar@gmail.com"
+        person.save()
 
 
         //Institution
@@ -406,7 +418,6 @@ class BootStrap {
         institution.fax="02126435345"
         institution.registerNumber="123123"
         institution.save()
-        institution.addToPerson(person).save()
 
 
     }

@@ -8,7 +8,7 @@ class Institution {
     String	address
     String	fax
     String	email
-    static hasMany = [person:Person,phone:String]
+    static hasMany = [institutionMembers:InstitutionMember,phone:String]
 
     static searchable = true
 

@@ -3,9 +3,9 @@ package alms
 class ObtainedCertificate {
     Certificate certificate
     Date        obtainedDate
-//    Person      person
+    Person      person
 
-//    static belongsTo = [person:Person]
+    static belongsTo = [person:Person]
 
     static searchable = true
 

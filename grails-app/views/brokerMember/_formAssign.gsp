@@ -2,8 +2,8 @@
 <g:hiddenField name="brokerId" value="${brokerId}"></g:hiddenField>
 
 <div class="form-group col-md-6">
-    <label for="city" class="col-sm-4 control-label">
-        <g:message code="brokerTradingStation.person.label" default="person" />
+    <label for="person" class="col-sm-4 control-label">
+        <g:message code="brokerMember.person.label" default="person" />
     </label>
     <div class="col-sm-8">
         <g:select class="form-control" name="person.id" placeholder="person" from="${alms.Person.list()}" optionKey="id"
