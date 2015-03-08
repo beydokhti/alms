@@ -1,13 +1,12 @@
 package alms
 
 
-
 import org.junit.*
 import grails.test.mixin.*
 
-@TestFor(CourseController)
-@Mock(Course)
-class CourseControllerTests {
+@TestFor(EventController)
+@Mock(Event)
+class EventControllerTests {
 
     def populateValidParams(params) {
         assert params != null
@@ -17,139 +16,139 @@ class CourseControllerTests {
 
     void testIndex() {
         controller.index()
-        assert "/course/list" == response.redirectedUrl
+        assert "/event/list" == response.redirectedUrl
     }
 
     void testList() {
 
         def model = controller.list()
 
-        assert model.courseInstanceList.size() == 0
-        assert model.courseInstanceTotal == 0
+        assert model.eventInstanceList.size() == 0
+        assert model.eventInstanceTotal == 0
     }
 
     void testCreate() {
         def model = controller.create()
 
-        assert model.courseInstance != null
+        assert model.eventInstance != null
     }
 
     void testSave() {
         controller.save()
 
-        assert model.courseInstance != null
-        assert view == '/course/create'
+        assert model.eventInstance != null
+        assert view == '/event/create'
 
         response.reset()
 
         populateValidParams(params)
         controller.save()
 
-        assert response.redirectedUrl == '/course/show/1'
+        assert response.redirectedUrl == '/event/show/1'
         assert controller.flash.message != null
-        assert Course.count() == 1
+        assert Event.count() == 1
     }
 
     void testShow() {
         controller.show()
 
         assert flash.message != null
-        assert response.redirectedUrl == '/course/list'
+        assert response.redirectedUrl == '/event/list'
 
         populateValidParams(params)
-        def course = new Course(params)
+        def event = new Event(params)
 
-        assert course.save() != null
+        assert event.save() != null
 
-        params.id = course.id
+        params.id = event.id
 
         def model = controller.show()
 
-        assert model.courseInstance == course
+        assert model.eventInstance == event
     }
 
     void testEdit() {
         controller.edit()
 
         assert flash.message != null
-        assert response.redirectedUrl == '/course/list'
+        assert response.redirectedUrl == '/event/list'
 
         populateValidParams(params)
-        def course = new Course(params)
+        def event = new Event(params)
 
-        assert course.save() != null
+        assert event.save() != null
 
-        params.id = course.id
+        params.id = event.id
 
         def model = controller.edit()
 
-        assert model.courseInstance == course
+        assert model.eventInstance == event
     }
 
     void testUpdate() {
         controller.update()
 
         assert flash.message != null
-        assert response.redirectedUrl == '/course/list'
+        assert response.redirectedUrl == '/event/list'
 
         response.reset()
 
         populateValidParams(params)
-        def course = new Course(params)
+        def event = new Event(params)
 
-        assert course.save() != null
+        assert event.save() != null
 
         // test invalid parameters in update
-        params.id = course.id
+        params.id = event.id
         //TODO: add invalid values to params object
 
         controller.update()
 
-        assert view == "/course/edit"
-        assert model.courseInstance != null
+        assert view == "/event/edit"
+        assert model.eventInstance != null
 
-        course.clearErrors()
+        event.clearErrors()
 
         populateValidParams(params)
         controller.update()
 
-        assert response.redirectedUrl == "/course/show/$course.id"
+        assert response.redirectedUrl == "/event/show/$event.id"
         assert flash.message != null
 
         //test outdated version number
         response.reset()
-        course.clearErrors()
+        event.clearErrors()
 
         populateValidParams(params)
-        params.id = course.id
+        params.id = event.id
         params.version = -1
         controller.update()
 
-        assert view == "/course/edit"
-        assert model.courseInstance != null
-        assert model.courseInstance.errors.getFieldError('version')
+        assert view == "/event/edit"
+        assert model.eventInstance != null
+        assert model.eventInstance.errors.getFieldError('version')
         assert flash.message != null
     }
 
     void testDelete() {
         controller.delete()
         assert flash.message != null
-        assert response.redirectedUrl == '/course/list'
+        assert response.redirectedUrl == '/event/list'
 
         response.reset()
 
         populateValidParams(params)
-        def course = new Course(params)
+        def event = new Event(params)
 
-        assert course.save() != null
-        assert Course.count() == 1
+        assert event.save() != null
+        assert Event.count() == 1
 
-        params.id = course.id
+        params.id = event.id
 
         controller.delete()
 
-        assert Course.count() == 0
-        assert Course.get(course.id) == null
-        assert response.redirectedUrl == '/course/list'
+        assert Event.count() == 0
+        assert Event.get(event.id) == null
+        assert response.redirectedUrl == '/event/list'
     }
 }

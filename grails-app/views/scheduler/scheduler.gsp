@@ -63,20 +63,19 @@
                 batch: true,
                 transport: {
                     read: {       //list
-                        url: "<g:createLink controller="course" action="listCourse"></g:createLink>",
+                        url: "<g:createLink controller="event" action="listEvent"></g:createLink>",
                         dataType: "json"
                     },
                     update: {     //save   upd
-                        url: "<g:createLink controller="course" action="updateCourse"></g:createLink>",
+                        url: "<g:createLink controller="event" action="updateEvent"></g:createLink>",
                         dataType: "json"
                     },
                     create: {    // save
-                        url: "<g:createLink controller="course" action="saveCourse"></g:createLink>",
-//                        url: "http://localhost:8080/alms/course/saveCourse",
+                        url: "<g:createLink controller="event" action="saveEvent"></g:createLink>",
                         dataType: "json"
                     },
                     destroy: {   // delete
-                        url: "<g:createLink controller="course" action="deleteCourse"></g:createLink>",
+                        url: "<g:createLink controller="event" action="deleteEvent"></g:createLink>",
                         dataType: "json"
                     },
                     parameterMap: function(options, operation) {
