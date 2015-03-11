@@ -91,6 +91,15 @@ class InstitutionMemberController {
                 member.save()
             }
 
+            def brokerMemberList = BrokerMember.findAllByPerson(institutionMemberInstance.person)
+            brokerMemberList.each { member ->
+                if (!member.endDate) {
+                    member.endDate = institutionMemberInstance.startDate
+                }
+                member.isActive = false
+                member.save()
+            }
+
             institutionInstance.addToInstitutionMembers(institutionMemberInstance)
 //            if (!institutionInstance.save(flush: true)) {
 //                render(view: "create", model: [institutionMemberInstance: institutionMemberInstance])
