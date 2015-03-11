@@ -11,6 +11,7 @@ import alms.Certificate
 import alms.City
 import alms.Country
 import alms.Course
+import alms.Event
 import alms.Institution
 import alms.InstitutionMember
 import alms.ObtainedCertificate
@@ -432,8 +433,20 @@ class BootStrap {
 
         courseInstance=new Course()
         courseInstance.title="دوره دوستان"
-        courseInstance.color="#EE82EE"
+        courseInstance.color="#C0C0C0"
         courseInstance.save()
+
+        //Event
+        def eventInstance=new Event()
+        eventInstance.title="دوره اول"
+        eventInstance.course=Course.get(1)
+        eventInstance.description="شرررررررررررررررررررررررررررررررررررررح"
+        eventInstance.start=new Date()
+        eventInstance.end=new Date()
+        eventInstance.isAllDay=false
+        eventInstance.save()
+
+
 
     }
 }

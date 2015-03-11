@@ -7,15 +7,41 @@
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<a href="#create-course" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="create-course" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+
+    <script>
+        $(document).ready(function () {
+            $('#mainForm')
+                    .on('init.field.fv', function (e, data) {
+                        var $parent = data.element.parents('.form-group'),
+                                $icon = $parent.find('.form-control-feedback[data-fv-icon-for="' + data.field + '"]');
+                        $icon.on('click.clearing', function () {
+                            if ($icon.hasClass('glyphicon-remove')) {
+                                data.fv.resetField(data.element);
+                            }
+                        });
+                    })
+                    .formValidation({
+                        framework: 'bootstrap',
+                        icon: {
+                            valid: 'glyphicon glyphicon-ok',
+                            invalid: 'glyphicon glyphicon-remove',
+                            validating: 'glyphicon glyphicon-refresh'
+                        },
+                        locale: 'fa_IR',
+                        fields: {
+                            title: {
+                                validators: {
+                                    notEmpty: {}
+                                }
+                            }
+                        }
+                    });
+        });
+
+    </script>
+
+    <div id="create-course" class="content scaffold-create" role="main">
+			<legend><g:message code="default.create.label" args="[entityName]" /></legend>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -26,7 +52,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save" >
+			<g:form action="save" name="mainForm">
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

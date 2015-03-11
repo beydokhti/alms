@@ -19,7 +19,7 @@
                 "bFilter": true,
                 "sAjaxSource": "<g:createLink action="jsonList" params="${[institutionId:institutionId]}"/>",
                 "aoColumns": [
-                    {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null, null,null, null, null, null,null]
+                    {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null,null, null, null, null,null]
             });
         });
     </script>
@@ -49,7 +49,7 @@
 
                 <th><g:message code="person.nationalCode" default="National Code"/></th>
 
-                <th><g:message code="person.mobile" default="email"/></th>
+                <th><g:message code="person.mobile" default="mobile"/></th>
 
                 <th><g:message code="person.email" default="email"/></th>
             </tr>
@@ -57,7 +57,7 @@
             <tbody>
             </tbody>
         </table>
-        <g:link class="btn" action="create" id="${institutionId}"><g:message code="default.new.label" args="[entityName]"/></g:link>
+        <g:link class="btn btn-default" action="create" id="${institutionId}"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
 
 </div>

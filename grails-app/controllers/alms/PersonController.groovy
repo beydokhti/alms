@@ -14,23 +14,18 @@ class PersonController {
     }
 
     def list(Integer max) {
-        println(params)
-        def institution = Institution.get(params.id)
-        if (institution) {
-            [institutionId: institution.id]
-        }
     }
 
     def jsonList() {
-        println(params.toString())
-        def columns = ['action', 'name', 'lastName', 'sex', 'degree', 'field', 'dateOfBirth', 'nationalCode', 'mobile', 'email']
+        def columns = ['action', 'name','lastName','sex','degree','field','dateOfBirth','nationalCode','mobile','email']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = Person.count()
         dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
-
+//        dataTableResponse.sEcho = Integer.valueOf(params.sEcho)
         def list
-        if (params.containsKey('sSearch') && params.get('sSearch')) {
+
+        if (params.containsKey('sSearch') &&  params.get('sSearch')) {
             def options = [:]
             options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
             options.offset = params.int("iDisplayStart")
@@ -39,26 +34,16 @@ class PersonController {
                 options.order = params["sSortDir_0"]
                 options.sort = columns[sortIndex]
             }
-            def result = Person.search {
-                must(term('$/Person/broker/id', params.long("institutionId")))
-                must(queryString("*${params.sSearch}*"))
-            }
-
+            def result = Person.search("*${params.sSearch}*", options)
             list = result.results
         } else {
-            def query_criteria = {
-                eq("institution.id", params.long("institutionId"))
-            }
-            def query = queryService.decorate(params + [columns: columns], query_criteria)
+            def query = queryService.listQuery(params + [columns: columns])
             list = Person.createCriteria().list(query)
         }
-
-        def array = list.collect { Person it ->
-            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
-                    "<a href='${g.createLink(controller: "obtainedCertificate",action: "list", params: [id: it.id])}'>${message(code: "certificate", default: "Cer")}</a>"
-            println(action)
-            [action, it.name, it.lastName, message(code: "person.sex." + it.sex, default: ""), message(code: "person.degree." + it.degree, default: ""),
-             message(code: "person.field." + it.field, default: ""), it.dateOfBirth.toString(), it.nationalCode, it.mobile, it.email]
+        def array = list.collect { Person  it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default:"Edit")}</a>"+
+                    "<a href='${g.createLink(controller: "registeredEvent",action: "list", params: [id: it.id])}'>${message(code: "registeredEvent", default: "Reg")}</a>"
+            [action, it.name,it.lastName,it.sex,it.degree,it.field,it.dateOfBirth,it.nationalCode,it.mobile,it.email]
         }
 
         dataTableResponse.aaData = array

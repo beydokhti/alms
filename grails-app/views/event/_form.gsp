@@ -74,19 +74,44 @@
 	<g:textField name="recurrenceException" value="${eventInstance?.recurrenceException}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'ownerID', 'error')} ">
-	<label for="ownerID">
-		<g:message code="event.ownerID.label" default="Owner ID" />
-		
-	</label>
-	<g:textField name="ownerID" value="${eventInstance?.ownerID}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'isAllDay', 'error')} ">
 	<label for="isAllDay">
 		<g:message code="event.isAllDay.label" default="Is All Day" />
 		
 	</label>
 	<g:textField name="isAllDay" value="${eventInstance?.isAllDay}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'price', 'error')} required">
+	<label for="price">
+		<g:message code="event.price.label" default="Price" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="price" type="number" value="${eventInstance.price}" required=""/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'course', 'error')} required">
+	<label for="course">
+		<g:message code="event.course.label" default="Course" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="course" name="course.id" from="${alms.Course.list()}" optionKey="id" required="" value="${eventInstance?.course?.id}" class="many-to-one"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'discount', 'error')} ">
+	<label for="discount">
+		<g:message code="event.discount.label" default="Discount" />
+		
+	</label>
+	
+<ul class="one-to-many">
+<g:each in="${eventInstance?.discount?}" var="d">
+    <li><g:link controller="discount" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="discount" action="create" params="['event.id': eventInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'discount.label', default: 'Discount')])}</g:link>
+</li>
+</ul>
+
 </div>
 

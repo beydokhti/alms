@@ -31,7 +31,6 @@
             });
         });
     </script>
-    %{--todo mtb how many column should be sent: aoColumns--}%
 
     <legend><g:message code="broker.list" default="Broker List"></g:message></legend>
 
@@ -60,7 +59,7 @@
             <tbody>
             </tbody>
         </table>
-        <g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
+        <g:link class="btn btn-default" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
 
 </div>

@@ -17,7 +17,7 @@
 			</ul>
 		</div>
 		<div id="show-event" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+			<legend><g:message code="default.show.label" args="[entityName]" /></legend>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -104,15 +104,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${eventInstance?.ownerID}">
-				<li class="fieldcontain">
-					<span id="ownerID-label" class="property-label"><g:message code="event.ownerID.label" default="Owner ID" /></span>
-					
-						<span class="property-value" aria-labelledby="ownerID-label"><g:fieldValue bean="${eventInstance}" field="ownerID"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${eventInstance?.isAllDay}">
 				<li class="fieldcontain">
 					<span id="isAllDay-label" class="property-label"><g:message code="event.isAllDay.label" default="Is All Day" /></span>
@@ -122,12 +113,41 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${eventInstance?.price}">
+				<li class="fieldcontain">
+					<span id="price-label" class="property-label"><g:message code="event.price.label" default="Price" /></span>
+					
+						<span class="property-value" aria-labelledby="price-label"><g:fieldValue bean="${eventInstance}" field="price"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${eventInstance?.course}">
+				<li class="fieldcontain">
+					<span id="course-label" class="property-label"><g:message code="event.course.label" default="Course" /></span>
+					
+						<span class="property-value" aria-labelledby="course-label"><g:link controller="course" action="show" id="${eventInstance?.course?.id}">${eventInstance?.course?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${eventInstance?.discount}">
+				<li class="fieldcontain">
+					<span id="discount-label" class="property-label"><g:message code="event.discount.label" default="Discount" /></span>
+					
+						<g:each in="${eventInstance.discount}" var="d">
+						<span class="property-value" aria-labelledby="discount-label"><g:link controller="discount" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${eventInstance?.id}" />
-					<g:link class="edit" action="edit" id="${eventInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:link class="btn btn-default" action="edit" id="${eventInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:actionSubmit class="btn btn-default" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
 		</div>

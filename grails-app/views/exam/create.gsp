@@ -1,0 +1,46 @@
+<%@ page import="alms.Exam" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="layout" content="main">
+    <g:set var="entityName" value="${message(code: 'exam.label', default: 'Exam')}"/>
+    <title><g:message code="default.create.label" args="[entityName]"/></title>
+</head>
+
+<body>
+%{--<script>--}%
+    %{--$(document).ready(function(){--}%
+        %{--$("#examStartTime_day").css('display','none')--}%
+        %{--$("#examStartTime_month").css('display','none')--}%
+        %{--$("#examStartTime_year").css('display','none')--}%
+        %{--$("#examEndTime_day").css('display','none')--}%
+        %{--$("#examEndTime_month").css('display','none')--}%
+        %{--$("#examEndTime_year").css('display','none')--}%
+    %{--});--}%
+%{--</script>--}%
+
+<div id="create-exam" class="content scaffold-create" role="main">
+    <legend><g:message code="default.create.label" args="[entityName]"/></legend>
+    <g:if test="${flash.message}">
+        <div class="message" role="status">${flash.message}</div>
+    </g:if>
+    <g:hasErrors bean="${examInstance}">
+        <ul class="errors" role="alert">
+            <g:eachError bean="${examInstance}" var="error">
+                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
+                        error="${error}"/></li>
+            </g:eachError>
+        </ul>
+    </g:hasErrors>
+    <g:form action="save" name="mainForm">
+        <fieldset class="form">
+            <g:render template="form"/>
+        </fieldset>
+        <fieldset class="buttons">
+            <g:submitButton name="create" class="save"
+                            value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+        </fieldset>
+    </g:form>
+</div>
+</body>
+</html>

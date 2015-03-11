@@ -14,14 +14,10 @@ class EventController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [eventInstanceList: Event.list(params), eventInstanceTotal: Event.count()]
     }
 
     def listEvent() {
         def list = Event.list()
-
-//        TimeZone.setDefault(TimeZone.getTimeZone('GMT'))
 
         def eventList = new ArrayList()
         Event.list().each { event ->
@@ -35,7 +31,7 @@ class EventController {
             eventMap.put("StartTimezone", event.startTimezone)
             eventMap.put("EndTimezone", event.endTimezone)
             eventMap.put("Description", event.description)
-            eventMap.put("Price", event.price)
+//            eventMap.put("Price", event.price)
             eventMap.put("RecurrenceID", event.recurrenceID)
             eventMap.put("RecurrenceRule", event.recurrenceRule)
             eventMap.put("RecurrenceException", event.recurrenceException)
@@ -45,8 +41,6 @@ class EventController {
         }
 
         println(eventList as JSON)
-        //todo mtb change return value
-//        render(eventList as JSON)
         def jsonResponse = eventList as JSON
         def response = jsonResponse.toString().replaceAll("Date", "\\\\/Date").replaceAll("\\)", "\\)\\\\/")
         render(response)
@@ -83,14 +77,17 @@ class EventController {
             eventInstance.title = models[0].Title
             eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
             eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
-            eventInstance.startTimezone = models[0].StartTimezone//?models[0].StartTimezone:""
-            eventInstance.endTimezone = models[0].EndTimezone//?models[0].EndTimezone:""
-            eventInstance.description = models[0].Description//?models[0].Description:""
-            eventInstance.price = models[0].Price//?models[0].Description:""
+            eventInstance.startTimezone = models[0].StartTimezone
+            eventInstance.endTimezone = models[0].EndTimezone
+            eventInstance.description = models[0].Description
+            //todo mtb change price resource
+            try {
+                eventInstance.price = models[0].Description as Long
+            }
+            catch(Exception e){}
             eventInstance.recurrenceID = models[0].RecurrenceID
             eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
             eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
-            eventInstance.price = models[0].Price
             eventInstance.isAllDay = models[0].IsAllDay
 
             courseInstance.addToEvents(eventInstance)
@@ -105,7 +102,7 @@ class EventController {
                     "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
-                    "\"Price\":\"${eventInstance.price}\"," +
+//                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
@@ -182,10 +179,14 @@ class EventController {
             eventInstance.title = models[0].Title
             eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
             eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
-            eventInstance.startTimezone = models[0].StartTimezone//?models[0].StartTimezone:""
-            eventInstance.endTimezone = models[0].EndTimezone//?models[0].EndTimezone:""
-            eventInstance.description = models[0].Description//?models[0].Description:""
-            eventInstance.price = models[0].Price//?models[0].Description:""
+            eventInstance.startTimezone = models[0].StartTimezone
+            eventInstance.endTimezone = models[0].EndTimezone
+            eventInstance.description = models[0].Description
+            //todo mtb change price resource
+            try {
+                eventInstance.price = models[0].Description as Long
+            }
+            catch(Exception e){}
             eventInstance.recurrenceID = models[0].RecurrenceID
             eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
             eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
@@ -201,7 +202,7 @@ class EventController {
                     "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
-                    "\"Price\":\"${eventInstance.price}\"," +
+//                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
@@ -236,7 +237,6 @@ class EventController {
     }
 
     def deleteEvent() {
-        //todo mtb delete response has events whole properties,if app deletes this event why sends back data?
         println "Delete params: $params"
         println "Delete params.models: $params.models"
         def models = new org.codehaus.groovy.grails.web.json.JSONArray(params.models)
@@ -249,7 +249,7 @@ class EventController {
                     "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
-                    "\"Price\":\"${eventInstance.price}\"," +
+//                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +

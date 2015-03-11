@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class CourseController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -11,9 +14,46 @@ class CourseController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [courseInstanceList: Course.list(params), courseInstanceTotal: Course.count()]
     }
+
+    def jsonList() {
+        def columns = ['action','title','color','colorPreview']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = Course.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+
+        def list
+
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = Course.search("*${params.sSearch}*", options)
+            list = result.results
+        } else {
+            def query = queryService.listQuery(params + [columns: columns])
+            list = Course.createCriteria().list(query)
+        }
+
+        def array = list.collect { Course it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
+                    "<a href='${g.createLink(controller: "scheduler",action: "scheduler",id:it.id)}'>${message(code: "Scheduler", default: "Sch")}</a>"
+            def colorPreview="<div style=\"color:$it.color\">${message(code:"color."+it.color,default: it.color)}</div>"
+            println("course-json:action:$action")
+            println("course-json:action:$colorPreview")
+            [action,it.title,colorPreview]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
+    }
+
 
     def create() {
         [courseInstance: new Course(params)]
@@ -27,7 +67,7 @@ class CourseController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'course.label', default: 'Course'), courseInstance.id])
-        redirect(action: "show", id: courseInstance.id)
+        redirect(action: "list")
     }
 
     def show(Long id) {
@@ -78,7 +118,7 @@ class CourseController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'course.label', default: 'Course'), courseInstance.id])
-        redirect(action: "show", id: courseInstance.id)
+        redirect(action: "list")
     }
 
     def delete(Long id) {

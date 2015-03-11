@@ -1,50 +1,56 @@
-
 <%@ page import="alms.Course" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'course.label', default: 'Course')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#list-course" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-course" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-				<thead>
-					<tr>
-					
-						<g:sortableColumn property="title" title="${message(code: 'course.title.label', default: 'Title')}" />
-					
-						<g:sortableColumn property="color" title="${message(code: 'course.color.label', default: 'Color')}" />
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${courseInstanceList}" status="i" var="courseInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${courseInstance.id}">${fieldValue(bean: courseInstance, field: "title")}</g:link></td>
-					
-						<td>${fieldValue(bean: courseInstance, field: "color")}</td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${courseInstanceTotal}" />
-			</div>
-		</div>
-	</body>
+<head>
+    <meta name="layout" content="main">
+    <g:set var="entityName" value="${message(code: 'course.label', default: 'Course')}"/>
+    <title><g:message code="default.list.label" args="[entityName]"/></title>
+</head>
+
+<body>
+<script type="text/javascript" charset="utf-8">
+    var courseTable;
+
+    $(document).ready(function () {
+        courseTable = $('#courseBranches').dataTable({
+            "bServerSide": true,
+            "bFilter": true,
+            "sAjaxSource": "<g:createLink action="jsonList" params="${[courseId:courseId]}"/>",
+            "aoColumns": [
+                {
+                    "bSortable": false,
+                    "sClass": "nowrap minimum-width"
+                }, null, {
+                    "bSortable": false,
+                    "sClass": "nowrap minimum-width"
+                }]
+        });
+    });
+</script>
+%{--todo mtb present checkbox--}%
+<legend><g:message code="courseBranches.list" default="Courses List"></g:message></legend>
+
+<div class="well">
+    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
+           id="courseBranches">
+        <thead>
+        <tr>
+
+            <th></th>
+
+            <th><g:message code="courseBranches.title" default="City"/></th>
+
+            <th></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <g:link class="btn btn-default" action="create" id="${courseId}"><g:message code="default.new.label"
+                                                                    args="[entityName]"/></g:link>
+    <g:link controller="scheduler" action="scheduler" class="btn btn-default">scheduler</g:link>
+</div>
+
+</body>
 </html>

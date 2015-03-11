@@ -11,7 +11,7 @@ class Person {
     String	mobile
     String	email
 
-    static hasMany = [certificates:ObtainedCertificate]
+    static hasMany = [certificates:ObtainedCertificate,registeredEvents:RegisteredEvent]
 
     static constraints = {
         name(nullable: false,blank: false)

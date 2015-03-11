@@ -52,7 +52,7 @@
             <tbody>
             </tbody>
         </table>
-        <g:link class="btn" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
+        <g:link class="btn btn-default" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
 
 </div>

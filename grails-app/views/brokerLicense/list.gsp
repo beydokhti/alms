@@ -50,7 +50,7 @@
         <tbody>
         </tbody>
     </table>
-    <g:link class="btn" action="create" id="${brokerId}"><g:message code="default.new.label"
+    <g:link class="btn btn-default" action="create" id="${brokerId}"><g:message code="default.new.label"
                                                                     args="[entityName]"/></g:link>
 </div>
 </body>

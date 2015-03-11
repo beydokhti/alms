@@ -41,7 +41,7 @@
 </div>
 <div class="form-group col-md-6">
     <label for="startDate" class="col-sm-4 control-label">
-        <g:message code="broker.startDate.label" default="startDate" />
+        <g:message code="brokerMember.startDate.label" default="startDate" />
     </label>
     <div class="col-sm-8">
         <g:datePicker class="form-control" name="startDate" precision="day" value="${brokerMemberInstance?.startDate}"
@@ -70,7 +70,7 @@
 </div>
 <div class="form-group col-md-6">
     <label for="dateOfBirth" class="col-sm-4 control-label">
-        <g:message code="broker.dateOfBirth.label" default="dateOfBirth" />
+        <g:message code="brokerMember.dateOfBirth.label" default="dateOfBirth" />
     </label>
     <div class="col-sm-8">
         <g:datePicker class="form-control" name="dateOfBirth" precision="day" value="${brokerMemberInstance?.person?.dateOfBirth}"

@@ -33,14 +33,26 @@
 
 <body>
 
-<a class="offline-button" href="../index.html">Back</a>
-
+%{--<div class="offline-button"><g:link controller="course" action="list"><g:message code="Course" default="Courses"/> </g:link></div>--}%
 <div id="example">
     <div id="team-schedule">
         <div id="people">
-            <input checked type="checkbox" id="alex" value="1">
-            <input checked type="checkbox" id="bob" value="2">
-            <input type="checkbox" id="charlie" value="3">
+            %{--<input checked type="checkbox" id="alex" value="1">--}%
+            %{--<input checked type="checkbox" id="bob" value="2">--}%
+            %{--<input type="checkbox" id="charlie" value="3">--}%
+            <table>
+                <tr>
+                    <g:each in="${courseList}" status="i" var="course">
+                        <g:if test="${ ( i > 0 ) && ( i % 4 == 0 ) }">
+                            </tr><tr>
+                        </g:if>
+                        <td>
+                        <g:checkBox name="courseList" id="${course.title}" value="${course.id}"></g:checkBox>
+                            <label for="courseList">${course.title}</label>
+                        </td>
+                    </g:each>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -97,7 +109,6 @@
                             startTimezone: {from: "StartTimezone"},
                             endTimezone: {from: "EndTimezone"},
                             description: {from: "Description"},
-                            price: {from: "Price", type: "number"},
                             recurrenceId: {from: "RecurrenceID"},
                             recurrenceRule: {from: "RecurrenceRule"},
                             recurrenceException: {from: "RecurrenceException"},
@@ -108,10 +119,12 @@
                 },
                 filter: {
                     logic: "or",
-                    filters: [
-                        {field: "courseId", operator: "eq", value: 1},
-                        {field: "courseId", operator: "eq", value: 2}
-                    ]
+                    filters:
+//                            [
+//                        {field: "courseId", operator: "eq", value: 1},
+//                        {field: "courseId", operator: "eq", value: 2}
+//                    ]
+                    ${filter}
                 }
             },
             resources: [
@@ -125,15 +138,6 @@
 //                        { text: "Charlie", value: 3, color: "#56ca85" }
 //                    ]
                     ${courseDataSource}
-                },
-                {
-                    field: "price",
-                    dataSource: [
-//                        {text: "Alex", value: 1, color: "#f8a398"},
-//                        {text: "Bob", value: 2, color: "#51a0ed"},
-//                        {text: "Charlie", value: 3, color: "#56ca85"}
-                    ],
-                    title: "Price"
                 }
             ]
         });
@@ -165,15 +169,15 @@
 }
 
 #team-schedule {
-    background: url('../kendoUI/examples/team-schedule.png') transparent no-repeat;
-    height: 115px;
+    /*background: url('../kendoUI/examples/team-schedule.png') transparent no-repeat;*/
+    height: 70px;
     position: relative;
 }
 
 #people {
-    background: url('../kendoUI/examples/scheduler-people.png') no-repeat;
+    /*background: url('../kendoUI/examples/scheduler-people.png') no-repeat;*/
     width: 345px;
-    height: 115px;
+    height: 70px;
     position: absolute;
     right: 0;
 }

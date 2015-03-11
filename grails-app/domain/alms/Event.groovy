@@ -1,7 +1,5 @@
 package alms
 
-import java.awt.Color
-
 class Event {
     String title
     Date start
@@ -17,8 +15,9 @@ class Event {
     Long   price
     Course course
 
-
     static belongsTo = [course:Course]
+
+    static hasMany = [discount:Discount,exam:Exam]
 
     static constraints = {
         title(nullable: false)
@@ -31,6 +30,11 @@ class Event {
         recurrenceRule(nullable: true,blank:true)
         recurrenceException(nullable: true,blank:true)
         isAllDay(nullable: true)
-        price(nullable: false,default:0)
+        //todo mtb nullable:false
+        price(nullable: true,default:0)
+    }
+
+    def String toString(){
+        "$course.title-$title"
     }
 }

@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 		<div id="create-event" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<legend><g:message code="default.create.label" args="[entityName]" /></legend>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>

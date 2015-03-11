@@ -59,9 +59,9 @@
         <tbody>
         </tbody>
     </table>
-    <g:link class="btn" action="create" id="${institutionId}"><g:message code="default.new.label"
+    <g:link class="btn btn-default" action="create" id="${institutionId}"><g:message code="default.new.label"
                                                                     args="[entityName]"/></g:link>
-   <g:link class="btn" action="assign" id="${institutionId}"><g:message code="default.assign.label"
+   <g:link class="btn btn-default" action="assign" id="${institutionId}"><g:message code="default.assign.label"
                                                                     args="[entityName]"/></g:link>
 </div>
 </body>

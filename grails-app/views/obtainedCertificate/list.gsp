@@ -41,7 +41,7 @@
         <tbody>
         </tbody>
     </table>
-    <g:link class="btn" action="create" id="${personId}"><g:message code="default.new.label"
+    <g:link class="btn btn-default" action="create" id="${personId}"><g:message code="default.new.label"
                                                                     args="[entityName]"/></g:link>
 </div>
 </body>

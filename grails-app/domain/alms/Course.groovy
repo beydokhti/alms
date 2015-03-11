@@ -9,6 +9,8 @@ class Course {
 
     static hasMany = [events:Event]
 
+    static searchable = true
+
     static constraints = {
         title(nullable: false)
         color(nullable: false,inList: ["#DC143C",
