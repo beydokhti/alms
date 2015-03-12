@@ -14,6 +14,8 @@ class DiscountController {
     }
 
     def list(Integer max) {
+        [discountInstanceList: Discount.list(params), discountInstanceTotal: Discount.count(),hasEvent:Event.count>0?true:false]
+
     }
 
     def jsonList() {

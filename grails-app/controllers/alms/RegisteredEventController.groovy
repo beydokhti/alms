@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class RegisteredEventController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,12 +16,25 @@ class RegisteredEventController {
     }
 
     def list(Integer max) {
-        def personId=params.id
-        [personId:personId]
+        def personIns
+        if (params.id) {
+            personIns = Person.get(params.id)
+        } else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                personIns = Person.get(user.id)
+                if (!personIns) {
+                    return
+                }
+            }
+        }
+        [personId: personIns.id]
     }
 
     def jsonList() {
-        def columns = ['action', 'person','event','mark','examStartDate','examEndDate','examVenue']
+        def columns = ['action', 'person', 'event', 'mark', 'examStartDate', 'examEndDate', 'examVenue']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = RegisteredEvent.count()
@@ -27,7 +42,7 @@ class RegisteredEventController {
 //        dataTableResponse.sEcho = Integer.valueOf(params.sEcho)
         def list
 
-        if (params.containsKey('sSearch') &&  params.get('sSearch')) {
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
             def options = [:]
             options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
             options.offset = params.int("iDisplayStart")
@@ -50,9 +65,9 @@ class RegisteredEventController {
             list = RegisteredEvent.createCriteria().list(query)
         }
         //todo date preview is not ok!
-        def array = list.collect { RegisteredEvent  it ->
-            def action ="<a href='${g.createLink(action: "print", params: [id: it.id])}'>${message(code: "print", default:"Print")}</a>"
-            [action, it.person.toString(),it.event.toString(),it.mark,it.event.exam.examStartTime.toString(),it.event.exam.examEndTime.toString(),it.event.exam.venue]
+        def array = list.collect { RegisteredEvent it ->
+            def action = "<a href='${g.createLink(action: "print", params: [id: it.id])}'>${message(code: "print", default: "Print")}</a>"
+            [action, it.person.toString(), it.event.toString(), it.mark, it.event.exam.examStartTime.toString(), it.event.exam.examEndTime.toString(), it.event.exam.venue]
         }
 
         dataTableResponse.aaData = array
@@ -62,13 +77,13 @@ class RegisteredEventController {
 
     def create() {
 
-        [registeredEventInstance: new RegisteredEvent(params),personId:params.id]
+        [registeredEventInstance: new RegisteredEvent(params), personId: params.id]
     }
 
     def save() {
         println("reffiteredEvent prams:$params")
-        def personInsatnce=Person.get(params.personId)
-        if(personInsatnce) {
+        def personInsatnce = Person.get(params.personId)
+        if (personInsatnce) {
             def registeredEventInstance = new RegisteredEvent(params)
             personInsatnce.addToRegisteredEvents(registeredEventInstance)
             if (!personInsatnce.save(flush: true)) {

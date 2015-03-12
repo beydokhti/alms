@@ -1,6 +1,6 @@
 package alms
 
-class Institution {
+class Institution extends User{
     String	name
     String	nationalCode
     String	registerNumber

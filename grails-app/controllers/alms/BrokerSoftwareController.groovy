@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerSoftwareController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,8 +16,21 @@ class BrokerSoftwareController {
     }
 
     def list(Integer max) {
-        println(params)
-        def brokerIns=Broker.get(params.id)
+        def brokerIns
+        if (params.id) {
+            brokerIns = Broker.get(params.id)
+        } else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                brokerIns = Broker.get(user.id)
+                if (!brokerIns) {
+                    return
+                }
+            }
+        }
+
         if (brokerIns) {
             [brokerId: brokerIns.id]
         }

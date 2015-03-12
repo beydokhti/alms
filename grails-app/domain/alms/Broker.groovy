@@ -1,6 +1,6 @@
 package alms
 
-class Broker {
+class Broker extends User{
 
     String  brokerPersianName
     String  brokerLatinName

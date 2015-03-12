@@ -5,130 +5,106 @@
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'institution.label', default: 'Institution')}"/>
     <title><g:message code="default.show.label" args="[entityName]"/></title>
+
+    <style>
+    .col-md-3 {
+        height: 30px
+    }
+    </style>
 </head>
 
 <body>
-<a href="#show-institution" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                                  default="Skip to content&hellip;"/></a>
-
-<div class="nav" role="navigation">
-    <ul>
-        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]"/></g:link></li>
-        <li><g:link class="create" action="create"><g:message code="default.new.label"
-                                                              args="[entityName]"/></g:link></li>
-    </ul>
-</div>
 
 <div id="show-institution" class="content scaffold-show" role="main">
     <legend><g:message code="default.show.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
-    <ol class="property-list institution">
 
-        <g:if test="${institutionInstance?.name}">
-            <li class="fieldcontain">
-                <span id="name-label" class="property-label"><g:message code="institution.name.label"
-                                                                        default="Name"/></span>
+    <g:if test="${institutionInstance?.name}">
 
-                <span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${institutionInstance}"
-                                                                                        field="name"/></span>
+        <span id="name-label" class="col-md-3"><g:message code="institution.name.label"
+                                                          default="Name"/></span>
 
-            </li>
-        </g:if>
+        <span class="col-md-3" aria-labelledby="name-label"><g:fieldValue bean="${institutionInstance}"
+                                                                          field="name"/></span>
 
-        <g:if test="${institutionInstance?.nationalCode}">
-            <li class="fieldcontain">
-                <span id="nationalCode-label" class="property-label"><g:message code="institution.nationalCode.label"
-                                                                                default="National Code"/></span>
+    </g:if>
 
-                <span class="property-value" aria-labelledby="nationalCode-label"><g:fieldValue
-                        bean="${institutionInstance}" field="nationalCode"/></span>
+    <g:if test="${institutionInstance?.nationalCode}">
 
-            </li>
-        </g:if>
+        <span id="nationalCode-label" class="col-md-3"><g:message code="institution.nationalCode.label"
+                                                                  default="National Code"/></span>
 
-        <g:if test="${institutionInstance?.registerNumber}">
-            <li class="fieldcontain">
-                <span id="registerNumber-label" class="property-label"><g:message
-                        code="institution.registerNumber.label" default="Register Number"/></span>
+        <span class="col-md-3" aria-labelledby="nationalCode-label"><g:fieldValue
+                bean="${institutionInstance}" field="nationalCode"/></span>
 
-                <span class="property-value" aria-labelledby="registerNumber-label"><g:fieldValue
-                        bean="${institutionInstance}" field="registerNumber"/></span>
+    </g:if>
 
-            </li>
-        </g:if>
+    <g:if test="${institutionInstance?.registerNumber}">
 
-        <g:if test="${institutionInstance?.address}">
-            <li class="fieldcontain">
-                <span id="address-label" class="property-label"><g:message code="institution.address.label"
-                                                                           default="Address"/></span>
+        <span id="registerNumber-label" class="col-md-3"><g:message
+                code="institution.registerNumber.label" default="Register Number"/></span>
 
-                <span class="property-value" aria-labelledby="address-label"><g:fieldValue bean="${institutionInstance}"
-                                                                                           field="address"/></span>
+        <span class="col-md-3" aria-labelledby="registerNumber-label"><g:fieldValue
+                bean="${institutionInstance}" field="registerNumber"/></span>
 
-            </li>
-        </g:if>
+    </g:if>
 
-        <g:if test="${institutionInstance?.phone}">
-            <li class="fieldcontain">
-                <span id="phone-label" class="property-label"><g:message code="institution.phone.label"
-                                                                         default="Phone"/></span>
+    <g:if test="${institutionInstance?.address}">
 
-                <span class="property-value" aria-labelledby="phone-label"><g:fieldValue bean="${institutionInstance}"
-                                                                                         field="phone"/></span>
+        <span id="address-label" class="col-md-3"><g:message code="institution.address.label"
+                                                             default="Address"/></span>
 
-            </li>
-        </g:if>
+        <span class="col-md-3" aria-labelledby="address-label"><g:fieldValue bean="${institutionInstance}"
+                                                                             field="address"/></span>
 
-        <g:if test="${institutionInstance?.fax}">
-            <li class="fieldcontain">
-                <span id="fax-label" class="property-label"><g:message code="institution.fax.label"
-                                                                       default="Fax"/></span>
+    </g:if>
 
-                <span class="property-value" aria-labelledby="fax-label"><g:fieldValue bean="${institutionInstance}"
-                                                                                       field="fax"/></span>
+    <g:if test="${institutionInstance?.phone}">
 
-            </li>
-        </g:if>
+        <span id="phone-label" class="col-md-3"><g:message code="institution.phone.label"
+                                                           default="Phone"/></span>
 
-        <g:if test="${institutionInstance?.email}">
-            <li class="fieldcontain">
-                <span id="email-label" class="property-label"><g:message code="institution.email.label"
-                                                                         default="Email"/></span>
+        <span class="col-md-3" aria-labelledby="phone-label"><g:fieldValue bean="${institutionInstance}"
+                                                                           field="phone"/></span>
 
-                <span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${institutionInstance}"
-                                                                                         field="email"/></span>
+    </g:if>
 
-            </li>
-        </g:if>
+    <g:if test="${institutionInstance?.fax}">
 
-        <g:if test="${institutionInstance?.person}">
-            <li class="fieldcontain">
-                <span id="person-label" class="property-label"><g:message code="institution.person.label"
-                                                                          default="Person"/></span>
+        <span id="fax-label" class="col-md-3"><g:message code="institution.fax.label"
+                                                         default="Fax"/></span>
 
-                <g:each in="${institutionInstance.person}" var="p">
-                    <span class="property-value" aria-labelledby="person-label"><g:link controller="person"
-                                                                                        action="show"
-                                                                                        id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-                </g:each>
+        <span class="col-md-3" aria-labelledby="fax-label"><g:fieldValue bean="${institutionInstance}"
+                                                                         field="fax"/></span>
 
-            </li>
-        </g:if>
+    </g:if>
 
-    </ol>
-    <g:form>
-        <fieldset class="buttons">
-            <g:hiddenField name="id" value="${institutionInstance?.id}"/>
-            <g:link class="edit" action="edit" id="${institutionInstance?.id}"><g:message
-                    code="default.button.edit.label" default="Edit"/></g:link>
-            <g:actionSubmit class="btn btn-default" action="delete"
-                            value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                            onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
-        </fieldset>
-    </g:form>
+    <g:if test="${institutionInstance?.email}">
+
+        <span id="email-label" class="col-md-3"><g:message code="institution.email.label"
+                                                           default="Email"/></span>
+
+        <span class="col-md-3" aria-labelledby="email-label"><g:fieldValue bean="${institutionInstance}"
+                                                                           field="email"/></span>
+
+    </g:if>
+
+    <g:if test="${readOnly = false}">
+        <div class="col-md-12">
+            <g:form>
+                <fieldset class="buttons">
+                    <g:hiddenField name="id" value="${institutionInstance?.id}"/>
+                    <g:link class="btn btn-default" action="edit" id="${institutionInstance?.id}"><g:message
+                            code="default.button.edit.label" default="Edit"/></g:link>
+                    <g:actionSubmit class="btn btn-default" action="delete"
+                                    value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+                                    onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+                </fieldset>
+            </g:form>
+        </div>
+    </g:if>
 </div>
 </body>
 </html>

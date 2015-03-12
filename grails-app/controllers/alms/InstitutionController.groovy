@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class InstitutionController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -61,10 +63,17 @@ class InstitutionController {
 
     def save() {
         def institutionInstance = new Institution(params)
+        institutionInstance.username=institutionInstance.nationalCode
+        //todo mtb change password
+        institutionInstance.password="password123"
+        institutionInstance.enabled = true
         if (!institutionInstance.save(flush: true)) {
             render(view: "create", model: [institutionInstance: institutionInstance])
             return
         }
+
+        def institutionRole = Role.findByAuthority("InstitutionRole")
+        UserRole.findByUser(institutionInstance) ?: UserRole.create(institutionInstance, institutionRole)
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'institution.label', default: 'Institution'), institutionInstance.id])
         redirect(action: "list")
@@ -72,13 +81,26 @@ class InstitutionController {
 
     def show(Long id) {
         def institutionInstance = Institution.get(id)
+        Boolean readOnly = false
         if (!institutionInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institution.label', default: 'Institution'), id])
-            redirect(action: "list")
-            return
+            readOnly = true
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                institutionInstance = Institution.get(user.id)
+
+
+                if (!institutionInstance) {
+                    flash.message = message(code: 'default.not.found.message', args: [message(code: 'institution.label', default: 'Institution'), id])
+                    //todo mtb why go to list?
+                    redirect(action: "list")
+                    return
+                }
+            }
         }
 
-        [institutionInstance: institutionInstance]
+        [institutionInstance: institutionInstance,readOnly:readOnly]
     }
 
     def edit(Long id) {

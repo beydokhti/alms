@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerInvestmentFundController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,8 +16,21 @@ class BrokerInvestmentFundController {
     }
 
     def list(Integer max) {
-        println(params)
-        def brokerIns=Broker.get(params.id)
+        def brokerIns
+        if (params.id) {
+            brokerIns = Broker.get(params.id)
+        } else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                brokerIns = Broker.get(user.id)
+                if (!brokerIns) {
+                    return
+                }
+            }
+        }
+
         if (brokerIns) {
             [brokerId: brokerIns.id]
         }
@@ -23,7 +38,7 @@ class BrokerInvestmentFundController {
 
 
     def jsonList() {
-        def columns = ['action','fundName','startingDate','typeAndScale','fundManager','fundCustodian','agencyFund','fundRegisterManager','liquidityGuaranteeFund','investmentManager']
+        def columns = ['action', 'fundName', 'startingDate', 'typeAndScale', 'fundManager', 'fundCustodian', 'agencyFund', 'fundRegisterManager', 'liquidityGuaranteeFund', 'investmentManager']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = BrokerInvestmentFund.count()
@@ -54,9 +69,9 @@ class BrokerInvestmentFundController {
         }
 
         def array = list.collect { BrokerInvestmentFund it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action, it.fundName,it.startingDate.toString(),message(code:"BrokerInvestmentFund.typeAndScale."+it.typeAndScale,it.typeAndScale),it.fundManager,it.fundCustodian,it.agencyFund,it.fundRegisterManager,it.liquidityGuaranteeFund,it.investmentManager]
+            [action, it.fundName, it.startingDate.toString(), message(code: "BrokerInvestmentFund.typeAndScale." + it.typeAndScale, it.typeAndScale), it.fundManager, it.fundCustodian, it.agencyFund, it.fundRegisterManager, it.liquidityGuaranteeFund, it.investmentManager]
         }
 
         dataTableResponse.aaData = array
@@ -64,14 +79,13 @@ class BrokerInvestmentFundController {
     }
 
 
-
     def create() {
-        [brokerInvestmentFundInstance: new BrokerInvestmentFund(params),brokerId:params.id]
+        [brokerInvestmentFundInstance: new BrokerInvestmentFund(params), brokerId: params.id]
     }
 
     def save() {
         println(params)
-        def brokerInstance=Broker.get(params.brokerId)
+        def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
 

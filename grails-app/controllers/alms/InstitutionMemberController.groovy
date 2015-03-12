@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class InstitutionMemberController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,8 +16,20 @@ class InstitutionMemberController {
     }
 
     def list(Integer max) {
-        println(params)
-        def institutionIns = Institution.get(params.id)
+        def institutionIns
+        if (params.id) {
+            institutionIns = Institution.get(params.id)
+        } else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                institutionIns = Institution.get(user.id)
+                if (!institutionIns) {
+                    return
+                }
+            }
+        }
         if (institutionIns) {
             [institutionId: institutionIns.id]
         }
@@ -48,15 +62,15 @@ class InstitutionMemberController {
         } else {
             def query_criteria = {
                 eq("institution.id", params.long("institutionId"))
-                eq("isActive",true)
+                eq("isActive", true)
             }
             def query = queryService.decorate(params + [columns: columns], query_criteria)
             list = InstitutionMember.createCriteria().list(query)
         }
 
         def array = list.collect { InstitutionMember it ->
-            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
-                    "<a href='${g.createLink(controller: "obtainedCertificate",action: "list", params: [id: it.id])}'>${message(code: "certificate", default: "Cer")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
+                    "<a href='${g.createLink(controller: "obtainedCertificate", action: "list", params: [id: it.person.id])}'>${message(code: "certificate", default: "Cer")}</a>"
             println(action)
             [action, it.person.name, it.person.lastName, message(code: "person.sex." + it.person.sex, default: it.person.sex),
              it.startDate, message(code: "person.degree." + it.person.degree, default: it.person.degree),
@@ -81,6 +95,10 @@ class InstitutionMemberController {
 
             def institutionMemberInstance = new InstitutionMember(params)
             institutionMemberInstance.isActive = true
+            institutionMemberInstance.person.username = institutionMemberInstance.person.nationalCode
+            //todo mtb change password
+            institutionMemberInstance.person.password = "password123"
+            institutionMemberInstance.person.enabled = true
 
             def institutionMemberList = InstitutionMember.findAllByPerson(institutionMemberInstance.person)
             institutionMemberList.each { member ->
@@ -120,7 +138,15 @@ class InstitutionMemberController {
 
             def institutionMemberInstance = new InstitutionMember(params)
             def person = new Person(params)
+            person.username = person.nationalCode
+            //todo mtb change password
+            person.password = "password123"
+            person.enabled=true
             person.save()
+
+            def personRole = Role.findByAuthority("PersonRole")
+            UserRole.findByUser(person) ?: UserRole.create(person, personRole)
+
             institutionMemberInstance.person = person
             institutionMemberInstance.isActive = true
             institutionInstance.addToInstitutionMembers(institutionMemberInstance)

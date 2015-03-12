@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerMemberController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,8 +16,22 @@ class BrokerMemberController {
     }
 
     def list(Integer max) {
-        println(params)
-        def brokerIns = Broker.get(params.id)
+
+        def brokerIns
+        if (params.id) {
+            brokerIns = Broker.get(params.id)
+        } else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                brokerIns = Broker.get(user.id)
+                if (!brokerIns) {
+                    return
+                }
+            }
+        }
+
         if (brokerIns) {
             [brokerId: brokerIns.id]
         }
@@ -48,15 +64,15 @@ class BrokerMemberController {
         } else {
             def query_criteria = {
                 eq("broker.id", params.long("brokerId"))
-                eq("isActive",true)
+                eq("isActive", true)
             }
             def query = queryService.decorate(params + [columns: columns], query_criteria)
             list = BrokerMember.createCriteria().list(query)
         }
 
         def array = list.collect { BrokerMember it ->
-            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
-                    "<a href='${g.createLink(controller: "obtainedCertificate",action: "list", params: [id: it.id])}'>${message(code: "certificate", default: "Cer")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
+                    "<a href='${g.createLink(controller: "obtainedCertificate", action: "list", params: [id: it.person.id])}'>${message(code: "certificate", default: "Cer")}</a>"
             println(action)
             [action, it.person.name, it.person.lastName, message(code: "person.sex." + it.person.sex, default: it.person.sex), message(code: "brokerMember.position." + it.position, default: it.position),
              it.startDate, message(code: "person.degree." + it.person.degree, default: it.person.degree),
@@ -81,6 +97,9 @@ class BrokerMemberController {
 
             def brokerMemberInstance = new BrokerMember(params)
             brokerMemberInstance.isActive = true
+            brokerMemberInstance.person.username = brokerMemberInstance.person.nationalCode
+            //todo mtb change password
+            brokerMemberInstance.person.password = "password123"
 
             def brokerMemberList = BrokerMember.findAllByPerson(brokerMemberInstance.person)
             brokerMemberList.each { member ->
@@ -91,7 +110,7 @@ class BrokerMemberController {
                 member.save()
             }
 
-            def institutionMemberList=InstitutionMember.findAllByPerson(brokerMemberInstance.person)
+            def institutionMemberList = InstitutionMember.findAllByPerson(brokerMemberInstance.person)
             institutionMemberList.each { member ->
                 if (!member.endDate) {
                     member.endDate = brokerMemberInstance.startDate
@@ -121,7 +140,15 @@ class BrokerMemberController {
 
             def brokerMemberInstance = new BrokerMember(params)
             def person = new Person(params)
+            person.username = person.nationalCode
+            //todo mtb change password
+            person.password = "password123"
+            person.enabled = true
             person.save()
+
+            def personRole = Role.findByAuthority("PersonRole")
+            UserRole.findByUser(person) ?: UserRole.create(person, personRole)
+
             brokerMemberInstance.person = person
             brokerMemberInstance.isActive = true
             brokerInstance.addToBrokerMembers(brokerMemberInstance)

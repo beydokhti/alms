@@ -16,7 +16,8 @@
     </label>
     <div class="col-sm-8">
         <g:select class="form-control"   name="personType" placeholder="personType" from="${discountInstance.constraints.personType.inList}"
-                  value="${discountInstance?.personType}"/>
+                  value="${discountInstance?.personType}"
+        valueMessagePrefix="${message(code:'discountInstance.personType')}"/>
     </div>
 </div>
 <div class="form-group col-md-6">

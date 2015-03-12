@@ -62,7 +62,7 @@
     <g:form>
         <fieldset class="buttons">
             <g:hiddenField name="id" value="${brokerSoftwareInstance?.id}"/>
-            <g:link class="edit" action="edit" id="${brokerSoftwareInstance?.id}"><g:message
+            <g:link class="btn btn-default" action="edit" id="${brokerSoftwareInstance?.id}"><g:message
                     code="default.button.edit.label" default="Edit"/></g:link>
             <g:actionSubmit class="btn btn-default" action="delete"
                             value="${message(code: 'default.button.delete.label', default: 'Delete')}"

@@ -17,7 +17,7 @@
             personTable = $('#person').dataTable({
                 "bServerSide": true,
                 "bFilter": true,
-                "sAjaxSource": "<g:createLink action="jsonList" params="${[institutionId:institutionId]}"/>",
+                "sAjaxSource": "<g:createLink action="jsonList" />",
                 "aoColumns": [
                     {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null, null,null, null, null, null,null]
             });
@@ -57,7 +57,7 @@
             <tbody>
             </tbody>
         </table>
-        <g:link class="btn btn-default" action="create" id="${institutionId}"><g:message code="default.new.label" args="[entityName]"/></g:link>
+        <g:link class="btn btn-default" action="create" ><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
 
 </div>

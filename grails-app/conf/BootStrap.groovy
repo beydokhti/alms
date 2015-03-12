@@ -16,6 +16,9 @@ import alms.Institution
 import alms.InstitutionMember
 import alms.ObtainedCertificate
 import alms.Person
+import alms.Role
+import alms.User
+import alms.UserRole
 
 import java.lang.reflect.Member
 
@@ -24,6 +27,14 @@ class BootStrap {
     def destroy = {
     }
     def init = { servletContext ->
+
+        def bRole = Role.findByAuthority("BrokerRole") ?: new Role(authority: "BrokerRole").save()
+        def iRole = Role.findByAuthority("InstitutionRole") ?: new Role(authority: "InstitutionRole").save()
+        def pRole = Role.findByAuthority("PersonRole") ?: new Role(authority: "PersonRole").save()
+        def admRole = Role.findByAuthority("AdminRole") ?: new Role(authority: "AdminRole").save()
+
+        def admUser = User.findByUsername("admin") ?: new User(username: 'admin', password: 'admin123', enabled: true).save()
+        def ur = UserRole.findByUser(admUser) ?: UserRole.create(admUser, admRole, true)
 
         TimeZone.setDefault(TimeZone.getTimeZone('UTC'))
         def country = new Country()
@@ -186,7 +197,12 @@ class BootStrap {
         broker.imeRank = 19
         broker.imeOrdinaryPoint = 2
         broker.imeEncouragingPoint = 1
+        broker.username = "broker1"
+        broker.password = "password"
+        broker.enabled = true
         broker.save()
+
+        ur = UserRole.findByUser(broker) ?: UserRole.create(broker, bRole, true)
 
 //      shareholder
         def brokerShare = new BrokerShareholder()
@@ -225,6 +241,8 @@ class BootStrap {
         brokerBranch.tseStock = false
         broker.addToBrokerBranches(brokerBranch)
         broker.save()
+
+        ur = UserRole.findByUser(broker) ?: UserRole.create(broker, bRole, true)
 
 //        InvestmentFund
         def brokerInvestmentFund = new BrokerInvestmentFund()
@@ -351,6 +369,9 @@ class BootStrap {
         broker.imeRank = 19
         broker.imeOrdinaryPoint = 2
         broker.imeEncouragingPoint = 1
+        broker.username = "broker2"
+        broker.password = "password"
+        broker.enabled = true
         broker.save()
 
         brokerShare = new BrokerShareholder()
@@ -395,8 +416,12 @@ class BootStrap {
         person.nationalCode = "00686140987"
         person.mobile = "09361782347"
         person.email = "reza.ali@gmail.com"
+        person.username = "person1"
+        person.password = "password123"
+        person.enabled = true
         person.save()
 
+        ur = UserRole.findByUser(person) ?: UserRole.create(person, pRole, true)
 
         person = new Person()
         person.name = "Mary"
@@ -408,7 +433,12 @@ class BootStrap {
         person.nationalCode = "00686140987"
         person.mobile = "09361782347"
         person.email = "mary.jigar@gmail.com"
+        person.username = "person2"
+        person.password = "password123"
+        person.enabled = true
         person.save()
+
+        ur = UserRole.findByUser(person) ?: UserRole.create(person, pRole, true)
 
         //Institution
         def institution = new Institution()
@@ -418,34 +448,38 @@ class BootStrap {
         institution.email = "nahad@ghashng.com"
         institution.fax = "02126435345"
         institution.registerNumber = "123123"
+        institution.username="ins1"
+        institution.password="password"
+        institution.enabled=true
         institution.save()
 
+        ur = UserRole.findByUser(institution) ?: UserRole.create(institution, iRole, true)
+
         //course
-        def courseInstance=new Course()
-        courseInstance.title="دوره دوره ها"
-        courseInstance.color="#808080"
+        def courseInstance = new Course()
+        courseInstance.title = "دوره دوره ها"
+        courseInstance.color = "#808080"
         courseInstance.save()
 
-        courseInstance=new Course()
-        courseInstance.title="دوره هفتگی"
-        courseInstance.color="#4B0082"
+        courseInstance = new Course()
+        courseInstance.title = "دوره هفتگی"
+        courseInstance.color = "#4B0082"
         courseInstance.save()
 
-        courseInstance=new Course()
-        courseInstance.title="دوره دوستان"
-        courseInstance.color="#C0C0C0"
+        courseInstance = new Course()
+        courseInstance.title = "دوره دوستان"
+        courseInstance.color = "#C0C0C0"
         courseInstance.save()
 
         //Event
-        def eventInstance=new Event()
-        eventInstance.title="دوره اول"
-        eventInstance.course=Course.get(1)
-        eventInstance.description="شرررررررررررررررررررررررررررررررررررررح"
-        eventInstance.start=new Date()
-        eventInstance.end=new Date()
-        eventInstance.isAllDay=false
+        def eventInstance = new Event()
+        eventInstance.title = "دوره اول"
+        eventInstance.course = Course.get(1)
+        eventInstance.description = "شرررررررررررررررررررررررررررررررررررررح"
+        eventInstance.start = new Date()
+        eventInstance.end = new Date()
+        eventInstance.isAllDay = false
         eventInstance.save()
-
 
 
     }

@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class PersonController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -57,11 +59,8 @@ class PersonController {
 
     def save() {
         println(params)
-        def institutionInstance = Institution.get(params.institutionId)
         //todo handle if brokerInstance is null
-        if (institutionInstance) {
             def personInstance = new Person(params)
-            institutionInstance.addToPerson(personInstance)
 
             if (!personInstance.save(flush: true)) {
                 render(view: "create", model: [personInstance: personInstance])
@@ -69,19 +68,30 @@ class PersonController {
             }
 
             flash.message = message(code: 'default.created.message', args: [message(code: 'person.label', default: 'Person'), personInstance.id])
-            redirect(action: "list", id: institutionInstance.id)
-        }
+            redirect(action: "list")
     }
 
     def show(Long id) {
         def personInstance = Person.get(id)
+        Boolean readOnly = false
         if (!personInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'person.label', default: 'Person'), id])
-            redirect(action: "list")
-            return
+            readOnly = true
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                personInstance = Person.get(user.id)
+
+                if (!personInstance) {
+                    flash.message = message(code: 'default.not.found.message', args: [message(code: 'institution.label', default: 'Institution'), id])
+                    //todo mtb why go to list?
+                    redirect(action: "list")
+                    return
+                }
+            }
         }
 
-        [personInstance: personInstance]
+        [personInstance: personInstance,readOnly:readOnly]
     }
 
     def edit(Long id) {

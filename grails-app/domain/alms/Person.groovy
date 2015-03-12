@@ -1,6 +1,6 @@
 package alms
 
-class Person {
+class Person extends User {
     String	name
     String	lastName
     String	sex

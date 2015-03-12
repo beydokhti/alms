@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class BrokerLicenseController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,15 +16,28 @@ class BrokerLicenseController {
     }
 
     def list(Integer max) {
-        println(params)
-        def brokerIns=Broker.get(params.id)
+        def brokerIns
+
+        if (params.id) {
+            brokerIns = Broker.get(params.id)
+        } else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                brokerIns = Broker.get(user.id)
+                if (!brokerIns) {
+                    return
+                }
+            }
+        }
         if (brokerIns) {
             [brokerId: brokerIns.id]
         }
     }
 
     def jsonList() {
-        def columns = ['action','displayOrder','title1','title2','hasLicense','licenseNumber','licenseDate','licenseExpiry']
+        def columns = ['action', 'displayOrder', 'title1', 'title2', 'hasLicense', 'licenseNumber', 'licenseDate', 'licenseExpiry']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = BrokerLicense.count()
@@ -53,9 +68,9 @@ class BrokerLicenseController {
         }
 
         def array = list.collect { BrokerLicense it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action, it.displayOrder,it.title1,it.title2,it.hasLicense,it.licenseNumber,it.licenseDate,it.licenseExpiry]
+            [action, it.displayOrder, it.title1, it.title2, it.hasLicense, it.licenseNumber, it.licenseDate, it.licenseExpiry]
         }
 
         dataTableResponse.aaData = array
@@ -63,14 +78,13 @@ class BrokerLicenseController {
     }
 
 
-
     def create() {
-        [brokerLicenseInstance: new BrokerLicense(params),brokerId:params.id]
+        [brokerLicenseInstance: new BrokerLicense(params), brokerId: params.id]
     }
 
     def save() {
         println(params)
-        def brokerInstance=Broker.get(params.brokerId)
+        def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
 

@@ -95,3 +95,27 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'alms.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'alms.UserRole'
+grails.plugins.springsecurity.authority.className = 'alms.Role'
+
+
+//grails.plugins.springsecurity.interceptUrlMap = [
+//        '/logout': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/login/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/j_spring_security_check': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/js/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/css/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/kendoUI/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/formValidator/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/DataTables-rtl/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/DataTables/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/datatables-bootstraps/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/bootstrap-rtl/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/bootstrap/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/images/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+////        '/favico.ico': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/**': ['IS_AUTHENTICATED_REMEMBERED']
+//]
