@@ -90,10 +90,10 @@
 <div id="edit-person" class="content scaffold-edit" role="main">
     <legend><g:message code="default.edit.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-danger" role="alert">${flash.message}</div>
     </g:if>
     <g:hasErrors bean="${personInstance}">
-        <ul class="errors" role="alert">
+        <ul class="alert alert-danger" role="alert">
             <g:eachError bean="${personInstance}" var="error">
                 <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
                         error="${error}"/></li>
@@ -109,9 +109,12 @@
         <fieldset class="buttons">
             <g:actionSubmit class="btn btn-default" action="update"
                             value="${message(code: 'default.button.update.label', default: 'Update')}"/>
-            <g:actionSubmit class="btn btn-default" action="delete"
-                            value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate=""
-                            onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+            <sec:ifAllGranted roles="AdminRole">
+                <g:actionSubmit class="btn btn-default" action="delete"
+                                value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+                                formnovalidate=""
+                                onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+            </sec:ifAllGranted>
         </fieldset>
     </g:form>
 </div>

@@ -17,7 +17,7 @@
 <div id="show-person" class="content scaffold-show" role="main">
     <legend><g:message code="default.show.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-success" role="alert">${flash.message}</div>
     </g:if>
 
     <div class="row">
@@ -111,7 +111,6 @@
         </g:if>
 
     </div>
-    <g:if test="${readOnly = false}">
         <div class="col-md-12">
             <g:form>
                 <fieldset class="buttons">
@@ -119,13 +118,16 @@
                     <g:link class="btn btn-default" action="edit" id="${personInstance?.id}"><g:message
                             code="default.button.edit.label"
                             default="Edit"/></g:link>
+                    <g:if test="${readOnly = false}">
+
                     <g:actionSubmit class="btn btn-default" action="delete"
                                     value="${message(code: 'default.button.delete.label', default: 'Delete')}"
                                     onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+                    </g:if>
+
                 </fieldset>
             </g:form>
         </div>
-    </g:if>
 </div>
 </body>
 </html>

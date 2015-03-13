@@ -2,6 +2,29 @@
 
 
 <div class="form-group col-md-6">
+    <label for="username" class="col-sm-4 control-label">
+        <g:message code="person.username.label" default="username"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="username" placeholder="username"
+                     value="${personInstance?.username}"/>
+    </div>
+</div>
+
+<div class="form-group col-md-6">
+    <label for="password" class="col-sm-4 control-label">
+        <g:message code="person.password.label" default="password"/>
+    </label>
+
+    <div class="col-sm-8">
+        <g:textField class="form-control" name="password" placeholder="password"
+                     />
+    </div>
+</div>
+
+
+<div class="form-group col-md-6">
     <label for="name" class="col-sm-4 control-label">
         <g:message code="person.name.label" default="name"/>
     </label>
