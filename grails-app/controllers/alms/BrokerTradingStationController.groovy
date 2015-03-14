@@ -135,7 +135,7 @@ class BrokerTradingStationController {
                 brokerTradingStationInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation')] as Object[],
                         "Another user has updated this BrokerTradingStation while you were editing")
-                render(view: "edit", model: [brokerTradingStationInstance: brokerTradingStationInstance])
+                render(view: "edit", model: [id: brokerTradingStationInstance.id])
                 return
             }
         }
@@ -143,7 +143,7 @@ class BrokerTradingStationController {
         brokerTradingStationInstance.properties = params
 
         if (!brokerTradingStationInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerTradingStationInstance: brokerTradingStationInstance])
+            render(view: "edit", model: [id: brokerTradingStationInstance.id])
             return
         }
 

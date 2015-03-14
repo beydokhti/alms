@@ -112,7 +112,7 @@
                             recurrenceId: {from: "RecurrenceID"},
                             recurrenceRule: {from: "RecurrenceRule"},
                             recurrenceException: {from: "RecurrenceException"},
-                            courseId: {from: "CourseID", defaultValue: 1},
+                            courseId: {from: "CourseID", defaultValue: 1, validation: {required: true}},
                             isAllDay: {type: "boolean", from: "IsAllDay"}
                         }
                     }

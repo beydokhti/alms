@@ -10,6 +10,8 @@ class InstitutionMember {
 
     static belongsTo = [institution: Institution, person: Person]
 
+    static searchable = true
+
     static constraints = {
         startDate(nullable: true)
         endDate(nullable: true)

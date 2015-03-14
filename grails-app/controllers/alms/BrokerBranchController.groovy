@@ -135,7 +135,7 @@ class BrokerBranchController {
                 brokerBranchInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerBranch.label', default: 'BrokerBranch')] as Object[],
                         "Another user has updated this BrokerBranch while you were editing")
-                render(view: "edit", model: [brokerBranchInstance: brokerBranchInstance])
+                render(view: "edit", model: [id: brokerBranchInstance.id])
                 return
             }
         }
@@ -143,7 +143,7 @@ class BrokerBranchController {
         brokerBranchInstance.properties = params
 
         if (!brokerBranchInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerBranchInstance: brokerBranchInstance])
+            render(view: "edit", model: [id: brokerBranchInstance.id])
             return
         }
 

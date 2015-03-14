@@ -93,9 +93,8 @@ class BrokerMemberController {
         println(params)
         def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
+        def brokerMemberInstance = new BrokerMember(params)
         if (brokerInstance) {
-
-            def brokerMemberInstance = new BrokerMember(params)
             brokerMemberInstance.isActive = true
             brokerMemberInstance.person.username = brokerMemberInstance.person.nationalCode
             //todo mtb change password
@@ -137,28 +136,35 @@ class BrokerMemberController {
         def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
-
             def brokerMemberInstance = new BrokerMember(params)
             def person = new Person(params)
-            person.username = person.nationalCode
-            //todo mtb change password
-            person.password = "password123"
-            person.enabled = true
-            person.save()
+            if (!Person.findAllByNationalCode(params.nationalCode)&&!User.findByUsername(person.nationalCode)) {
 
-            def personRole = Role.findByAuthority("PersonRole")
-            UserRole.findByUser(person) ?: UserRole.create(person, personRole)
+                person.username = person.nationalCode
+                //todo mtb change password
+                person.password = "password123"
+                person.enabled = true
+                person.save()
 
-            brokerMemberInstance.person = person
-            brokerMemberInstance.isActive = true
-            brokerInstance.addToBrokerMembers(brokerMemberInstance)
-            if (!brokerInstance.save(flush: true)) {
+                def personRole = Role.findByAuthority("PersonRole")
+                UserRole.findByUser(person) ?: UserRole.create(person, personRole)
+
+                brokerMemberInstance.person = person
+                brokerMemberInstance.isActive = true
+                brokerInstance.addToBrokerMembers(brokerMemberInstance)
+                if (!brokerInstance.save(flush: true)) {
+                    render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
+                    return
+                }
+
+                flash.message = message(code: 'default.created.message', args: [message(code: 'brokerMember.label', default: 'brokerMember'), brokerMemberInstance.id])
+                redirect(action: "list", id: brokerInstance.id)
+            } else {
+                flash.message = message(code: 'brokerMember.unique.nationalCode.message', default: 'National Id should be unique ')
                 render(view: "create", model: [brokerMemberInstance: brokerMemberInstance])
                 return
             }
 
-            flash.message = message(code: 'default.created.message', args: [message(code: 'brokerMember.label', default: 'brokerMember'), brokerMemberInstance.id])
-            redirect(action: "list", id: brokerInstance.id)
         }
 
     }
@@ -198,7 +204,7 @@ class BrokerMemberController {
                 brokerMemberInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerMember.label', default: 'BrokerMember')] as Object[],
                         "Another user has updated this BrokerMember while you were editing")
-                render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
+                render(view: "edit", model: [id: brokerMemberInstance.id])
                 return
             }
         }
@@ -206,7 +212,7 @@ class BrokerMemberController {
         brokerMemberInstance.properties = params
 
         if (!brokerMemberInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
+            render(view: "edit", model: [id: brokerMemberInstance.id])
             return
         }
 
@@ -228,7 +234,7 @@ class BrokerMemberController {
                 brokerMemberInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerMember.label', default: 'BrokerMember')] as Object[],
                         "Another user has updated this BrokerMember while you were editing")
-                render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
+                render(view: "edit", model: [id: brokerMemberInstance.id])
                 return
             }
         }
@@ -237,7 +243,7 @@ class BrokerMemberController {
         brokerMemberInstance.person.properties = params
 
         if (!brokerMemberInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerMemberInstance: brokerMemberInstance])
+            render(view: "edit", model: [id: brokerMemberInstance.id])
             return
         }
 
@@ -268,4 +274,5 @@ class BrokerMemberController {
     def Assign() {
         [brokerMemberInstance: new BrokerMember(params), brokerId: params.id]
     }
+
 }

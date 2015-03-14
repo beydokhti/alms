@@ -131,7 +131,7 @@ class RegisteredEventController {
                 registeredEventInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'registeredEvent.label', default: 'RegisteredEvent')] as Object[],
                         "Another user has updated this RegisteredEvent while you were editing")
-                render(view: "edit", model: [registeredEventInstance: registeredEventInstance])
+                render(view: "edit", model: [id: registeredEventInstance.id])
                 return
             }
         }
@@ -139,7 +139,7 @@ class RegisteredEventController {
         registeredEventInstance.properties = params
 
         if (!registeredEventInstance.save(flush: true)) {
-            render(view: "edit", model: [registeredEventInstance: registeredEventInstance])
+            render(view: "edit", model: [id: registeredEventInstance.id])
             return
         }
 

@@ -1,8 +1,11 @@
 package alms
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class CertificateController {
+
+    def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -13,6 +16,39 @@ class CertificateController {
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [certificateInstanceList: Certificate.list(params), certificateInstanceTotal: Certificate.count()]
+    }
+
+    def jsonList() {
+        def columns = ['action', 'cerType','cerTitle']
+
+        def dataTableResponse = [:]
+        dataTableResponse.iTotalRecords = Certificate.count()
+        dataTableResponse.iTotalDisplayRecords = dataTableResponse.iTotalRecords
+//        dataTableResponse.sEcho = Integer.valueOf(params.sEcho)
+        def list
+
+        if (params.containsKey('sSearch') &&  params.get('sSearch')) {
+            def options = [:]
+            options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
+            options.offset = params.int("iDisplayStart")
+            def sortIndex = params.int("iSortCol_0")
+            if (sortIndex > 0) {
+                options.order = params["sSortDir_0"]
+                options.sort = columns[sortIndex]
+            }
+            def result = Certificate.search("*${params.sSearch}*", options)
+            list = result.results
+        } else {
+            def query = queryService.listQuery(params + [columns: columns])
+            list = Certificate.createCriteria().list(query)
+        }
+        def array = list.collect { Certificate  it ->
+            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default:"Edit")}</a>"
+            [action, it.cerType,it.cerTitle]
+        }
+
+        dataTableResponse.aaData = array
+        render(dataTableResponse as JSON)
     }
 
     def create() {
@@ -27,7 +63,7 @@ class CertificateController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'certificate.label', default: 'Certificate'), certificateInstance.id])
-        redirect(action: "show", id: certificateInstance.id)
+        redirect(action: "list")
     }
 
     def show(Long id) {
@@ -65,7 +101,7 @@ class CertificateController {
                 certificateInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'certificate.label', default: 'Certificate')] as Object[],
                         "Another user has updated this Certificate while you were editing")
-                render(view: "edit", model: [certificateInstance: certificateInstance])
+                render(view: "edit", model: [id: certificateInstance.id])
                 return
             }
         }
@@ -73,12 +109,12 @@ class CertificateController {
         certificateInstance.properties = params
 
         if (!certificateInstance.save(flush: true)) {
-            render(view: "edit", model: [certificateInstance: certificateInstance])
+            render(view: "edit", model: [id: certificateInstance.id])
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'certificate.label', default: 'Certificate'), certificateInstance.id])
-        redirect(action: "show", id: certificateInstance.id)
+        redirect(action: "list")
     }
 
     def delete(Long id) {

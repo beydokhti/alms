@@ -82,4 +82,8 @@ class Broker extends User{
         imeOrdinaryPoint(nullable: true)
         imeEncouragingPoint(nullable: true)
     }
+
+def String toString(){
+    "$brokerPersianName"
+}
 }

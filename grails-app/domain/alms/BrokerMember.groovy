@@ -1,7 +1,7 @@
 package alms
 
 class BrokerMember {
-    Person person
+    Person  person
     Broker  broker
     Date	startDate
     Date	endDate

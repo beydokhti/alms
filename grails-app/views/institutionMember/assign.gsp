@@ -43,10 +43,10 @@
 <div id="create-institutionMember" class="content scaffold-create" role="main">
     <legend><g:message code="default.create.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-danger" role="alert">${flash.message}</div>
     </g:if>
     <g:hasErrors bean="${institutionMemberInstance}">
-        <ul class="errors" role="alert">
+        <ul class="alert alert-danger"role="alert">
             <g:eachError bean="${institutionMemberInstance}" var="error">
                 <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
                         error="${error}"/></li>

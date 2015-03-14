@@ -7,52 +7,46 @@
     <title><g:message code="default.list.label" args="[entityName]"/></title>
 </head>
 
-<body> zz
-<a href="#list-certificate" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                                  default="Skip to content&hellip;"/></a>
-
-<div class="nav" role="navigation">
-    <ul>
-        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-        <li><g:link class="create" action="create"><g:message code="default.new.label"
-                                                              args="[entityName]"/></g:link></li>
-    </ul>
-</div>
+<body>
 
 <div id="list-certificate" class="content scaffold-list" role="main">
-    <legend><g:message code="default.list.label" args="[entityName]"/></legend>
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <table>
-        <thead>
-        <tr>
+    <script type="text/javascript" charset="utf-8">
+        var certificateTable;
 
-            <g:sortableColumn property="cerType"
-                              title="${message(code: 'certificate.cerType.label', default: 'Cre Type')}"/>
+        $(document).ready(function () {
+            certificateTable = $('#certificate').dataTable({
+                "bServerSide": true,
+                "bFilter": true,
+                "sAjaxSource": "<g:createLink action="jsonList"/>",
+                "aoColumns": [
+                    {"bSortable": false, "sClass": "nowrap minimum-width"}, null, null]
+            });
+        });
+    </script>
 
-            <g:sortableColumn property="cerTitle"
-                              title="${message(code: 'certificate.cerTitle.label', default: 'Cer Title')}"/>
+    <legend><g:message code="certificate.list" default="Certificate List"></g:message></legend>
 
-        </tr>
-        </thead>
-        <tbody>
-        <g:each in="${certificateInstanceList}" status="i" var="certificateInstance">
-            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+    <div class="well">
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
+               id="certificate">
+            <thead>
+            <tr>
 
-                <td><g:link action="show"
-                            id="${certificateInstance.id}">${fieldValue(bean: certificateInstance, field: "cerType")}</g:link></td>
+                <th></th>
 
-                <td>${fieldValue(bean: certificateInstance, field: "cerTitle")}</td>
+                <th><g:message code="certificate.cerType" default="cerType"/></th>
+
+                <th><g:message code="certificate.cerTitle" default="cerTitle"/></th>
 
             </tr>
-        </g:each>
-        </tbody>
-    </table>
-
-    <div class="pagination">
-        <g:paginate total="${certificateInstanceTotal}"/>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <g:link class="btn btn-default" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link>
     </div>
+
 </div>
+
 </body>
 </html>

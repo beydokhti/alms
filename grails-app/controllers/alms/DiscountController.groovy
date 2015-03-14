@@ -104,7 +104,7 @@ class DiscountController {
                 discountInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'discount.label', default: 'Discount')] as Object[],
                         "Another user has updated this Discount while you were editing")
-                render(view: "edit", model: [discountInstance: discountInstance])
+                render(view: "edit", model: [id: discountInstance.id])
                 return
             }
         }
@@ -112,7 +112,7 @@ class DiscountController {
         discountInstance.properties = params
 
         if (!discountInstance.save(flush: true)) {
-            render(view: "edit", model: [discountInstance: discountInstance])
+            render(view: "edit", model: [id: discountInstance.id])
             return
         }
 

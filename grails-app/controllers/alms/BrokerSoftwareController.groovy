@@ -136,7 +136,7 @@ class BrokerSoftwareController {
                 brokerSoftwareInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerSoftware.label', default: 'BrokerSoftware')] as Object[],
                         "Another user has updated this BrokerSoftware while you were editing")
-                render(view: "edit", model: [brokerSoftwareInstance: brokerSoftwareInstance])
+                render(view: "edit", model: [id: brokerSoftwareInstance.id])
                 return
             }
         }
@@ -144,7 +144,7 @@ class BrokerSoftwareController {
         brokerSoftwareInstance.properties = params
 
         if (!brokerSoftwareInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerSoftwareInstance: brokerSoftwareInstance])
+            render(view: "edit", model: [id: brokerSoftwareInstance.id])
             return
         }
 

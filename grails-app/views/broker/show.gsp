@@ -21,7 +21,7 @@
 <div id="show-broker" class="content scaffold-show" role="main">
     <legend><g:message code="default.show.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-success" role="alert">${flash.message}</div>
     </g:if>
 %{--<ol class="property-list broker">--}%
 
@@ -457,7 +457,7 @@
     <g:if test="${readOnly == false}">
         <div class="col-md-12" style="">
         <g:form>
-            <fieldset class="form-horizontal"">
+            <fieldset class="form-horizontal">
             <g:hiddenField name="id" value="${brokerInstance?.id}"/>
             <g:link class="btn btn-default" action="edit" id="${brokerInstance?.id}"><g:message
                     code="default.button.edit.label"

@@ -1,4 +1,4 @@
-<%@ page import="alms.BrokerMember" %>
+<%@ page import="alms.InstitutionMember" %>
 <!DOCTYPE html>
 <html>
 <head>

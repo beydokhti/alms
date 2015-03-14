@@ -22,7 +22,7 @@
 <div id="list-address" class="content scaffold-list" role="main">
     <legend><g:message code="default.list.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-danger" role="alert">${flash.message}</div>
     </g:if>
     <table>
         <thead>

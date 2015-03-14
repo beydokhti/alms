@@ -1,21 +1,21 @@
 <%@ page import="alms.Certificate" %>
 
 
-
-<div class="fieldcontain ${hasErrors(bean: certificateInstance, field: 'cerType', 'error')} ">
-    <label for="cerType">
-        <g:message code="certificate.cerType.label" default="Cre Type"/>
-
+<div class="form-group col-md-6">
+    <label for="cerType" class="col-sm-4 control-label">
+        <g:message code="certificate.cerType.label" default="cerType" />
     </label>
-    <g:select name="cerType" from="${certificateInstance.constraints.cerType.inList}"
-              value="${certificateInstance?.cerType}" valueMessagePrefix="certificate.cerType" noSelection="['': '']"/>
+    <div class="col-sm-8">
+        <g:select class="form-control"   name="cerType" placeholder="cerType" from="${certificateInstance.constraints.cerType.inList}"
+                  value="${certificateInstance?.cerType}"/>
+    </div>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: certificateInstance, field: 'cerTitle', 'error')} ">
-    <label for="cerTitle">
-        <g:message code="certificate.cerTitle.label" default="Cer Title"/>
-
+<div class="form-group col-md-6">
+    <label for="cerTitle" class="col-sm-4 control-label">
+        <g:message code="certificate.cerTitle.label" default="cerTitle" />
     </label>
-    <g:textField name="cerTitle" value="${certificateInstance?.cerTitle}"/>
+    <div class="col-sm-8">
+        <g:textField class="form-control"   name="cerTitle" placeholder="cerTitle"
+                     value="${certificateInstance?.cerTitle}"/>
+    </div>
 </div>
-

@@ -137,7 +137,7 @@ class BrokerInvestmentFundController {
                 brokerInvestmentFundInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund')] as Object[],
                         "Another user has updated this BrokerInvestmentFund while you were editing")
-                render(view: "edit", model: [brokerInvestmentFundInstance: brokerInvestmentFundInstance])
+                render(view: "edit", model: [id: brokerInvestmentFundInstance.id])
                 return
             }
         }
@@ -145,7 +145,7 @@ class BrokerInvestmentFundController {
         brokerInvestmentFundInstance.properties = params
 
         if (!brokerInvestmentFundInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerInvestmentFundInstance: brokerInvestmentFundInstance])
+            render(view: "edit", model: [id: brokerInvestmentFundInstance.id])
             return
         }
 

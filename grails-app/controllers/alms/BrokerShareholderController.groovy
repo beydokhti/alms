@@ -82,7 +82,7 @@ class BrokerShareholderController {
                 brokerShareholderInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerShareholder.label', default: 'BrokerShareholder')] as Object[],
                         "Another user has updated this BrokerShareholder while you were editing")
-                render(view: "edit", model: [brokerShareholderInstance: brokerShareholderInstance])
+                render(view: "edit", model: [id: brokerShareholderInstance.id])
                 return
             }
         }
@@ -90,7 +90,7 @@ class BrokerShareholderController {
         brokerShareholderInstance.properties = params
 
         if (!brokerShareholderInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerShareholderInstance: brokerShareholderInstance])
+            render(view: "edit", model: [id: brokerShareholderInstance.id])
             return
         }
 

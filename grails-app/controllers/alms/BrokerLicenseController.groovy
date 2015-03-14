@@ -135,7 +135,7 @@ class BrokerLicenseController {
                 brokerLicenseInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerLicense.label', default: 'BrokerLicense')] as Object[],
                         "Another user has updated this BrokerLicense while you were editing")
-                render(view: "edit", model: [brokerLicenseInstance: brokerLicenseInstance])
+                render(view: "edit", model: [id: brokerLicenseInstance.id])
                 return
             }
         }
@@ -143,7 +143,7 @@ class BrokerLicenseController {
         brokerLicenseInstance.properties = params
 
         if (!brokerLicenseInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerLicenseInstance: brokerLicenseInstance])
+            render(view: "edit", model: [id: brokerLicenseInstance.id])
             return
         }
 

@@ -83,13 +83,5 @@
 
 <body>
 
-<g:link controller="broker" action="list">Broker List</g:link>
-<g:link controller="institution" action="list">Institution List</g:link>
-<g:link controller="scheduler" action="scheduler">scheduler</g:link>
-<g:link controller="course" action="list">Course</g:link>
-<g:link controller="discount" action="list">Discount</g:link>
-<g:link controller="exam" action="list">Exam</g:link>
-<g:link controller="person" action="list">Person</g:link>
-
 </body>
 </html>

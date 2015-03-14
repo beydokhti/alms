@@ -184,7 +184,7 @@ class BootStrap {
         broker.sharesNumber = 6
         broker.financialYearEndMonth = 7
         broker.financialYearEndDay = 8
-        broker.nationalCode = "9"
+        broker.nationalCode = "1111111111"
         broker.economicCode = "10"
         broker.centralOfficeAddress = "11"
         broker.centralOfficePostalCode = "12"
@@ -356,7 +356,7 @@ class BootStrap {
         broker.sharesNumber = 6
         broker.financialYearEndMonth = 7
         broker.financialYearEndDay = 8
-        broker.nationalCode = "9"
+        broker.nationalCode = "2222222222"
         broker.economicCode = "10"
         broker.centralOfficeAddress = "11"
         broker.centralOfficePostalCode = "12"
@@ -388,15 +388,15 @@ class BootStrap {
 
 //        certificate
         Certificate certificate = new Certificate()
-        certificate.cerType = "سازمان بورس و اوراق بهادار"
+        certificate.cerType ="stock"
         certificate.cerTitle = "اصول بازار سرمایه"
         certificate.save()
         Certificate certificate1 = new Certificate()
-        certificate1.cerType = "سازمان بورس و اوراق بهادار"
+        certificate1.cerType ="stock"
         certificate1.cerTitle = "تحلیلگری بازار سرمایه"
         certificate1.save()
         Certificate certificate2 = new Certificate()
-        certificate2.cerType = "کانون کارگزاران"
+        certificate2.cerType = "kanoon"
         certificate2.cerTitle = "کاربردی پذیرش سفارش مشتریان اوراق بهادار"
         certificate2.save()
 
@@ -413,7 +413,7 @@ class BootStrap {
         person.degree = "Master"
         person.field = "EngAndTech"
         person.dateOfBirth = new Date()
-        person.nationalCode = "00686140987"
+        person.nationalCode = "3333333333"
         person.mobile = "09361782347"
         person.email = "reza.ali@gmail.com"
         person.username = "person1"
@@ -443,7 +443,7 @@ class BootStrap {
         //Institution
         def institution = new Institution()
         institution.name = "نهاد قشنگ"
-        institution.nationalCode = "123345"
+        institution.nationalCode = "4444444444"
         institution.address = "ته ته تهران"
         institution.email = "nahad@ghashng.com"
         institution.fax = "02126435345"

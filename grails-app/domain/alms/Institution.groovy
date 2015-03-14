@@ -20,4 +20,7 @@ class Institution extends User{
         fax(nullable: true)
         email(nullable: true)
     }
+def String toString(){
+    "$name"
+}
 }

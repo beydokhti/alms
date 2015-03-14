@@ -17,6 +17,7 @@ class InstitutionController {
 
     def list(Integer max) {
     }
+
     def jsonList() {
         def columns = ['action', 'name', 'nationalCode', 'registerNumber', 'address', 'fax', 'email']
 
@@ -44,17 +45,16 @@ class InstitutionController {
         }
 
         def array = list.collect { Institution it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
-            "<a href='${g.createLink(controller: "institutionMember",action: "list", params: [id: it.id])}'>${message(code: "institutionMember", default: "Mem")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
+                    "<a href='${g.createLink(controller: "institutionMember", action: "list", params: [id: it.id])}'>${message(code: "institutionMember", default: "Mem")}</a>"
 
             println(action)
-            [action, it.name, it.nationalCode, it.registerNumber, it.address, it.fax.toString(),it.email]
+            [action, it.name, it.nationalCode, it.registerNumber, it.address, it.fax.toString(), it.email]
         }
 
         dataTableResponse.aaData = array
         render(dataTableResponse as JSON)
     }
-
 
 
     def create() {
@@ -63,20 +63,26 @@ class InstitutionController {
 
     def save() {
         def institutionInstance = new Institution(params)
-        institutionInstance.username=institutionInstance.nationalCode
-        //todo mtb change password
-        institutionInstance.password="password123"
-        institutionInstance.enabled = true
-        if (!institutionInstance.save(flush: true)) {
-            render(view: "create", model: [institutionInstance: institutionInstance])
-            return
+        if (!Broker.findByNationalCode(institutionInstance.nationalCode) && !User.findByUsername(institutionInstance.nationalCode)) {
+            institutionInstance.username = institutionInstance.nationalCode
+            //todo mtb change password
+            institutionInstance.password = "password123"
+            institutionInstance.enabled = true
+            if (!institutionInstance.save(flush: true)) {
+                render(view: "create", model: [institutionInstance: institutionInstance])
+                return
+            }
+
+            def institutionRole = Role.findByAuthority("InstitutionRole")
+            UserRole.findByUser(institutionInstance) ?: UserRole.create(institutionInstance, institutionRole)
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'institution.label', default: 'Institution'), institutionInstance.id])
+            redirect(action: "list")
+        } else {
+            flash.message = message(code: 'broker.unique.nationalCode.message', 'nationalCode should be unique')
+            redirect(action: "create", id: institutionInstance.id)
         }
 
-        def institutionRole = Role.findByAuthority("InstitutionRole")
-        UserRole.findByUser(institutionInstance) ?: UserRole.create(institutionInstance, institutionRole)
-
-        flash.message = message(code: 'default.created.message', args: [message(code: 'institution.label', default: 'Institution'), institutionInstance.id])
-        redirect(action: "list")
     }
 
     def show(Long id) {
@@ -100,7 +106,7 @@ class InstitutionController {
             }
         }
 
-        [institutionInstance: institutionInstance,readOnly:readOnly]
+        [institutionInstance: institutionInstance, readOnly: readOnly]
     }
 
     def edit(Long id) {
@@ -127,20 +133,26 @@ class InstitutionController {
                 institutionInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'institution.label', default: 'Institution')] as Object[],
                         "Another user has updated this Institution while you were editing")
-                render(view: "edit", model: [institutionInstance: institutionInstance])
+                render(view: "edit", model: [id: institutionInstance.id])
                 return
             }
         }
 
         institutionInstance.properties = params
+        //todo mtb change username after change nationalCode?
+        if (!Institution.findByNationalCode(institutionInstance.nationalCode)) {
 
-        if (!institutionInstance.save(flush: true)) {
-            render(view: "edit", model: [institutionInstance: institutionInstance])
+            if (!institutionInstance.save(flush: true)) {
+            render(view: "edit", model: [id: institutionInstance.id])
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'institution.label', default: 'Institution'), institutionInstance.id])
         redirect(action: "show")
+        }else{
+            flash.message = message(code: 'institution.unique.nationalCode.message','nationalCode should be unique')
+            redirect(action: "edit", id: institutionInstance.id)
+        }
     }
 
     def delete(Long id) {

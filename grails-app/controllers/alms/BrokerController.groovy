@@ -68,21 +68,26 @@ class BrokerController {
     def save() {
         def brokerInstance = new Broker(params)
 
-        brokerInstance.username = brokerInstance.nationalCode
-        //todo mtb change password
-        brokerInstance.password = "password123"
-        brokerInstance.enabled = true
+        if (!Broker.findByNationalCode(brokerInstance.nationalCode) &&!User.findByUsername(brokerInstance.nationalCode)) {
+            brokerInstance.username = brokerInstance.nationalCode
+            //todo mtb change password
+            brokerInstance.password = "password123"
+            brokerInstance.enabled = true
 
-        if (!brokerInstance.save(flush: true)) {
-            render(view: "create", model: [brokerInstance: brokerInstance])
-            return
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "create", model: [brokerInstance: brokerInstance])
+                return
+            }
+
+            def brokerRole = Role.findByAuthority("BrokerRole")
+            UserRole.findByUser(brokerInstance) ?: UserRole.create(brokerInstance, brokerRole)
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'broker.label', default: 'Broker'), brokerInstance.id])
+            redirect(action: "show", id: brokerInstance.id)
+        }else{
+            flash.message = message(code: 'broker.unique.nationalCode.message','nationalCode should be unique')
+            redirect(action: "create", id: brokerInstance.id)
         }
-
-        def brokerRole = Role.findByAuthority("BrokerRole")
-        UserRole.findByUser(brokerInstance) ?: UserRole.create(brokerInstance, brokerRole)
-
-        flash.message = message(code: 'default.created.message', args: [message(code: 'broker.label', default: 'Broker'), brokerInstance.id])
-        redirect(action: "show", id: brokerInstance.id)
     }
 
     def show(Long id) {
@@ -132,20 +137,25 @@ class BrokerController {
                 brokerInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'broker.label', default: 'Broker')] as Object[],
                         "Another user has updated this Broker while you were editing")
-                render(view: "edit", model: [brokerInstance: brokerInstance])
+                render(view: "edit", model: [id: brokerInstance.id])
                 return
             }
         }
 
         brokerInstance.properties = params
+        //todo mtb change username after change nationalCode?
+        if (!Broker.findByNationalCode(brokerInstance.nationalCode)) {
+            if (!brokerInstance.save(flush: true)) {
+                render(view: "edit", model: [id: brokerInstance.id])
+                return
+            }
 
-        if (!brokerInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerInstance: brokerInstance])
-            return
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'broker.label', default: 'Broker'), brokerInstance.id])
+            redirect(action: "show", id: brokerInstance.id)
+        }else{
+            flash.message = message(code: 'broker.unique.nationalCode.message','nationalCode should be unique')
+            redirect(action: "edit", id: brokerInstance.id)
         }
-
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'broker.label', default: 'Broker'), brokerInstance.id])
-        redirect(action: "show", id: brokerInstance.id)
     }
 
     def delete(Long id) {
@@ -157,6 +167,7 @@ class BrokerController {
         }
 
         try {
+            UserRole.findByUser(brokerInstance).delete()
             brokerInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'broker.label', default: 'Broker'), id])
             redirect(action: "list")

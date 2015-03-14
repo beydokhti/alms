@@ -23,7 +23,7 @@
 <div id="show-address" class="content scaffold-show" role="main">
     <legend><g:message code="default.show.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-danger" role="alert">${flash.message}</div>
     </g:if>
     <ol class="property-list address">
 

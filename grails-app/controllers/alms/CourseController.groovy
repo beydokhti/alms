@@ -17,7 +17,7 @@ class CourseController {
     }
 
     def jsonList() {
-        def columns = ['action','title','color','colorPreview']
+        def columns = ['action', 'title', 'color', 'colorPreview']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = Course.count()
@@ -42,12 +42,12 @@ class CourseController {
         }
 
         def array = list.collect { Course it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"+
-                    "<a href='${g.createLink(controller: "scheduler",action: "scheduler",id:it.id)}'>${message(code: "Scheduler", default: "Sch")}</a>"
-            def colorPreview="<div style=\"color:$it.color\">${message(code:"color."+it.color,default: it.color)}</div>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
+                    "<a href='${g.createLink(controller: "scheduler", action: "scheduler", id: it.id)}'>${message(code: "Scheduler", default: "Sch")}</a>"
+            def colorPreview = "<div style=\"color:$it.color\">${message(code: "color." + it.color, default: it.color)}</div>"
             println("course-json:action:$action")
             println("course-json:action:$colorPreview")
-            [action,it.title,colorPreview]
+            [action, it.title, colorPreview]
         }
 
         dataTableResponse.aaData = array
@@ -65,6 +65,11 @@ class CourseController {
             render(view: "create", model: [courseInstance: courseInstance])
             return
         }
+
+        def certificateInstance = new Certificate()
+        certificateInstance.cerTitle = courseInstance.title
+        certificateInstance.cerType = "kanoon"
+        certificateInstance.save()
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'course.label', default: 'Course'), courseInstance.id])
         redirect(action: "list")
@@ -105,7 +110,7 @@ class CourseController {
                 courseInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'course.label', default: 'Course')] as Object[],
                         "Another user has updated this Course while you were editing")
-                render(view: "edit", model: [courseInstance: courseInstance])
+                render(view: "edit", model: [id: courseInstance.id])
                 return
             }
         }
@@ -113,7 +118,7 @@ class CourseController {
         courseInstance.properties = params
 
         if (!courseInstance.save(flush: true)) {
-            render(view: "edit", model: [courseInstance: courseInstance])
+            render(view: "edit", model: [id: courseInstance.id])
             return
         }
 

@@ -18,7 +18,7 @@
 <div id="show-institution" class="content scaffold-show" role="main">
     <legend><g:message code="default.show.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-success" role="alert">${flash.message}</div>
     </g:if>
 
     <g:if test="${institutionInstance?.name}">

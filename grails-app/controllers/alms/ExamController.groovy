@@ -99,7 +99,7 @@ class ExamController {
                 examInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'exam.label', default: 'Exam')] as Object[],
                         "Another user has updated this Exam while you were editing")
-                render(view: "edit", model: [examInstance: examInstance])
+                render(view: "edit", model: [id: examInstance.id])
                 return
             }
         }
@@ -107,7 +107,7 @@ class ExamController {
         examInstance.properties = params
 
         if (!examInstance.save(flush: true)) {
-            render(view: "edit", model: [examInstance: examInstance])
+            render(view: "edit", model: [id: examInstance.id])
             return
         }
 

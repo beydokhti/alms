@@ -1,18 +1,16 @@
 package alms
 
 class Certificate {
-    def messageSource
     String	cerType
     String	cerTitle
 
 
     static constraints = {
-        cerType(nullable: false)
+        cerType(nullable: false,inList: ["stock","relStock","relBusiness","kanoon"])
         cerTitle(nullable: false)
     }
 
     String toString(){
-        "$cerType,$cerTitle"
-
+        "$cerTitle"
     }
 }

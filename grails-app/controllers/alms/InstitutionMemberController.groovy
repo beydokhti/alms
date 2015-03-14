@@ -138,25 +138,32 @@ class InstitutionMemberController {
 
             def institutionMemberInstance = new InstitutionMember(params)
             def person = new Person(params)
-            person.username = person.nationalCode
-            //todo mtb change password
-            person.password = "password123"
-            person.enabled=true
-            person.save()
+            def nc=person.nationalCode
+            if (!Person.findAllByNationalCode(params.nationalCode)&&!User.findByUsername(person.nationalCode)) {
+                person.username = person.nationalCode
+                //todo mtb change password
+                person.password = "password123"
+                person.enabled = true
+                person.save()
 
-            def personRole = Role.findByAuthority("PersonRole")
-            UserRole.findByUser(person) ?: UserRole.create(person, personRole)
+                def personRole = Role.findByAuthority("PersonRole")
+                UserRole.findByUser(person) ?: UserRole.create(person, personRole)
 
-            institutionMemberInstance.person = person
-            institutionMemberInstance.isActive = true
-            institutionInstance.addToInstitutionMembers(institutionMemberInstance)
-            if (!institutionInstance.save(flush: true)) {
-                render(view: "create", model: [institutionMemberInstance: institutionMemberInstance])
+                institutionMemberInstance.person = person
+                institutionMemberInstance.isActive = true
+                institutionInstance.addToInstitutionMembers(institutionMemberInstance)
+                if (!institutionInstance.save(flush: true)) {
+                    render(view: "create", model: [institutionMemberInstance: institutionMemberInstance])
+                    return
+                }
+
+                flash.message = message(code: 'default.created.message', args: [message(code: 'institutionMember.label', default: 'institutionMember'), institutionMemberInstance.id])
+                redirect(action: "list", id: institutionInstance.id)
+            } else {
+                flash.message = message(code: 'institutionMember.unique.nationalCode.message', default: 'National Id should be unique ')
+                render(view: "create", model: [institutionInstance: institutionInstance])
                 return
             }
-
-            flash.message = message(code: 'default.created.message', args: [message(code: 'institutionMember.label', default: 'institutionMember'), institutionMemberInstance.id])
-            redirect(action: "list", id: institutionInstance.id)
         }
 
     }
@@ -196,7 +203,7 @@ class InstitutionMemberController {
                 institutionMemberInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'institutionMember.label', default: 'InstitutionMember')] as Object[],
                         "Another user has updated this InstitutionMember while you were editing")
-                render(view: "edit", model: [institutionMemberInstance: institutionMemberInstance])
+                render(view: "edit", model: [id: institutionMemberInstance.id])
                 return
             }
         }
@@ -204,7 +211,7 @@ class InstitutionMemberController {
         institutionMemberInstance.properties = params
 
         if (!institutionMemberInstance.save(flush: true)) {
-            render(view: "edit", model: [institutionMemberInstance: institutionMemberInstance])
+            render(view: "edit", model: [id: institutionMemberInstance.id])
             return
         }
 
@@ -226,7 +233,7 @@ class InstitutionMemberController {
                 institutionMemberInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'institutionMember.label', default: 'InstitutionMember')] as Object[],
                         "Another user has updated this InstitutionMember while you were editing")
-                render(view: "edit", model: [institutionMemberInstance: institutionMemberInstance])
+                render(view: "edit", model: [id: institutionMemberInstance.id])
                 return
             }
         }
@@ -235,7 +242,7 @@ class InstitutionMemberController {
         institutionMemberInstance.person.properties = params
 
         if (!institutionMemberInstance.save(flush: true)) {
-            render(view: "edit", model: [institutionMemberInstance: institutionMemberInstance])
+            render(view: "edit", model: [id: institutionMemberInstance.id])
             return
         }
 

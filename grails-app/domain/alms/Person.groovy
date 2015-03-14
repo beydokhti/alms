@@ -13,6 +13,8 @@ class Person extends User {
 
     static hasMany = [certificates:ObtainedCertificate,registeredEvents:RegisteredEvent]
 
+    static searchable = true
+
     static constraints = {
         name(nullable: false,blank: false)
         lastName(nullable: false,blank: false)
@@ -33,7 +35,7 @@ class Person extends User {
                                        'Law',
                                        'Other'])
         dateOfBirth(nullable: false)
-        nationalCode(nullable: false,blank: false)
+        nationalCode(nullable: false,blank: false,unique: true)
         mobile(nullable:true)
         email(nullable: true)
 

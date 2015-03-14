@@ -32,9 +32,9 @@
 
             <th></th>
 
-            <th><g:message code="obtainedCertificate.certificate" default="countOfContract"/></th>
+            <th><g:message code="obtainedCertificate.certificate" default="certificate"/></th>
 
-            <th><g:message code="obtainedCertificate.obtainedDate" default="sumOfContract"/></th>
+            <th><g:message code="obtainedCertificate.obtainedDate" default="obtainedDate"/></th>
 
         </tr>
         </thead>

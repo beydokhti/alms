@@ -136,7 +136,7 @@ class BrokerPortfolioController {
                 brokerPortfolioInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio')] as Object[],
                         "Another user has updated this BrokerPortfolio while you were editing")
-                render(view: "edit", model: [brokerPortfolioInstance: brokerPortfolioInstance])
+                render(view: "edit", model: [id: brokerPortfolioInstance.id])
                 return
             }
         }
@@ -144,7 +144,7 @@ class BrokerPortfolioController {
         brokerPortfolioInstance.properties = params
 
         if (!brokerPortfolioInstance.save(flush: true)) {
-            render(view: "edit", model: [brokerPortfolioInstance: brokerPortfolioInstance])
+            render(view: "edit", model: [id: brokerPortfolioInstance.id])
             return
         }
 

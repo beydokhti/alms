@@ -53,7 +53,7 @@
 <div id="create-brokerSoftware" class="content scaffold-create" role="main">
     <legend><g:message code="default.create.label" args="[entityName]"/></legend>
     <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
+        <div class="alert alert-danger" role="alert">${flash.message}</div>
     </g:if>
     <g:form action="save"  name="mainForm">
         <fieldset class="form-horizontal">

@@ -65,6 +65,8 @@
                 <sec:ifNotLoggedIn>
                     <li><g:link action="index" controller="login"><g:message code="default.login.label"
                                                                               default="Login"/></g:link></li>
+                    <li><g:link action="signUp" controller="person"><g:message code="person.signup.label"
+                                                                              default="Signup"/></g:link></li>
                 </sec:ifNotLoggedIn>
             %{--<li><a href="#contact">Contact</a></li>--}%
             </ul>
@@ -127,9 +129,24 @@
                             </g:link>
                         </li>
 
+
+                        <li class="nav-header">${message(code: "Sidebar.Management", default: "Management")}</li>
+
+                        <li>
+                            <g:link controller="certificate" action="list">
+                                ${message(code: "Sidebar.certificate.definition", default: "Certificate Definition")}
+                            </g:link>
+                        </li>
+
+                        <li>
+                            <g:link controller="user" action="list">
+                                ${message(code: "Sidebar.user.managment", default: "User Management")}
+                            </g:link>
+                        </li>
+
                         <li>
                             <g:link controller="user" action="changePassword">
-                                ${message(code: "Sidebar.changePassword", default: "Change Password")}
+                                ${message(code: "Sidebar.user.changePassword", default: "Change Password")}
                             </g:link>
                         </li>
 
@@ -228,6 +245,12 @@
             <sec:ifAllGranted roles="PersonRole">
                         <div class="well sidebar-nav">
                             <ul class="nav nav-list">
+                                <li>
+                                    <g:link controller="obtainedCertificate" action="list">
+                                        ${message(code: "Sidebar.person.certificate", default: "Add Certificate")}
+                                    </g:link>
+                                </li>
+
                                 <li>
                                     <g:link controller="registeredEvent" action="list">
                                         ${message(code: "Sidebar.person.registeredEvent", default: "Register Definition")}

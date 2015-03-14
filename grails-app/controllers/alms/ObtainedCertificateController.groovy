@@ -1,10 +1,12 @@
 package alms
 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
 class ObtainedCertificateController {
 
+    def springSecurityService
     def queryService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -14,8 +16,22 @@ class ObtainedCertificateController {
     }
 
     def list(Integer max) {
-        println(params)
-        def personIns=Person.get(params.id)
+        def personIns
+
+        if (params.id) {
+            personIns = Person.get(params.id)
+        }else {
+            def loginUser = springSecurityService.getPrincipal()
+            if (loginUser instanceof GrailsUser) {
+                def user = User.findByUsername(loginUser.username)
+
+                personIns = Person.get(user.id)
+                if (!personIns) {
+                    return
+                }
+            }
+        }
+
         if (personIns) {
             [personId: personIns.id]
         }
@@ -122,7 +138,7 @@ class ObtainedCertificateController {
                 obtainedCertificateInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                         [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate')] as Object[],
                         "Another user has updated this ObtainedCertificate while you were editing")
-                render(view: "edit", model: [obtainedCertificateInstance: obtainedCertificateInstance])
+                render(view: "edit", model: [id: obtainedCertificateInstance.id])
                 return
             }
         }
@@ -130,7 +146,7 @@ class ObtainedCertificateController {
         obtainedCertificateInstance.properties = params
 
         if (!obtainedCertificateInstance.save(flush: true)) {
-            render(view: "edit", model: [obtainedCertificateInstance: obtainedCertificateInstance])
+            render(view: "edit", model: [id: obtainedCertificateInstance.id])
             return
         }
 
