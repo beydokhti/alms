@@ -17,7 +17,7 @@ class CourseController {
     }
 
     def jsonList() {
-        def columns = ['action', 'title', 'color', 'colorPreview']
+        def columns = ['action', 'title', 'colorPreview']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = Course.count()

@@ -12,10 +12,10 @@
     var courseTable;
 
     $(document).ready(function () {
-        courseTable = $('#courseBranches').dataTable({
+        courseTable = $('#course').dataTable({
             "bServerSide": true,
             "bFilter": true,
-            "sAjaxSource": "<g:createLink action="jsonList" params="${[courseId:courseId]}"/>",
+            "sAjaxSource": "<g:createLink action="jsonList" />",
             "aoColumns": [
                 {
                     "bSortable": false,
@@ -28,17 +28,17 @@
     });
 </script>
 %{--todo mtb present checkbox--}%
-<legend><g:message code="courseBranches.list" default="Courses List"></g:message></legend>
+<legend><g:message code="course.list" default="Courses List"></g:message></legend>
 
 <div class="well">
     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
-           id="courseBranches">
+           id="course">
         <thead>
         <tr>
 
             <th></th>
 
-            <th><g:message code="courseBranches.title" default="City"/></th>
+            <th><g:message code="course.title" default="City"/></th>
 
             <th></th>
 

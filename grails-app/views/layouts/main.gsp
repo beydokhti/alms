@@ -65,8 +65,8 @@
                 <sec:ifNotLoggedIn>
                     <li><g:link action="index" controller="login"><g:message code="default.login.label"
                                                                               default="Login"/></g:link></li>
-                    <li><g:link action="signUp" controller="person"><g:message code="person.signup.label"
-                                                                              default="Signup"/></g:link></li>
+                    %{--<li><g:link action="signUp" controller="person"><g:message code="person.signup.label"--}%
+                                                                              %{--default="Signup"/></g:link></li>--}%
                 </sec:ifNotLoggedIn>
             %{--<li><a href="#contact">Contact</a></li>--}%
             </ul>
