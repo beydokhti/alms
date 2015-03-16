@@ -1,10 +1,10 @@
 
-<%@ page import="alms.RegisteredEvent" %>
+<%@ page import="alms.RegisteredTerm" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'registeredEvent.label', default: 'RegisteredEvent')}" />
+		<g:set var="entityName" value="${message(code: 'registeredTerm.label', default: 'RegisteredTerm')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -14,7 +14,7 @@
             var regTable;
 
             $(document).ready(function () {
-                regTable = $('#registeredEvent').dataTable({
+                regTable = $('#registeredTerm').dataTable({
                     "bServerSide": true,
                     "bFilter": true,
                     "sAjaxSource": "<g:createLink action="jsonList" params="${[personId:personId]}"/>",
@@ -24,27 +24,27 @@
             });
         </script>
 
-        <legend><g:message code="registeredEvent.list" default="Registered Events List"></g:message></legend>
+        <legend><g:message code="registeredTerm.list" default="Registered Terms List"></g:message></legend>
 
         <div class="well">
             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
-                   id="registeredEvent">
+                   id="registeredTerm">
                 <thead>
                 <tr>
 
                     <th></th>
 
-                    <th><g:message code="registeredEvent.person" default="person"/></th>
+                    <th><g:message code="registeredTerm.person" default="person"/></th>
 
-                    <th><g:message code="registeredEvent.event" default="event"/></th>
+                    <th><g:message code="registeredTerm.term" default="term"/></th>
 
-                    <th><g:message code="registeredEvent.mark" default="mark"/></th>
+                    <th><g:message code="registeredTerm.mark" default="mark"/></th>
 
-                    <th><g:message code="registeredEvent.examStartDate" default="exam start date"/></th>
+                    <th><g:message code="registeredTerm.examStartDate" default="exam start date"/></th>
 
-                    <th><g:message code="registeredEvent.examDate" default="exam end date"/></th>
+                    <th><g:message code="registeredTerm.examDate" default="exam end date"/></th>
 
-                    <th><g:message code="registeredEvent.examVenue" default="exam venue"/></th>
+                    <th><g:message code="registeredTerm.examVenue" default="exam venue"/></th>
 
                 </tr>
                 </thead>

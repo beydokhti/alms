@@ -8,12 +8,12 @@
 </head>
 
 <body>
-<div id="list-broker" class="content scaffold-list" role="main">
+    <div id="list-discount" class="content scaffold-list" role="main">
     <script type="text/javascript" charset="utf-8">
-        var brokerTable;
+        var discountTable;
 
         $(document).ready(function () {
-            brokerTable = $('#broker').dataTable({
+            discountTable = $('#discount').dataTable({
 //                "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 //                "sPaginationType": "bootstrap",
 //                "oLanguage": {
@@ -23,7 +23,7 @@
 //                },
                 "bServerSide": true,
                 "bFilter": true,
-                "sAjaxSource": "<g:createLink action="jsonList"/>",
+                "sAjaxSource": "<g:createLink action="jsonList" params="${[termId:termId]}"/>",
                 "aoColumns": [
                     {"bSortable": false, "sClass": "nowrap minimum-width"},null, null, null, null, null, null]
             });
@@ -34,7 +34,7 @@
 
     <div class="well">
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered full-width"
-               id="broker">
+               id="discount">
             <thead>
             <tr>
 
@@ -50,23 +50,16 @@
 
                 <th><g:message code="discount.endDate" default="End Date"/></th>
 
-                <th><g:message code="discount.event" default="Event"/></th>
+                <th><g:message code="discount.term" default="Term"/></th>
 
             </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
-        <g:if test="${hasEvent==true}">
-        <g:link class="btn btn-default" action="create"><g:message code="default.new.label"
+        <g:link class="btn btn-default" action="create" id="${termId}"><g:message code="default.new.label"
                                                                    args="[entityName]"/></g:link>
-        </g:if>
     </div>
-    <g:if test="${hasEvent==false}">
-        <div class="alert alert-danger" role="alert">
-            <g:message code="discount.hasEvent.danger" default="Danger"/>
-        </div>
-    </g:if>
 
 </div>
 </body>

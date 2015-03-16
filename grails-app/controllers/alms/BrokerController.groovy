@@ -67,7 +67,7 @@ class BrokerController {
 
     def save() {
         def brokerInstance = new Broker(params)
-
+          //todo mtb change nationalCode caused username change?
         if (!Broker.findByNationalCode(brokerInstance.nationalCode) &&!User.findByUsername(brokerInstance.nationalCode)) {
             brokerInstance.username = brokerInstance.nationalCode
             //todo mtb change password
@@ -86,7 +86,7 @@ class BrokerController {
             redirect(action: "show", id: brokerInstance.id)
         }else{
             flash.message = message(code: 'broker.unique.nationalCode.message','nationalCode should be unique')
-            redirect(action: "create", id: brokerInstance.id)
+            render(view: "create", model: [brokerInstance: brokerInstance])
         }
     }
 
@@ -104,7 +104,7 @@ class BrokerController {
 
                 if (!brokerInstance) {
                     flash.message = message(code: 'default.not.found.message', args: [message(code: 'broker.label', default: 'Broker'), id])
-                    //todo mtb why go to list?
+                    //todo mtb why go to list? and how send broker id, every show action has this problem
                     redirect(action: "list")
                     return
                 }
@@ -167,7 +167,11 @@ class BrokerController {
         }
 
         try {
-            UserRole.findByUser(brokerInstance).delete()
+            try {
+                UserRole.findByUser(brokerInstance).delete()
+            }catch(Exception ex){
+                println("delete Broker:UserRole does not exitst- $ex")
+            }
             brokerInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'broker.label', default: 'Broker'), id])
             redirect(action: "list")

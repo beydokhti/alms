@@ -128,8 +128,8 @@ class ObtainedCertificateController {
     def update(Long id, Long version) {
         def obtainedCertificateInstance = ObtainedCertificate.get(id)
         if (!obtainedCertificateInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -158,18 +158,18 @@ class ObtainedCertificateController {
         def obtainedCertificateInstance = ObtainedCertificate.get(id)
         if (!obtainedCertificateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: obtainedCertificateInstance.person.id)
             return
         }
 
         try {
             obtainedCertificateInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: obtainedCertificateInstance.person.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'obtainedCertificate.label', default: 'ObtainedCertificate'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list" , id: obtainedCertificateInstance.person.id)
         }
     }
 

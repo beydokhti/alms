@@ -36,7 +36,7 @@ class BrokerTradingStationController {
     }
 
     def jsonList() {
-        def columns = ['action','city','stationType','activities','trader','phone','address']
+        def columns = ['action', 'city', 'stationType', 'activities', 'trader', 'phone', 'address']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = BrokerTradingStation.count()
@@ -67,9 +67,9 @@ class BrokerTradingStationController {
         }
 
         def array = list.collect { BrokerTradingStation it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.city.toString(),message(code:"brokerTradingStation.stationType."+it.stationType,defaault:it.stationType),it.activities,it.trader,it.phone,it.address]
+            [action, it.city.toString(), message(code: "brokerTradingStation.stationType." + it.stationType, defaault: it.stationType), it.activities, it.trader, it.phone, it.address]
         }
 
         dataTableResponse.aaData = array
@@ -78,12 +78,12 @@ class BrokerTradingStationController {
 
 
     def create() {
-        [brokerTradingStationInstance: new BrokerTradingStation(params),brokerId:params.id]
+        [brokerTradingStationInstance: new BrokerTradingStation(params), brokerId: params.id]
     }
 
     def save() {
         println(params)
-        def brokerInstance=Broker.get(params.brokerId)
+        def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
 
@@ -98,13 +98,13 @@ class BrokerTradingStationController {
             redirect(action: "list", id: brokerInstance.id)
         }
 
-   }
+    }
 
     def show(Long id) {
         def brokerTradingStationInstance = BrokerTradingStation.get(id)
         if (!brokerTradingStationInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -125,8 +125,8 @@ class BrokerTradingStationController {
     def update(Long id, Long version) {
         def brokerTradingStationInstance = BrokerTradingStation.get(id)
         if (!brokerTradingStationInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -154,19 +154,19 @@ class BrokerTradingStationController {
     def delete(Long id) {
         def brokerTradingStationInstance = BrokerTradingStation.get(id)
         if (!brokerTradingStationInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             brokerTradingStationInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: brokerTradingStationInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerTradingStation.label', default: 'BrokerTradingStation'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "show", id: brokerTradingStationInstance.broker.id)
         }
     }
 }

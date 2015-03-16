@@ -14,7 +14,10 @@ class DiscountController {
     }
 
     def list(Integer max) {
-        [discountInstanceList: Discount.list(params), discountInstanceTotal: Discount.count(),hasEvent:Event.count>0?true:false]
+        def termInstance = Term.get(params.id)
+        if (termInstance) {
+            [termId: termInstance.id]
+        }
 
     }
 
@@ -37,16 +40,23 @@ class DiscountController {
                 options.order = params["sSortDir_0"]
                 options.sort = columns[sortIndex]
             }
-            def result = Discount.search("*${params.sSearch}*", options)
+            def result = Discount.search {
+                must(term("/term/id", params.long(termId)))
+                must(queryString("*${params.sSearch}*"))
+            }
             list = result.results
         } else {
-            def query = queryService.listQuery(params + [columns: columns])
+            def query_criteria = {
+                eq("term.id", params.long("termId"))
+            }
+            def query = queryService.decorate(params + [columns: columns], query_criteria)
             list = Discount.createCriteria().list(query)
+
         }
 
         def array = list.collect { Discount it ->
             def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
-            [action, it.title, message(code: "discount." + it.personType, default: it.personType), it.discountPercentage, it.startDate.toString(), it.endDate.toString(), it.event.toString()]
+            [action, it.title, message(code: "discount." + it.personType, default: it.personType), it.discountPercentage, it.startDate.toString(), it.endDate.toString(), it.term.title]
         }
 
         dataTableResponse.aaData = array
@@ -55,18 +65,25 @@ class DiscountController {
     }
 
     def create() {
-        [discountInstance: new Discount(params)]
+        def termInstance = Term.get(params.id)
+        [discountInstance: new Discount(params), termId: termInstance.id]
     }
 
     def save() {
-        def discountInstance = new Discount(params)
-        if (!discountInstance.save(flush: true)) {
-            render(view: "create", model: [discountInstance: discountInstance])
-            return
-        }
+        def termInstance = Term.get(params.termId)
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'discount.label', default: 'Discount'), discountInstance.id])
-        redirect(action: "list")
+        if (termInstance) {
+            def discountInstance = new Discount(params)
+
+            termInstance.addToDiscounts(discountInstance)
+            if (!discountInstance.save(flush: true)) {
+                render(view: "create", model: [discountInstance: discountInstance, id: termId])
+                return
+            }
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'discount.label', default: 'Discount'), discountInstance.id])
+            redirect(action: "list",id:discountInstance.term.id)
+        }
     }
 
     def show(Long id) {
@@ -117,7 +134,7 @@ class DiscountController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'discount.label', default: 'Discount'), discountInstance.id])
-        redirect(action: "show", id: discountInstance.id)
+        redirect(action: "list", id: discountInstance.term.id)
     }
 
     def delete(Long id) {

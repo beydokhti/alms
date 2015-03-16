@@ -12,12 +12,12 @@ class Event {
     String recurrenceException
 //    String ownerID
     String isAllDay
-    Long   price
     Course course
+    Term term
 
-    static belongsTo = [course:Course]
+    static belongsTo = [course:Course,term:Term]
 
-    static hasMany = [discount:Discount,exam:Exam]
+    static hasMany = [exam:Exam]
 
     static constraints = {
         title(nullable: false)
@@ -30,8 +30,6 @@ class Event {
         recurrenceRule(nullable: true,blank:true)
         recurrenceException(nullable: true,blank:true)
         isAllDay(nullable: true)
-        //todo mtb nullable:false
-        price(nullable: true,default:0)
     }
 
     def String toString(){

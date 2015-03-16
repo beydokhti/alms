@@ -42,8 +42,7 @@ class CourseController {
         }
 
         def array = list.collect { Course it ->
-            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
-                    "<a href='${g.createLink(controller: "scheduler", action: "scheduler", id: it.id)}'>${message(code: "Scheduler", default: "Sch")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             def colorPreview = "<div style=\"color:$it.color\">${message(code: "color." + it.color, default: it.color)}</div>"
             println("course-json:action:$action")
             println("course-json:action:$colorPreview")
@@ -53,7 +52,6 @@ class CourseController {
         dataTableResponse.aaData = array
         render(dataTableResponse as JSON)
     }
-
 
     def create() {
         [courseInstance: new Course(params)]
@@ -66,10 +64,10 @@ class CourseController {
             return
         }
 
-        def certificateInstance = new Certificate()
-        certificateInstance.cerTitle = courseInstance.title
-        certificateInstance.cerType = "kanoon"
-        certificateInstance.save()
+//        def certificateInstance = new Certificate()
+//        certificateInstance.cerTitle = courseInstance.title
+//        certificateInstance.cerType = "kanoon"
+//        certificateInstance.save()
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'course.label', default: 'Course'), courseInstance.id])
         redirect(action: "list")
@@ -141,7 +139,7 @@ class CourseController {
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'course.label', default: 'Course'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list")
         }
     }
 }

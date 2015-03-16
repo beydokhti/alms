@@ -37,7 +37,7 @@ class BrokerSoftwareController {
     }
 
     def jsonList() {
-        def columns = ['action','title1','title2','companyName','contractType']
+        def columns = ['action', 'title1', 'title2', 'companyName', 'contractType']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = BrokerSoftware.count()
@@ -68,9 +68,9 @@ class BrokerSoftwareController {
         }
 
         def array = list.collect { BrokerSoftware it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.title1,it.title2,it.companyName,message(code:"brokerSoftwareController.contractType."+it.contractType,default: it.contractType)]
+            [action, it.title1, it.title2, it.companyName, message(code: "brokerSoftwareController.contractType." + it.contractType, default: it.contractType)]
         }
 
         dataTableResponse.aaData = array
@@ -78,14 +78,13 @@ class BrokerSoftwareController {
     }
 
 
-
     def create() {
-        [brokerSoftwareInstance: new BrokerSoftware(params),brokerId:params.id]
+        [brokerSoftwareInstance: new BrokerSoftware(params), brokerId: params.id]
     }
 
     def save() {
         println(params)
-        def brokerInstance=Broker.get(params.brokerId)
+        def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
 
@@ -155,19 +154,19 @@ class BrokerSoftwareController {
     def delete(Long id) {
         def brokerSoftwareInstance = BrokerSoftware.get(id)
         if (!brokerSoftwareInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerSoftware.label', default: 'BrokerSoftware'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerSoftware.label', default: 'BrokerSoftware'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             brokerSoftwareInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerSoftware.label', default: 'BrokerSoftware'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: brokerSoftwareInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerSoftware.label', default: 'BrokerSoftware'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id: brokerSoftwareInstance.broker.id)
         }
     }
 }

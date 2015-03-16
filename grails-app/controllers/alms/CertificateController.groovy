@@ -14,8 +14,7 @@ class CertificateController {
     }
 
     def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        [certificateInstanceList: Certificate.list(params), certificateInstanceTotal: Certificate.count()]
+
     }
 
     def jsonList() {
@@ -132,7 +131,7 @@ class CertificateController {
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'certificate.label', default: 'Certificate'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list")
         }
     }
 }

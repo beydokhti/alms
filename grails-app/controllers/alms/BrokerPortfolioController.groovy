@@ -37,7 +37,7 @@ class BrokerPortfolioController {
     }
 
     def jsonList() {
-        def columns = ['action','countOfContract','sumOfContract','countOfConsultantContract']
+        def columns = ['action', 'countOfContract', 'sumOfContract', 'countOfConsultantContract']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = BrokerPortfolio.count()
@@ -68,9 +68,9 @@ class BrokerPortfolioController {
         }
 
         def array = list.collect { BrokerPortfolio it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.countOfContract,it.sumOfContract,it.countOfConsultantContract]
+            [action, it.countOfContract, it.sumOfContract, it.countOfConsultantContract]
         }
 
         dataTableResponse.aaData = array
@@ -78,14 +78,13 @@ class BrokerPortfolioController {
     }
 
 
-
     def create() {
-        [brokerPortfolioInstance: new BrokerPortfolio(params),brokerId:params.id]
+        [brokerPortfolioInstance: new BrokerPortfolio(params), brokerId: params.id]
     }
 
     def save() {
         println(params)
-        def brokerInstance=Broker.get(params.brokerId)
+        def brokerInstance = Broker.get(params.brokerId)
         //todo handle if brokerInstance is null
         if (brokerInstance) {
 
@@ -104,8 +103,8 @@ class BrokerPortfolioController {
     def show(Long id) {
         def brokerPortfolioInstance = BrokerPortfolio.get(id)
         if (!brokerPortfolioInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -115,8 +114,8 @@ class BrokerPortfolioController {
     def edit(Long id) {
         def brokerPortfolioInstance = BrokerPortfolio.get(id)
         if (!brokerPortfolioInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
+//            redirect(action: "list" )
             return
         }
 
@@ -126,8 +125,8 @@ class BrokerPortfolioController {
     def update(Long id, Long version) {
         def brokerPortfolioInstance = BrokerPortfolio.get(id)
         if (!brokerPortfolioInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -155,19 +154,19 @@ class BrokerPortfolioController {
     def delete(Long id) {
         def brokerPortfolioInstance = BrokerPortfolio.get(id)
         if (!brokerPortfolioInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             brokerPortfolioInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: brokerPortfolioInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerPortfolio.label', default: 'BrokerPortfolio'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id: brokerPortfolioInstance.broker.id)
         }
     }
 }

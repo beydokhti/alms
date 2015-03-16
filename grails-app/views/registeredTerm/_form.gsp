@@ -1,4 +1,4 @@
-<%@ page import="alms.RegisteredEvent" %>
+<%@ page import="alms.RegisteredTerm" %>
 <g:hiddenField name="personId" value="${personId}"></g:hiddenField>
 
 
@@ -12,20 +12,21 @@
     %{--</div>--}%
 %{--</div>--}%
 <div class="form-group col-md-6">
-    <label for="event" class="col-sm-4 control-label">
-        <g:message code="RegisteredEventt.event.label" default="event" />
+    <label for="term" class="col-sm-4 control-label">
+        <g:message code="RegisteredEventt.term.label" default="term" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="event.id" placeholder="event" from="${alms.Event.list()}" optionKey="id"
-                  value="${RegisteredEventInstance?.event?.id}"/>
+        <g:select class="form-control"   name="term.id" placeholder="term" from="${alms.Term.list()}" optionKey="id"
+                  value="${RegisteredTermInstance?.term?.id}"
+        valueMessagePrefix="${RegisteredTermInstance.term?.toString}"/>
     </div>
 </div>
 %{--<div class="form-group col-md-6">--}%
     %{--<label for="mark" class="col-sm-4 control-label">--}%
-        %{--<g:message code="RegisteredEvent.mark.label" default="mark" />--}%
+        %{--<g:message code="RegisteredTerm.mark.label" default="mark" />--}%
     %{--</label>--}%
     %{--<div class="col-sm-8">--}%
         %{--<g:textField class="form-control"   name="mark" placeholder="mark"--}%
-                     %{--value="${RegisteredEventInstance?.mark}"/>--}%
+                     %{--value="${RegisteredTermInstance?.mark}"/>--}%
     %{--</div>--}%
 %{--</div>--}%

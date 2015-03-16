@@ -138,7 +138,7 @@ class BrokerMemberController {
         if (brokerInstance) {
             def brokerMemberInstance = new BrokerMember(params)
             def person = new Person(params)
-            if (!Person.findAllByNationalCode(params.nationalCode)&&!User.findByUsername(person.nationalCode)) {
+            if (!Person.findAllByNationalCode(params.nationalCode) && !User.findByUsername(person.nationalCode)) {
 
                 person.username = person.nationalCode
                 //todo mtb change password
@@ -184,7 +184,7 @@ class BrokerMemberController {
         def brokerMemberInstance = BrokerMember.get(id)
         if (!brokerMemberInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
-            redirect(action: "list")
+            redirect(action: "list", brokerMemberInstance.broker.id)
             return
         }
 
@@ -194,8 +194,8 @@ class BrokerMemberController {
     def update(Long id, Long version) {
         def brokerMemberInstance = BrokerMember.get(id)
         if (!brokerMemberInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -224,8 +224,8 @@ class BrokerMemberController {
         println(params)
         def brokerMemberInstance = BrokerMember.get(id)
         if (!brokerMemberInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -255,19 +255,19 @@ class BrokerMemberController {
     def delete(Long id) {
         def brokerMemberInstance = BrokerMember.get(id)
         if (!brokerMemberInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             brokerMemberInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
-            redirect(action: "list")
+            redirect(action: "list",id:brokerMemberInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerMember.label', default: 'BrokerMember'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id: brokerMemberInstance.broker.id)
         }
     }
 

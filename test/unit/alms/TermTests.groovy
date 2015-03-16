@@ -1,6 +1,7 @@
 package alms
 
 
+
 import grails.test.mixin.*
 import org.junit.*
 
@@ -11,6 +12,6 @@ import org.junit.*
 class TermTests {
 
     void testSomething() {
-        fail "Implement me"
+       fail "Implement me"
     }
 }

@@ -82,14 +82,6 @@
 	<g:textField name="isAllDay" value="${eventInstance?.isAllDay}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'price', 'error')} required">
-	<label for="price">
-		<g:message code="event.price.label" default="Price" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="price" type="number" value="${eventInstance.price}" required=""/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'course', 'error')} required">
 	<label for="course">
 		<g:message code="event.course.label" default="Course" />

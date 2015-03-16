@@ -92,7 +92,7 @@ class BrokerInvestmentFundController {
             def brokerInvestmentFundInstance = new BrokerInvestmentFund(params)
             brokerInstance.addToBrokerInvestmentFounds(brokerInvestmentFundInstance)
             if (!brokerInstance.save(flush: true)) {
-                render(view: "create", model: [brokerInvestmentFundInstance: brokerInvestmentFundInstance])
+                render(view: "create", model: [brokerInvestmentFundInstance: brokerInvestmentFundInstance], id: brokerInvestmentFundInstance.broker.id)
                 return
             }
 
@@ -106,8 +106,8 @@ class BrokerInvestmentFundController {
         def brokerInvestmentFundInstance = BrokerInvestmentFund.get(id)
         if (!brokerInvestmentFundInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
-            redirect(action: "list")
-            return
+//            redirect(action: "list")
+//            return
         }
 
         [brokerInvestmentFundInstance: brokerInvestmentFundInstance]
@@ -117,7 +117,7 @@ class BrokerInvestmentFundController {
         def brokerInvestmentFundInstance = BrokerInvestmentFund.get(id)
         if (!brokerInvestmentFundInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: brokerInvestmentFundInstance.broker.id)
             return
         }
 
@@ -127,8 +127,8 @@ class BrokerInvestmentFundController {
     def update(Long id, Long version) {
         def brokerInvestmentFundInstance = BrokerInvestmentFund.get(id)
         if (!brokerInvestmentFundInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -157,18 +157,18 @@ class BrokerInvestmentFundController {
         def brokerInvestmentFundInstance = BrokerInvestmentFund.get(id)
         if (!brokerInvestmentFundInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
-            redirect(action: "list")
-            return
+//            redirect(action: "list")
+//            return
         }
 
         try {
             brokerInvestmentFundInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
-            redirect(action: "list")
+            redirect(action: "list",id: brokerInvestmentFundInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerInvestmentFund.label', default: 'BrokerInvestmentFund'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id:brokerInvestmentFundInstance.broker.id)
         }
     }
 }

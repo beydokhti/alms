@@ -61,8 +61,8 @@
 <script>
     $(function () {
         $("#scheduler").kendoScheduler({
-            date: new Date("2013/6/13"),
-            startTime: new Date("2013/6/13 07:00 AM"),
+            date: new Date("${startDate}"),
+            startTime: new Date("${startTime}"),
             height: 600,
             views: [
                 "day",
@@ -94,7 +94,7 @@
                     },
                     parameterMap: function (options, operation) {
                         if (operation !== "read" && options.models) {
-                            return {models: kendo.stringify(options.models)};
+                            return {models:[ kendo.stringify(options.models),"${termId}"]};
                         }
                     }
                 },

@@ -27,11 +27,9 @@ class EventController {
 //            eventMap.put("Start", event.start.time)
             eventMap.put("Start", "Date(${event.start.time})")
             eventMap.put("End", "Date(${event.end.time})")
-//            eventMap.put("End", event.end.time)
             eventMap.put("StartTimezone", event.startTimezone)
             eventMap.put("EndTimezone", event.endTimezone)
             eventMap.put("Description", event.description)
-//            eventMap.put("Price", event.price)
             eventMap.put("RecurrenceID", event.recurrenceID)
             eventMap.put("RecurrenceRule", event.recurrenceRule)
             eventMap.put("RecurrenceException", event.recurrenceException)
@@ -68,23 +66,25 @@ class EventController {
     def saveEvent() {
         println "Here is params: $params"
         println "Here is params.models: $params.models"
-        def models = new org.codehaus.groovy.grails.web.json.JSONArray(params.models)
+        //todo mtb, hi Mary! start from here
+        def models = new org.codehaus.groovy.grails.web.json.JSONArray(params."models[]"[0])
+//        def models =
 
         def courseInstance = Course.get(models[0].CourseID)
+        def termInstance = Term.get(params."models[]"[1])
 
-        if (courseInstance) {
+
+        if (courseInstance && termInstance) {
             def eventInstance = new Event()
+
+            eventInstance.term = termInstance
+
             eventInstance.title = models[0].Title
             eventInstance.start = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].Start)
             eventInstance.end = Date.parse("yyyy-MM-dd'T'hh:mm:ss.S'Z'", models[0].End)
             eventInstance.startTimezone = models[0].StartTimezone
             eventInstance.endTimezone = models[0].EndTimezone
             eventInstance.description = models[0].Description
-            //todo mtb change price resource
-            try {
-                eventInstance.price = models[0].Description as Long
-            }
-            catch(Exception e){}
             eventInstance.recurrenceID = models[0].RecurrenceID
             eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
             eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
@@ -102,7 +102,6 @@ class EventController {
                     "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
-//                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
@@ -112,7 +111,6 @@ class EventController {
                     "\"RecurrenceException\":\"${eventInstance.recurrenceException}\"," +
                     "\"IsAllDay\":${eventInstance.isAllDay}}]")
         }
-
     }
 
     def show(Long id) {
@@ -182,11 +180,6 @@ class EventController {
             eventInstance.startTimezone = models[0].StartTimezone
             eventInstance.endTimezone = models[0].EndTimezone
             eventInstance.description = models[0].Description
-            //todo mtb change price resource
-            try {
-                eventInstance.price = models[0].Description as Long
-            }
-            catch(Exception e){}
             eventInstance.recurrenceID = models[0].RecurrenceID
             eventInstance.recurrenceRule = models[0].RecurrenceRule//?models[0].RecurrenceRule:""
             eventInstance.recurrenceException = models[0].RecurrenceException//?models[0].RecurrenceException:""
@@ -202,7 +195,6 @@ class EventController {
                     "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
-//                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +
@@ -249,7 +241,6 @@ class EventController {
                     "\"CourseID\":${eventInstance.course.id}," +
                     "\"Title\":\"${eventInstance.title}\"," +
                     "\"Description\":\"${eventInstance.description}\"," +
-//                    "\"Price\":\"${eventInstance.price}\"," +
                     "\"StartTimezone\":\"${eventInstance.startTimezone}\"," +
                     "\"Start\":\"\\/Date(${eventInstance.start.time})\\/\"," +
                     "\"End\":\"\\/Date(${eventInstance.end.time})\\/\"," +

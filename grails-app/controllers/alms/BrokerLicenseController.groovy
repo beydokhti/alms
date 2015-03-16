@@ -103,8 +103,8 @@ class BrokerLicenseController {
     def show(Long id) {
         def brokerLicenseInstance = BrokerLicense.get(id)
         if (!brokerLicenseInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -125,8 +125,8 @@ class BrokerLicenseController {
     def update(Long id, Long version) {
         def brokerLicenseInstance = BrokerLicense.get(id)
         if (!brokerLicenseInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -154,15 +154,15 @@ class BrokerLicenseController {
     def delete(Long id) {
         def brokerLicenseInstance = BrokerLicense.get(id)
         if (!brokerLicenseInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             brokerLicenseInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])
-            redirect(action: "list")
+            redirect(action: "list",id:brokerLicenseInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerLicense.label', default: 'BrokerLicense'), id])

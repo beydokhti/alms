@@ -116,16 +116,27 @@
                                 ${message(code: "Sidebar.course.definition", default: "Course Definition")}
                             </g:link>
                         </li>
-
                         <li>
-                            <g:link controller="discount" action="list">
-                                ${message(code: "Sidebar.discount.definition", default: "Discount Definition")}
+                            <g:link controller="curriculum" action="list">
+                                ${message(code: "Sidebar.curriculum.definition", default: "Curriculum Definition")}
                             </g:link>
                         </li>
+
+                        %{--<li>--}%
+                            %{--<g:link controller="discount" action="list">--}%
+                                %{--${message(code: "Sidebar.discount.definition", default: "Discount Definition")}--}%
+                            %{--</g:link>--}%
+                        %{--</li>--}%
 
                         <li>
                             <g:link controller="exam" action="list">
                                 ${message(code: "Sidebar.exam.definition", default: "Exam Definition")}
+                            </g:link>
+                        </li>
+
+                        <li>
+                            <g:link controller="test" action="list">
+                                ${message(code: "Sidebar.test.definition", default: "Test Definition")}
                             </g:link>
                         </li>
 
@@ -252,8 +263,8 @@
                                 </li>
 
                                 <li>
-                                    <g:link controller="registeredEvent" action="list">
-                                        ${message(code: "Sidebar.person.registeredEvent", default: "Register Definition")}
+                                    <g:link controller="registeredTerm" action="list">
+                                        ${message(code: "Sidebar.person.registeredTerm", default: "Register Definition")}
                                     </g:link>
                                 </li>
 

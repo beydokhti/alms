@@ -16,6 +16,7 @@ import alms.Institution
 import alms.InstitutionMember
 import alms.ObtainedCertificate
 import alms.Person
+import alms.PersonType
 import alms.Role
 import alms.User
 import alms.UserRole
@@ -386,19 +387,62 @@ class BootStrap {
 
         broker.addToBrokerShareholders(brokerShare)
 
-//        certificate
+//        certificate stock
         Certificate certificate = new Certificate()
-        certificate.cerType ="stock"
+        certificate.cerType = "stock"
         certificate.cerTitle = "اصول بازار سرمایه"
         certificate.save()
-        Certificate certificate1 = new Certificate()
-        certificate1.cerType ="stock"
-        certificate1.cerTitle = "تحلیلگری بازار سرمایه"
-        certificate1.save()
-        Certificate certificate2 = new Certificate()
-        certificate2.cerType = "kanoon"
-        certificate2.cerTitle = "کاربردی پذیرش سفارش مشتریان اوراق بهادار"
-        certificate2.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " تحلیلگری بازار سرمایه"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " مدیریت نهادهای بازار سرمایه"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " کارشناس عرضه و پذیرش"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " مدیریت سبد اوراق بهادار"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " ارزشیابی اوراق بهادار"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " معامله گری بازار سرمایه"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " معامله گری اوراق تامین مالی"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " معامله گری بورس کالا"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "stock"
+        certificate.cerTitle = " معامله گری ابزار مشتقه"
+        certificate.save()
+
+        //certificate kanoon
+        certificate = new Certificate()
+        certificate.cerType = "kanoon"
+        certificate.cerTitle = "کاربردی پذیرش سفارش مشتریان اوراق بهادار"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "kanoon"
+        certificate.cerTitle = " کاربردی پذیرش سفارش مشتریان کالایی"
+        certificate.save()
+        certificate = new Certificate()
+        certificate.cerType = "kanoon"
+        certificate.cerTitle = " کاربردی نظارت و کنترل داخلی شرکت های کارگزاری. "
+        certificate.save()
+
 
         ObtainedCertificate obtainedCer = new ObtainedCertificate()
         obtainedCer.certificate = certificate
@@ -448,9 +492,9 @@ class BootStrap {
         institution.email = "nahad@ghashng.com"
         institution.fax = "02126435345"
         institution.registerNumber = "123123"
-        institution.username="ins1"
-        institution.password="password"
-        institution.enabled=true
+        institution.username = "ins1"
+        institution.password = "password"
+        institution.enabled = true
         institution.save()
 
         ur = UserRole.findByUser(institution) ?: UserRole.create(institution, iRole, true)
@@ -481,6 +525,17 @@ class BootStrap {
         eventInstance.isAllDay = false
         eventInstance.save()
 
+        //personType
+        def personType = new PersonType()
+        personType.personType="اشخاص مستقل"
+        personType.save()
 
+        personType = new PersonType()
+        personType.personType="اعضای کارگزاری"
+        personType.save()
+
+        personType = new PersonType()
+        personType.personType="اعضای نهاد"
+        personType.save()
     }
 }

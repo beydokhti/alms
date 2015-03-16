@@ -80,7 +80,7 @@ class InstitutionController {
             redirect(action: "list")
         } else {
             flash.message = message(code: 'broker.unique.nationalCode.message', 'nationalCode should be unique')
-            redirect(action: "create", id: institutionInstance.id)
+            render(view: "create", institutionInstance: institutionInstance)
         }
 
     }
@@ -164,13 +164,18 @@ class InstitutionController {
         }
 
         try {
+            try{
+                UserRole.findByUser(institutionInstance).delete()
+            }catch(Exception ex){
+                println("delete Institution: userrole is not deleted- $ex")
+            }
             institutionInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'institution.label', default: 'Institution'), id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'institution.label', default: 'Institution'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list")
         }
     }
 }

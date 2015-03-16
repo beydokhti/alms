@@ -49,7 +49,7 @@
     </table>
     <g:link class="btn btn-default" action="create" id="${courseId}"><g:message code="default.new.label"
                                                                     args="[entityName]"/></g:link>
-    <g:link controller="scheduler" action="scheduler" class="btn btn-default">scheduler</g:link>
+    %{--<g:link controller="scheduler" action="scheduler" class="btn btn-default">scheduler</g:link>--}%
 </div>
 
 </body>

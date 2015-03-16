@@ -138,8 +138,8 @@ class InstitutionMemberController {
 
             def institutionMemberInstance = new InstitutionMember(params)
             def person = new Person(params)
-            def nc=person.nationalCode
-            if (!Person.findAllByNationalCode(params.nationalCode)&&!User.findByUsername(person.nationalCode)) {
+            def nc = person.nationalCode
+            if (!Person.findAllByNationalCode(params.nationalCode) && !User.findByUsername(person.nationalCode)) {
                 person.username = person.nationalCode
                 //todo mtb change password
                 person.password = "password123"
@@ -193,8 +193,8 @@ class InstitutionMemberController {
     def update(Long id, Long version) {
         def institutionMemberInstance = InstitutionMember.get(id)
         if (!institutionMemberInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -223,8 +223,8 @@ class InstitutionMemberController {
         println(params)
         def institutionMemberInstance = InstitutionMember.get(id)
         if (!institutionMemberInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -254,19 +254,19 @@ class InstitutionMemberController {
     def delete(Long id) {
         def institutionMemberInstance = InstitutionMember.get(id)
         if (!institutionMemberInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             institutionMemberInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
-            redirect(action: "list")
+            redirect(action: "list", id: institutionMemberInstance.institution.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'institutionMember.label', default: 'InstitutionMember'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id: institutionMemberInstance.institution.id)
         }
     }
 

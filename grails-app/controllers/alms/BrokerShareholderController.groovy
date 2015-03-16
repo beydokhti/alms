@@ -101,19 +101,19 @@ class BrokerShareholderController {
     def delete(Long id) {
         def brokerShareholderInstance = BrokerShareholder.get(id)
         if (!brokerShareholderInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), id])
+//            redirect(action: "list")
             return
         }
 
         try {
             brokerShareholderInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), id])
-            redirect(action: "list")
+            redirect(action: "list",id:brokerShareholderInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerShareholder.label', default: 'BrokerShareholder'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id: brokerShareholderInstance.broker.id)
         }
     }
     def jsonList() {

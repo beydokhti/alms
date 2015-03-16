@@ -1,5 +1,5 @@
 <%@ page import="alms.Discount" %>
-
+<g:hiddenField name="termId" value="${termId}"></g:hiddenField>
 
 <div class="form-group col-md-6">
     <label for="title" class="col-sm-4 control-label">
@@ -12,12 +12,11 @@
 </div>
 <div class="form-group col-md-6">
     <label for="personType" class="col-sm-4 control-label">
-        <g:message code="discount.personType.label" default="personType" />
+        <g:message code=".personType.label" default="personType" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="personType" placeholder="personType" from="${discountInstance.constraints.personType.inList}"
-                  value="${discountInstance?.personType}"
-        valueMessagePrefix="${message(code:'discountInstance.personType')}"/>
+        <g:select class="form-control"   name="personType.id" placeholder="personType" from="${alms.PersonType.list()}" optionKey="id"
+                  value="${discountInstance?.personType?.id}"/>
     </div>
 </div>
 <div class="form-group col-md-6">
@@ -45,14 +44,5 @@
     <div class="col-sm-8">
         <g:datePicker class="form-control" name="endDate" precision="day" value="${discountInstance?.endDate}"
                       default="none" noSelection="['': '']"/>
-    </div>
-</div>
-<div class="form-group col-md-6">
-    <label for="event" class="col-sm-4 control-label">
-        <g:message code="discount.event.label" default="event" />
-    </label>
-    <div class="col-sm-8">
-        <g:select class="form-control"   name="event.id" placeholder="event" from="${alms.Event.list()}" optionKey="id"
-                  value="${discountInstance?.event?.id}"/>
     </div>
 </div>

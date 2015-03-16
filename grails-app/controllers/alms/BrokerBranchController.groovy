@@ -70,15 +70,15 @@ class BrokerBranchController {
         def array = list.collect { BrokerBranch it ->
             def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
             println(action)
-            [action,it.city.toString(),message(code:"brokerBranch.branchType."+it.branchType, default:  it.branchType),it.representativePerson,it.personnelCount,it.tseStock,it.imeStock,it.energyStock,it.imeFuture,it.tseFuture,it.mutualFundAdmin]
+            [action,it.city.toString(),message(code:"brokerBranch.branchType."+it.branchType, default:  it.branchType),
+             it.representativePerson,it.personnelCount,it.tseStock,it.imeStock,it.energyStock,it.imeFuture,it.tseFuture,it.mutualFundAdmin]
         }
 
         dataTableResponse.aaData = array
         render(dataTableResponse as JSON)
     }
 
-
-    def create() {
+      def create() {
         [brokerBranchInstance: new BrokerBranch(params),brokerId:params.id]
     }
 
@@ -104,8 +104,8 @@ class BrokerBranchController {
         def brokerBranchInstance = BrokerBranch.get(id)
         if (!brokerBranchInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
-            redirect(action: "list")
-            return
+//            redirect(action: "list")
+//            return
         }
 
         [brokerBranchInstance: brokerBranchInstance]
@@ -115,8 +115,8 @@ class BrokerBranchController {
         def brokerBranchInstance = BrokerBranch.get(id)
         if (!brokerBranchInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
-            redirect(action: "list")
-            return
+//            redirect(action: "list")
+//            return
         }
 
         [brokerBranchInstance: brokerBranchInstance]
@@ -125,8 +125,8 @@ class BrokerBranchController {
     def update(Long id, Long version) {
         def brokerBranchInstance = BrokerBranch.get(id)
         if (!brokerBranchInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
-            redirect(action: "list")
+//            flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
+//            redirect(action: "list")
             return
         }
 
@@ -155,18 +155,18 @@ class BrokerBranchController {
         def brokerBranchInstance = BrokerBranch.get(id)
         if (!brokerBranchInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
-            redirect(action: "list")
+            redirect(action: "list",id: brokerBranchInstance.broker.id)
             return
         }
 
         try {
             brokerBranchInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
-            redirect(action: "list")
+            redirect(action: "list",id: brokerBranchInstance.broker.id)
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'brokerBranch.label', default: 'BrokerBranch'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "list", id: brokerBranchInstance.broker.id)
         }
     }
 }

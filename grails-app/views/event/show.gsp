@@ -22,126 +22,118 @@
 			<div class="alert alert-danger" role="alert">${flash.message}</div>
 			</g:if>
 			<ol class="property-list event">
-			
+
 				<g:if test="${eventInstance?.title}">
 				<li class="fieldcontain">
 					<span id="title-label" class="property-label"><g:message code="event.title.label" default="Title" /></span>
-					
+
 						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${eventInstance}" field="title"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.start}">
 				<li class="fieldcontain">
 					<span id="start-label" class="property-label"><g:message code="event.start.label" default="Start" /></span>
-					
+
 						<span class="property-value" aria-labelledby="start-label"><g:formatDate date="${eventInstance?.start}" /></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.end}">
 				<li class="fieldcontain">
 					<span id="end-label" class="property-label"><g:message code="event.end.label" default="End" /></span>
-					
+
 						<span class="property-value" aria-labelledby="end-label"><g:formatDate date="${eventInstance?.end}" /></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.startTimezone}">
 				<li class="fieldcontain">
 					<span id="startTimezone-label" class="property-label"><g:message code="event.startTimezone.label" default="Start Timezone" /></span>
-					
+
 						<span class="property-value" aria-labelledby="startTimezone-label"><g:fieldValue bean="${eventInstance}" field="startTimezone"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.endTimezone}">
 				<li class="fieldcontain">
 					<span id="endTimezone-label" class="property-label"><g:message code="event.endTimezone.label" default="End Timezone" /></span>
-					
+
 						<span class="property-value" aria-labelledby="endTimezone-label"><g:fieldValue bean="${eventInstance}" field="endTimezone"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.description}">
 				<li class="fieldcontain">
 					<span id="description-label" class="property-label"><g:message code="event.description.label" default="Description" /></span>
-					
+
 						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${eventInstance}" field="description"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.recurrenceID}">
 				<li class="fieldcontain">
 					<span id="recurrenceID-label" class="property-label"><g:message code="event.recurrenceID.label" default="Recurrence ID" /></span>
-					
+
 						<span class="property-value" aria-labelledby="recurrenceID-label"><g:fieldValue bean="${eventInstance}" field="recurrenceID"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.recurrenceRule}">
 				<li class="fieldcontain">
 					<span id="recurrenceRule-label" class="property-label"><g:message code="event.recurrenceRule.label" default="Recurrence Rule" /></span>
-					
+
 						<span class="property-value" aria-labelledby="recurrenceRule-label"><g:fieldValue bean="${eventInstance}" field="recurrenceRule"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.recurrenceException}">
 				<li class="fieldcontain">
 					<span id="recurrenceException-label" class="property-label"><g:message code="event.recurrenceException.label" default="Recurrence Exception" /></span>
-					
+
 						<span class="property-value" aria-labelledby="recurrenceException-label"><g:fieldValue bean="${eventInstance}" field="recurrenceException"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.isAllDay}">
 				<li class="fieldcontain">
 					<span id="isAllDay-label" class="property-label"><g:message code="event.isAllDay.label" default="Is All Day" /></span>
-					
+
 						<span class="property-value" aria-labelledby="isAllDay-label"><g:fieldValue bean="${eventInstance}" field="isAllDay"/></span>
-					
+
 				</li>
 				</g:if>
-			
-				<g:if test="${eventInstance?.price}">
-				<li class="fieldcontain">
-					<span id="price-label" class="property-label"><g:message code="event.price.label" default="Price" /></span>
-					
-						<span class="property-value" aria-labelledby="price-label"><g:fieldValue bean="${eventInstance}" field="price"/></span>
-					
-				</li>
-				</g:if>
-			
+
+
 				<g:if test="${eventInstance?.course}">
 				<li class="fieldcontain">
 					<span id="course-label" class="property-label"><g:message code="event.course.label" default="Course" /></span>
-					
+
 						<span class="property-value" aria-labelledby="course-label"><g:link controller="course" action="show" id="${eventInstance?.course?.id}">${eventInstance?.course?.encodeAsHTML()}</g:link></span>
-					
+
 				</li>
 				</g:if>
-			
+
 				<g:if test="${eventInstance?.discount}">
 				<li class="fieldcontain">
 					<span id="discount-label" class="property-label"><g:message code="event.discount.label" default="Discount" /></span>
-					
+
 						<g:each in="${eventInstance.discount}" var="d">
 						<span class="property-value" aria-labelledby="discount-label"><g:link controller="discount" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
+
 				</li>
 				</g:if>
-			
+
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

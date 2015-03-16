@@ -11,7 +11,7 @@ class Person extends User {
     String	mobile
     String	email
 
-    static hasMany = [certificates:ObtainedCertificate,registeredEvents:RegisteredEvent]
+    static hasMany = [certificates:ObtainedCertificate,registeredTerms:RegisteredTerm]
 
     static searchable = true
 
