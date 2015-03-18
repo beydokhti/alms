@@ -81,7 +81,7 @@ class RegisteredTermController {
     }
 
     def save() {
-        println("reffiteredTerm prams:$params")
+        println("registeredTerm prams:$params")
         def personInsatnce = Person.get(params.personId)
         if (personInsatnce) {
             def registeredTermInstance = new RegisteredTerm(params)

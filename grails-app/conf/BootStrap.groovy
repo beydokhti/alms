@@ -15,8 +15,10 @@ import alms.Event
 import alms.Institution
 import alms.InstitutionMember
 import alms.ObtainedCertificate
+import alms.OpenExam
+import alms.OpenExamPolicy
 import alms.Person
-import alms.PersonType
+import alms.PersonGroup
 import alms.Role
 import alms.User
 import alms.UserRole
@@ -525,17 +527,81 @@ class BootStrap {
         eventInstance.isAllDay = false
         eventInstance.save()
 
-        //personType
-        def personType = new PersonType()
-        personType.personType="اشخاص مستقل"
-        personType.save()
+        //personGroup
+        def personGroup = new PersonGroup()
+        personGroup.groupTitle = "independent"
+        personGroup.save()
 
-        personType = new PersonType()
-        personType.personType="اعضای کارگزاری"
-        personType.save()
+        personGroup = new PersonGroup()
+        personGroup.groupTitle = "brokerMember"
+        personGroup.save()
 
-        personType = new PersonType()
-        personType.personType="اعضای نهاد"
-        personType.save()
+        personGroup = new PersonGroup()
+        personGroup.groupTitle = "institutionMember"
+        personGroup.save()
+
+//        personGroup = new PersonGroup()
+//        personGroup.groupTitle = "همه"
+//        personGroup.save()
+
+        //open Exam
+        def openExam = new OpenExam()
+        openExam.title = "آزاد"
+        openExam.examStartTime = new Date()
+        openExam.examEndTime = new Date()
+        openExam.registrationStartDate = new Date()
+        openExam.registrationEndDate = new Date()
+        openExam.venue = "کلاس اول در چپ"
+        openExam.price = 1000000
+        openExam.totalScore = 100
+        openExam.passingScore = 70
+        openExam.description = "امتحان آزاد"
+        openExam.save()
+
+
+        openExam = new OpenExam()
+        openExam.title = "کارگزاری"
+        openExam.examStartTime = new Date()
+        openExam.examEndTime = new Date()
+        openExam.registrationStartDate = new Date()
+        openExam.registrationEndDate = new Date()
+        openExam.venue = "کلاس اول در چپ"
+        openExam.price = 1000000
+        openExam.totalScore = 100
+        openExam.passingScore = 70
+        openExam.description = "امتحان کارگزاری"
+        openExam.save()
+
+
+        def openExamPolicy = new OpenExamPolicy()
+        openExamPolicy.title ="کارگزاری"
+        openExamPolicy.openExam = openExam
+        openExamPolicy.personGroup = PersonGroup.get(2)
+        openExamPolicy.price = 100000
+        openExam.addToOpenExamPolicies(openExamPolicy)
+
+        openExam = new OpenExam()
+        openExam.title = "نهاد"
+        openExam.examStartTime = new Date()
+        openExam.examEndTime = new Date()
+        openExam.registrationStartDate = new Date()
+        openExam.registrationEndDate = new Date()
+        openExam.venue = "کلاس اول در چپ"
+        openExam.price = 1000000
+        openExam.totalScore = 100
+        openExam.passingScore = 70
+        openExam.description = "نهاد"
+        openExam.save()
+
+
+        openExamPolicy = new OpenExamPolicy()
+        openExamPolicy.title="نهاد"
+        openExamPolicy.openExam = openExam
+        openExamPolicy.personGroup = PersonGroup.get(3)
+        openExamPolicy.price = 200000
+        openExamPolicy.save()
+        openExam.addToOpenExamPolicies(openExamPolicy)
+
+
     }
 }

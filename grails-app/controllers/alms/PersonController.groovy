@@ -44,9 +44,10 @@ class PersonController {
         }
         def array = list.collect { Person it ->
             def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
-                    "<a href='${g.createLink(controller: "registeredTerm", action: "list", params: [id: it.id])}'>${message(code: "registeredTerm", default: "Reg")}</a>" +
-                    "<a href='${g.createLink(controller: "person", action: "resume", params: [id: it.id])}'>${message(code: "resume", default: "Res")}</a>" +
-                    "<a href='${g.createLink(controller: "obtainedCertificate", action: "list", params: [id: it.id])}'>${message(code: "obtainedCertificate", default: "Cer")}</a>"
+                    "<a href='${g.createLink(controller: "registeredTerm", action: "list", params: [id: it.id])}'>${message(code: "registeredTerm.short", default: "Reg")}</a>" +
+                    "<a href='${g.createLink(controller: "person", action: "resume", params: [id: it.id])}'>${message(code: "resume.short", default: "Res")}</a>" +
+                    "<a href='${g.createLink(controller: "obtainedCertificate", action: "list", params: [id: it.id])}'>${message(code: "obtainedCertificate.short", default: "Cer")}</a>"+
+                    "<a href='${g.createLink(controller: "registeredOpenExam", action: "list", params: [id: it.id])}'>${message(code: "registeredOpenExam.short", default: "Roe")}</a>"
             [action, it.name, it.lastName, it.sex, it.degree, it.field, it.dateOfBirth, it.nationalCode, it.mobile, it.email]
         }
 

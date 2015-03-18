@@ -11,12 +11,12 @@
     </div>
 </div>
 <div class="form-group col-md-6">
-    <label for="personType" class="col-sm-4 control-label">
-        <g:message code=".personType.label" default="personType" />
+    <label for="personGroup" class="col-sm-4 control-label">
+        <g:message code=".personGroup.label" default="personGroup" />
     </label>
     <div class="col-sm-8">
-        <g:select class="form-control"   name="personType.id" placeholder="personType" from="${alms.PersonType.list()}" optionKey="id"
-                  value="${discountInstance?.personType?.id}"/>
+        <g:select class="form-control"   name="personGroup.id" placeholder="personGroup" from="${alms.PersonGroup.list()}" optionKey="id"
+                  value="${discountInstance?.personGroup?.id}"/>
     </div>
 </div>
 <div class="form-group col-md-6">

@@ -2,7 +2,7 @@ package alms
 
 class Discount {
     String  title
-    PersonType  personType
+    PersonGroup  personGroup
     Short   discountPercentage
     Date    startDate
     Date    endDate
@@ -11,7 +11,7 @@ class Discount {
     static belongsTo = [term:Term]
 
     static constraints = {
-        personType(nullable: false)
+        personGroup(nullable: false)
         title(nullable: false,blank: false)
 
     }

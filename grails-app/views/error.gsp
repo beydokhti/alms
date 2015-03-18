@@ -12,7 +12,7 @@
     <g:renderException exception="${exception}"/>
 </g:if>
 <g:else>
-    <ul class="errors">
+    <ul class="alert alert-danger">
         <li>An error has occurred</li>
     </ul>
 </g:else>

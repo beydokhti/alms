@@ -1,14 +1,12 @@
-<%@ page import="alms.Curriculum" %>
+<%@ page import="alms.OpenExam" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'curriculum.label', default: 'Curriculum')}" />
+		<g:set var="entityName" value="${message(code: 'openExam.label', default: 'OpenExam')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 	</head>
 	<body>
-
-
     <script>
         $(document).ready(function () {
             $('#mainForm')
@@ -32,10 +30,19 @@
                         fields: {
                             title: {
                                 validators: {
+                                    notEmpty: {}
+                                }
+                            },
+                            price: {
+                                validators: {
                                     notEmpty: {},
-                                    stringLength: {
-                                        max: 100
-                                    }
+                                    digits: {}
+                                }
+                            },
+                            totalScore: {
+                                validators: {
+                                    notEmpty: {},
+                                    digits: {}
                                 }
                             }
                         }
@@ -43,21 +50,22 @@
         });
 
     </script>
-		<div id="edit-curriculum" class="content scaffold-edit" role="main">
-			<legend><g:message code="default.edit.label" args="[entityName]" /></legend>
+
+		<div id="edit-openExam" class="content scaffold-edit" role="main">
+			<legend><g:message code="default.edit.label" args="[entityName]"/></legend>
 			<g:if test="${flash.message}">
 			<div class="alert alert-danger" role="status">${flash.message}</div>
 			</g:if>
-			<g:hasErrors bean="${curriculumInstance}">
+			<g:hasErrors bean="${openExamInstance}">
 			<ul class="alert alert-danger" role="alert">
-				<g:eachError bean="${curriculumInstance}" var="error">
+				<g:eachError bean="${openExamInstance}" var="error">
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
 			<g:form method="post" name="mainForm">
-				<g:hiddenField name="id" value="${curriculumInstance?.id}" />
-				<g:hiddenField name="version" value="${curriculumInstance?.version}" />
+				<g:hiddenField name="id" value="${openExamInstance?.id}" />
+				<g:hiddenField name="version" value="${openExamInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

@@ -42,7 +42,7 @@
 
                 <th><g:message code="discount.title" default="Title"/></th>
 
-                <th><g:message code="discount.personType" default="Person Type"/></th>
+                <th><g:message code="discount.personGroup" default="Person Type"/></th>
 
                 <th><g:message code="discount.discountPercentage" default="Percentage"/></th>
 

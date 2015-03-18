@@ -1,21 +1,27 @@
 package alms
 
+import org.apache.tools.ant.types.Description
+
 class OpenExam {
     String      title
-//    Date    examDate
     Date        examStartTime
     Date        examEndTime
+    Date        registrationStartDate
+    Date        registrationEndDate
     String      venue
-    Long price
+    Long        price
+    Short       totalScore
+    Short       passingScore
+    String      description
 
-    static hasMany = [discounts: Discount]
+    static hasMany = [openExamPolicies: OpenExamPolicy]
 
     static searchable = true
 
     static constraints = {
         title(nullable: false, blank: false)
         price(nullable: false)
-//        examDate(nullable: false)
-    }
+        totalScore(nullable: false)
+   }
 
 }

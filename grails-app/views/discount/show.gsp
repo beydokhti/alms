@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list discount">
 			
-				<g:if test="${discountInstance?.personType}">
+				<g:if test="${discountInstance?.personGroup}">
 				<li class="fieldcontain">
-					<span id="personType-label" class="property-label"><g:message code="discount.personType.label" default="Person Type" /></span>
+					<span id="personGroup-label" class="property-label"><g:message code="discount.personGroup.label" default="Person Type" /></span>
 					
-						<span class="property-value" aria-labelledby="personType-label"><g:fieldValue bean="${discountInstance}" field="personType"/></span>
+						<span class="property-value" aria-labelledby="personGroup-label"><g:fieldValue bean="${discountInstance}" field="personGroup"/></span>
 					
 				</li>
 				</g:if>

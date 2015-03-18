@@ -128,15 +128,17 @@
                             %{--</g:link>--}%
                         %{--</li>--}%
 
-                        <li>
-                            <g:link controller="exam" action="list">
-                                ${message(code: "Sidebar.exam.definition", default: "Exam Definition")}
-                            </g:link>
-                        </li>
+                        %{--<li>--}%
+                            %{--<g:link controller="exam" action="list">--}%
+                                %{--${message(code: "Sidebar.exam.definition", default: "Exam Definition")}--}%
+                            %{--</g:link>--}%
+                        %{--</li>--}%
+
+                        <li class="nav-header">${message(code: "Sidebar.openExam", default: "Open Exam")}</li>
 
                         <li>
-                            <g:link controller="test" action="list">
-                                ${message(code: "Sidebar.test.definition", default: "Test Definition")}
+                            <g:link controller="openExam" action="list">
+                                ${message(code: "Sidebar.openExam.definition", default: "Open Exam Definition")}
                             </g:link>
                         </li>
 
@@ -264,7 +266,13 @@
 
                                 <li>
                                     <g:link controller="registeredTerm" action="list">
-                                        ${message(code: "Sidebar.person.registeredTerm", default: "Register Definition")}
+                                        ${message(code: "Sidebar.person.registeredTerm", default: "Term Register")}
+                                    </g:link>
+                                </li>
+
+                                <li>
+                                    <g:link controller="registeredOpenExam" action="list">
+                                        ${message(code: "Sidebar.person.registeredOpenExam", default: "Open Exam Register")}
                                     </g:link>
                                 </li>
 

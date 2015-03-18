@@ -22,7 +22,7 @@ class DiscountController {
     }
 
     def jsonList() {
-        def columns = ['action', 'title', 'personType', 'discountPercentage', 'startDate', 'endDate', 'event']
+        def columns = ['action', 'title', 'personGroup', 'discountPercentage', 'startDate', 'endDate', 'event']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = Discount.count()
@@ -56,7 +56,7 @@ class DiscountController {
 
         def array = list.collect { Discount it ->
             def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>"
-            [action, it.title, message(code: "discount." + it.personType, default: it.personType), it.discountPercentage, it.startDate.toString(), it.endDate.toString(), it.term.title]
+            [action, it.title,  it.personGroup.groupTitle, it.discountPercentage, it.startDate.toString(), it.endDate.toString(), it.term.title]
         }
 
         dataTableResponse.aaData = array
