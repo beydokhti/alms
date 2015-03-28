@@ -1,6 +1,7 @@
 package alms
 
 import grails.converters.JSON
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.dao.DataIntegrityViolationException
 
@@ -8,6 +9,7 @@ import java.awt.List
 
 class RegisteredOpenExamController {
 
+    def excelImportService
     def springSecurityService
     def queryService
 
@@ -170,6 +172,7 @@ class RegisteredOpenExamController {
         redirect(action: "list", id: registeredOpenExamInstance.person.id)
     }
 
+
     def delete(Long id) {
         def registeredOpenExamInstance = RegisteredOpenExam.get(id)
         if (!registeredOpenExamInstance) {
@@ -186,6 +189,72 @@ class RegisteredOpenExamController {
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'registeredOpenExam.label', default: 'RegisteredOpenExam'), id])
             redirect(action: "list", id: registeredOpenExamInstance.person.id)
+        }
+    }
+
+    //todo mtb add import result
+
+    def importExcel() {
+
+    }
+
+    def upload() {
+        def file = request.getFile('file')
+//        if (file.contentType=='application/vnd.ms-excel' ){
+        try {
+            def examResultFile
+            try {
+                def fileIs = new ByteArrayInputStream(file.bytes)
+                examResultFile = new XSSFWorkbook(fileIs)
+                println("upload exam result: step1")
+            } catch (x) {
+//            try {
+                println("upload exam result: step2$x.message")
+            }
+            println("upload exam result: step3")
+            Map CONFIG_COLUMN_MAP = [
+                    sheet    : 'Sheet1',
+                    startRow : 1,
+                    columnMap: [
+                            'A': 'personNationalId',
+                            'B': 'examId',
+                            'C': 'correctAnswer',
+                            'D': 'wrongAnswer',
+                            'E': 'finalScore'
+                    ]
+            ]
+            Map propertyConfigurationMap = [:]
+            CONFIG_COLUMN_MAP.columnMap.each { key, value ->
+                propertyConfigurationMap[value] = [expectedType: ExpectedPropertyType.StringType, defaultValue: null]
+            }
+
+            println("upload exam result: step4")
+            def dateFields = ["personNationalId", 'examId', "correctAnswer", "wrongAnswer", "finalScore"]
+            def res = excelImportService.columns(examResultFile, CONFIG_COLUMN_MAP, null, propertyConfigurationMap)
+            res.each {
+                OpenExamResult openExamResult = new OpenExamResult(it)
+                def person = Person.get(it.personNationalId)
+                def openExam = OpenExam.get(it.examId)
+                def oldOpenExamResult = OpenExamResult.findAllByPersonAndOpenExam(person, openExam)
+
+                if (oldOpenExamResult) {
+                    oldOpenExamResult.correctAnswer=it.correctAnswer
+                    oldOpenExamResult.wrongAnswer=it.wrongAnswer
+                    oldOpenExamResult.finalScore=it.finalScore
+
+                } else {
+                    try {
+                    } catch (Exception e) {
+                        println("upload exam result: step5$e.message")
+                    }
+
+                }
+            }
+            println("upload exam result: step6")
+        }
+        catch (e) {
+            println("upload exam result: step3")
+            redirect(action: "importExcel")
         }
     }
 }

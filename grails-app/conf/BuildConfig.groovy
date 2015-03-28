@@ -65,5 +65,7 @@ grails.project.dependency.resolution = {
         compile ":searchable:0.6.8"
 
         compile ":spring-security-core:1.2.7.4"
+
+        compile ":excel-import:1.0.0"
     }
 }

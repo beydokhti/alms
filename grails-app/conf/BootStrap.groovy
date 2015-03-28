@@ -34,6 +34,7 @@ class BootStrap {
         def bRole = Role.findByAuthority("BrokerRole") ?: new Role(authority: "BrokerRole").save()
         def iRole = Role.findByAuthority("InstitutionRole") ?: new Role(authority: "InstitutionRole").save()
         def pRole = Role.findByAuthority("PersonRole") ?: new Role(authority: "PersonRole").save()
+        def profRole = Role.findByAuthority("ProfessorRole") ?: new Role(authority: "ProfessorRole").save()
         def admRole = Role.findByAuthority("AdminRole") ?: new Role(authority: "AdminRole").save()
 
         def admUser = User.findByUsername("admin") ?: new User(username: 'admin', password: 'admin123', enabled: true).save()
@@ -572,7 +573,6 @@ class BootStrap {
         openExam.description = "امتحان کارگزاری"
         openExam.save()
 
-
         def openExamPolicy = new OpenExamPolicy()
         openExamPolicy.title ="کارگزاری"
         openExamPolicy.openExam = openExam
@@ -593,7 +593,6 @@ class BootStrap {
         openExam.description = "نهاد"
         openExam.save()
 
-
         openExamPolicy = new OpenExamPolicy()
         openExamPolicy.title="نهاد"
         openExamPolicy.openExam = openExam
@@ -601,7 +600,6 @@ class BootStrap {
         openExamPolicy.price = 200000
         openExamPolicy.save()
         openExam.addToOpenExamPolicies(openExamPolicy)
-
 
     }
 }

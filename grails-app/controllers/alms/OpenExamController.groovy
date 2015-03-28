@@ -19,7 +19,7 @@ class OpenExamController {
     }
 
     def jsonList() {
-        def columns = ['action', 'title','examStartTime','examEndTime','examStartTime','examEndTime','venue','price','totalScore','passingScore','description']
+        def columns = ['action', 'title', 'examStartTime', 'examEndTime', 'venue', 'price', 'personCount']
 
         def dataTableResponse = [:]
         dataTableResponse.iTotalRecords = OpenExam.count()
@@ -27,7 +27,7 @@ class OpenExamController {
 //        dataTableResponse.sEcho = Integer.valueOf(params.sEcho)
         def list
 
-        if (params.containsKey('sSearch') &&  params.get('sSearch')) {
+        if (params.containsKey('sSearch') && params.get('sSearch')) {
             def options = [:]
             options.max = Math.min(params.iDisplayLength ? params.int('iDisplayLength') : 10, 100)
             options.offset = params.int("iDisplayStart")
@@ -42,16 +42,17 @@ class OpenExamController {
             def query = queryService.listQuery(params + [columns: columns])
             list = OpenExam.createCriteria().list(query)
         }
-        def array = list.collect { OpenExam  it ->
-            def action ="<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default:"Edit")}</a>"+
-                    "<a href='${g.createLink(controller: "openExamPolicy", action: "list", params: [id: it.id])}'>${message(code: "openExamPolicy", default: "Pol")}</a>"
-            [action, it.title,it.examStartTime,it.examEndTime,it.venue,it.price,it.totalScore,it.passingScore,it.description]
+        def array = list.collect { OpenExam it ->
+            def action = "<a href='${g.createLink(action: "edit", params: [id: it.id])}'>${message(code: "edit", default: "Edit")}</a>" +
+                    "<a href='${g.createLink(controller: "openExamPolicy", action: "list", params: [id: it.id])}'>${message(code: "openExamPolicy.short", default: "Pol")}</a>"
+            if (it.registredOpenExams.size() > 0)
+                action = action + "<a href='${g.createLink(controller: "openExamResult", action: "list", params: [id: it.id])}'>${message(code: "openExamResult.short", default: "Res")}</a>"
+            [action, it.title, it.examStartTime, it.examEndTime, it.venue, it.price, it.registredOpenExams.size()]
         }
 
         dataTableResponse.aaData = array
         render(dataTableResponse as JSON)
     }
-
 
 
     def create() {

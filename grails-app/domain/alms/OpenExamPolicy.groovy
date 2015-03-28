@@ -9,6 +9,8 @@ class OpenExamPolicy {
 
     static belongsTo = [openExam: OpenExam]
 
+    static searchable = true
+
     static constraints = {
         title(nullable: false, blank: false)
         personGroup(nullable: false)

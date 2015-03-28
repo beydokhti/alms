@@ -28,7 +28,7 @@
                     {
                         "bSortable": false,
                         "sClass": "nowrap minimum-width"
-                    }, null, null, null, null, null, null, null, null]
+                    }, null, null, null, null, null, null]
 //                ,
 //                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
 //                    try {
@@ -65,13 +65,9 @@
 
                 <th><g:message code="openExam.venue" default="venue"/></th>
 
-                <th><g:message code="openExam.price" default="price"/></th>
+                <th><g:message code="openExam.price" default="Price"/></th>
 
-                <th><g:message code="openExam.totalScore" default="totalScore"/></th>
-
-                <th><g:message code="openExam.passingScore" default="passingScore"/></th>
-
-                <th><g:message code="openExam.description" default="description"/></th>
+                <th><g:message code="openExam.personCount" default="Person Count"/></th>
 
             </tr>
             </thead>
